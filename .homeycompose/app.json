@@ -1,0 +1,65 @@
+{
+    "id": "com.gruijter.hyundai_kia",
+    "version": "0.0.1",
+    "compatibility": ">=5.0.0",
+    "sdk": 3,
+    "brandColor": "#00aaff",
+    "name": {
+      "en": "Kia and Hyundai"
+    },
+    "description": {
+      "en": "Connect your Hyundai or Kia smart car."
+    },
+    "tags": {
+      "en": [
+        "smart car",
+        "hyundai",
+        "kia",
+        "uvo",
+        "bluelink"
+      ]
+    },
+    "category": [
+      "localization"
+    ],
+    "permissions": [
+      "homey:manager:geolocation"
+    ],
+    "images": {
+      "large": "/assets/images/large.jpg",
+      "small": "/assets/images/small.jpg"
+    },
+    "author": {
+      "name": "Robin Gruijter",
+      "email": "gruijter@hotmail.com"
+    },
+    "contributors": {
+      "developers": [
+        {
+          "name": "Robin de Gruijter",
+          "email": "gruijter@hotmail.com"
+        }
+      ],
+      "translators": [
+        {
+          "name": "🇬🇧 Robin"
+        }
+      ]
+    },
+    "copyright": "Robin de Gruijter (gruijter@hotmail.com)",
+    "license": " GPL-3.0-or-later",
+    "contributing": {
+      "donate": {
+        "paypal": {
+          "username": "gruijter"
+        }
+      }
+    },
+    "bugs": {
+      "url": "https://github.com/gruijter/com.gruijter.facepp/issues"
+    },
+    "homeyCommunityTopicId": 32487,
+    "source": "https://github.com/gruijter/com.gruijter.hyundai_kona",
+    "homepage": "https://github.com/gruijter/com.gruijter.hyundai_kona/blob/master/README.md",
+    "support": "https://community.athom.com/t/32487"
+}

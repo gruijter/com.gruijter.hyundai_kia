@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+	<head>
+		<!-- The '/homey.js' script must be included in your settings view to work -->
+		<script type="text/javascript" src="/homey.js" data-origin="settings"></script>
+		<script type="text/javascript" src="/manager/webserver/assets/js/jquery.js"></script>
+		<script type="text/javascript" src="settings.js" data-origin="settings"></script>
+		<link rel="stylesheet" type="text/css" href="./styles.css" />
+	</head>
+	<body>
+		<div id="app">
+			<div class="rTable tabs">
+				<div class="rTableRow">
+					<div id="tabb1" class="tab tab-inactive" onclick="showTab(1)" data-i18n="settings.tab1.title">Instructions</div>
+					<div id="tabb2" class="tab tab-inactive" onclick="showTab(2)" data-i18n="settings.tab2.title">Log</div>
+				</div>
+			</div>
+
+			<div class="tab-content">
+				<div style="height:8px" class="panel"></div>
+				<!-- Instructions panel -->
+				<div id="tab1" class="panel">
+					<fieldset class="listContainer">
+						<legend data-i18n="settings.tab1.warningTitle">WARNING</legend>
+						<p data-i18n="settings.tab1.warningInstructions" class="instructions">Instructions</p>
+					</fieldset>
+					<fieldset class="listContainer">
+						<legend data-i18n="settings.tab1.registerTitle">Register</legend>
+						<p data-i18n="settings.tab1.registerInstructions" class="instructions">Instructions</p>
+					</fieldset>
+					<fieldset class="listContainer">
+						<legend data-i18n="settings.tab1.manageTitle">Manage</legend>
+						<p data-i18n="settings.tab1.manageInstructions" class="instructions">Instructions</p>
+          </fieldset>
+          <fieldset class="listContainer">
+						<legend data-i18n="settings.tab1.useTitle">Use</legend>
+						<p data-i18n="settings.tab1.useInstructions" class="instructions">Instructions</p>
+					</fieldset>
+				</div>
+				<!-- Logging panel -->
+				<div id="tab2" class="panel">
+					<div class="setting">
+						<button id="deleteButton" class="btn" onclick="deleteLogs()" data-i18n="settings.tab2.deletelogs">Delete</button>
+						<br>
+						<label class="form-switch">
+							log
+							<input type="checkbox" name="logs" id="show_logs" onchange="updateLogs()" checked/>
+							<i></i>
+						</label>
+						<label class="form-switch">
+							error
+							<input type="checkbox" name="errors" id="show_errors" onchange="updateLogs()" checked/>
+							<i></i>
+						</label>
+						<div id="loglines" class="instructions"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

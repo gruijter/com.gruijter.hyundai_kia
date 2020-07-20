@@ -1,0 +1,14 @@
+{
+	"type": "number",
+	"title": {
+		"en": "Speed"
+	},
+	"units": {
+		"en": "km/h"
+	},
+	"getable": true,
+	"setable": false,
+	"insights": true,
+	"uiComponent": "sensor",
+	"icon": "./assets/speed.svg"
+}

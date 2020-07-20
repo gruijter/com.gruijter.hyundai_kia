@@ -1,0 +1,14 @@
+{
+	"type": "number",
+	"title": {
+		"en": "Odometer"
+	},
+	"units": {
+		"en": "km"
+	},
+	"getable": true,
+	"setable": false,
+	"insights": true,
+	"uiComponent": "sensor",
+	"icon": "./assets/odometer.svg"
+}

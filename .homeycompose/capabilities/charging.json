@@ -1,0 +1,17 @@
+{
+	"type": "boolean",
+	"title": {
+		"en": "Charging"
+	},
+	"getable": true,
+	"setable": false,
+	"insights": true,
+	"insightsTitleTrue": {
+		"en": "Charging"
+	},
+	"insightsTitleFalse": {
+		"en": "Not charging"
+	},
+	"uiComponent": "toggle",
+	"uiQuickAction": false
+}

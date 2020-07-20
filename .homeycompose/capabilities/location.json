@@ -1,0 +1,14 @@
+{
+	"type": "string",
+	"title": {
+		"en": "Location",
+		"nl": "Locatie"
+	},
+	"desc": {
+		"en": "Location of the car"
+	},
+	"getable": true,
+	"setable": false,
+	"insights": false,
+	"icon": "./assets/location.svg"
+}

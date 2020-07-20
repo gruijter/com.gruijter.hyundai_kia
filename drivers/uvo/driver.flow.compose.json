@@ -1,0 +1,60 @@
+{
+	"triggers": [
+		{
+			"id": "ignition_true",
+			"title": {
+				"en": "The ignition turned on"
+			}
+		},
+		{
+			"id": "ignition_false",
+			"title": {
+				"en": "The ignition turned off"
+			}
+		},
+		{
+			"id": "climate_control_true",
+			"title": {
+				"en": "The A/C turned on"
+			}
+		},
+		{
+			"id": "climate_control_false",
+			"title": {
+				"en": "The A/C turned off"
+			}
+		},
+		{
+			"id": "defrost_true",
+			"title": {
+				"en": "Defrosting turned on"
+			}
+		},
+		{
+			"id": "defrost_false",
+			"title": {
+				"en": "Defrosting turned off"
+			}
+		}
+	],
+	"conditions": [
+		{
+			"id": "ignition",
+			"title": {
+				"en": "The ignition is !{{on|off}}"
+			}
+		},
+		{
+			"id": "climate_control",
+			"title": {
+				"en": "The A/C is !{{on|off}}"
+			}
+		},
+		{
+			"id": "defrost",
+			"title": {
+				"en": "Defrosting is !{{on|off}}"
+			}
+		}
+	]
+}

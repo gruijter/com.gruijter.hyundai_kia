@@ -1,0 +1,34 @@
+{
+	"type": "boolean",
+	"title": {
+		"en": "Ignition"
+	},
+	"icon": "/assets/ignition.svg",
+	"getable": true,
+	"setable": false,
+	"insights": true,
+	"insightsTitleTrue": {
+		"en": "Ignition turned on"
+	},
+	"insightsTitleFalse": {
+		"en": "Ignition turned off"
+	},
+	"options": {
+		"greyout": {
+			"type": "boolean",
+			"default": false,
+			"desc": {
+				"en": "When this capability is false, give a visual hint to greyout the device.",
+				"de": "wenn diese Fähigkeit 'false' ist, gibt es einen visuellenen Hinweis, um das Gerät auszugrauen.",
+				"fr": "Quand cette capacité est fausse, donnez un indice visuel pour griser cet appareil.",
+				"it": "Quando questa funzione è impostata su falso, dai un indizio visivo per far apparire questo dispositivo in grigio.",
+				"sv": "När den här funktionen är falsk, ge en ett visuellt tips för att gråa ut enheten.",
+				"no": "Når denne egenskapen er usann, gi et visuelt tips for å vise enheten i grått.",
+				"es": "Cuando esta capacidad es falsa, da una indicación visual para poner en gris el dispositivo.",
+				"da": "Når denne funktion er falsk, skal du give et visuelt tip for at vise enheden i grå."
+			}
+		}
+	},
+	"uiComponent": "sensor",
+	"uiQuickAction": true
+}

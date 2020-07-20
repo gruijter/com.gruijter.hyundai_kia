@@ -1,0 +1,215 @@
+[
+	{
+		"type": "group",
+		"label": {
+				"en": "Car information"
+		},
+		"children": [
+				{
+						"id": "nameOrg",
+						"type": "text",
+						"label": {
+								"en": "Name"
+						},
+						"value": "",
+						"hint": {
+								"en": "Car name as per manufacturer."
+						}
+				},
+				{
+						"id": "idOrg",
+						"type": "text",
+						"label": {
+								"en": "ID"
+						},
+						"value": "",
+						"hint": {
+								"en": "Car ID as per manufacturer."
+						}
+				},
+				{
+						"id": "vin",
+						"type": "text",
+						"label": {
+								"en": "VIN"
+						},
+						"value": "",
+						"hint": {
+								"en": "Car VIN as per manufacturer."
+						}
+				},
+				{
+						"id": "regDate",
+						"type": "text",
+						"label": {
+								"en": "Registration date"
+						},
+						"value": ""
+				},
+				{
+						"id": "brandIndicator",
+						"type": "text",
+						"label": {
+								"en": "Brand Indicator"
+						},
+						"value": ""
+				},
+				{
+						"id": "generation",
+						"type": "text",
+						"label": {
+								"en": "Generation"
+						},
+						"value": ""
+				}
+		]
+	},
+	{
+		"type": "group",
+		"label": {
+				"en": "Connection settings"
+		},
+		"children": [
+				{
+						"id": "username",
+						"type": "text",
+						"label": {
+								"en": "Username"
+						},
+						"value": ""
+				},
+				{
+						"id": "password",
+						"type": "password",
+						"label": {
+								"en": "Password"
+						},
+						"value": ""
+				},
+				{
+						"id": "pin",
+						"type": "password",
+						"label": {
+								"en": "PIN"
+						},
+						"value": ""
+				},
+				{
+						"id": "region",
+						"type": "dropdown",
+						"value": "EU",
+						"label": {
+								"en": "Region"
+						},
+						"values": [
+								{
+										"id": "EU",
+										"label": {
+												"en": "EU"
+										}
+								},
+								{
+										"id": "US",
+										"label": {
+												"en": "US"
+										}
+								},
+								{
+										"id": "CA",
+										"label": {
+												"en": "CA"
+										}
+								}
+						]
+				},
+				{
+						"id": "pollInterval",
+						"type": "number",
+						"label": {
+								"en": "Poll Interval ignition off (minutes)"
+						},
+						"hint": {
+								"en": "A lower interval gives faster updates in Homey. Attention: A low poll interval can drain your 12V battery and block your regular app from communicating with the car!"
+						},
+						"min": 1,
+						"value": 5
+				},
+				{
+						"id": "pollInterval2",
+						"type": "number",
+						"label": {
+								"en": "Poll Interval ignition on (minutes)"
+						},
+						"hint": {
+								"en": "When the ignition is on, you might want to have faster updates. Attention: A low poll interval can block your regular app from communicating with the car!"
+						},
+						"min": 0.5,
+						"value": 1
+				}
+		]
+	},
+	{
+		"type": "group",
+		"label": {
+				"en": "Home location settings"
+		},
+		"children": [
+				{
+						"id": "lat",
+						"type": "number",
+						"label": {
+								"en": "Home latitude"
+						},
+						"hint": {
+								"en": "Home location is used to calculate the car's distance."
+						},
+						"value": 0
+				},
+				{
+						"id": "lon",
+						"type": "number",
+						"label": {
+								"en": "Home longitude"
+						},
+						"hint": {
+								"en": "Home location is used to calculate the car's distance."
+						},
+						"value": 0
+				}
+		]
+	},
+	{
+		"type": "group",
+		"label": {
+				"en": "Various settings"
+		},
+		"children": [
+				{
+						"id": "batteryAlarmLevel",
+						"type": "number",
+						"label": {
+								"en": "12V battery alarm level (%)"
+						},
+						"hint": {
+								"en": "Homey will raise an alarm when the 12V battery charge is on or below this level."
+						},
+						"min": 0,
+						"max": 100,
+						"value": 60
+				},
+				{
+						"id": "EVbatteryAlarmLevel",
+						"type": "number",
+						"label": {
+								"en": "EV battery alarm level (%)"
+						},
+						"hint": {
+								"en": "Homey will raise an alarm when the EV battery charge is on or below this level."
+						},
+						"min": 0,
+						"max": 100,
+						"value": 5
+				}
+		]
+	}
+]

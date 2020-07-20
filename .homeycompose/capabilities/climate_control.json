@@ -1,0 +1,17 @@
+{
+	"type": "boolean",
+	"title": {
+		"en": "Climate control"
+	},
+	"getable": true,
+	"setable": true,
+	"insights": true,
+	"insightsTitleTrue": {
+		"en": "Climate control on"
+	},
+	"insightsTitleFalse": {
+		"en": "Climate control off"
+	},
+	"uiComponent": "toggle",
+	"uiQuickAction": false
+}

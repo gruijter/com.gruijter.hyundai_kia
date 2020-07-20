@@ -1,0 +1,644 @@
+{
+  "id": "com.gruijter.hyundai_kia",
+  "version": "0.0.1",
+  "compatibility": ">=5.0.0",
+  "sdk": 3,
+  "brandColor": "#00aaff",
+  "name": {
+    "en": "Kia and Hyundai"
+  },
+  "description": {
+    "en": "Connect your Hyundai or Kia smart car."
+  },
+  "tags": {
+    "en": [
+      "smart car",
+      "hyundai",
+      "kia",
+      "uvo",
+      "bluelink"
+    ]
+  },
+  "category": [
+    "localization"
+  ],
+  "permissions": [
+    "homey:manager:geolocation"
+  ],
+  "images": {
+    "large": "/assets/images/large.jpg",
+    "small": "/assets/images/small.jpg"
+  },
+  "author": {
+    "name": "Robin Gruijter",
+    "email": "gruijter@hotmail.com"
+  },
+  "contributors": {
+    "developers": [
+      {
+        "name": "Robin de Gruijter",
+        "email": "gruijter@hotmail.com"
+      }
+    ],
+    "translators": [
+      {
+        "name": "🇬🇧 Robin"
+      }
+    ]
+  },
+  "copyright": "Robin de Gruijter (gruijter@hotmail.com)",
+  "license": " GPL-3.0-or-later",
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "gruijter"
+      }
+    }
+  },
+  "bugs": {
+    "url": "https://github.com/gruijter/com.gruijter.facepp/issues"
+  },
+  "homeyCommunityTopicId": 32487,
+  "source": "https://github.com/gruijter/com.gruijter.hyundai_kona",
+  "homepage": "https://github.com/gruijter/com.gruijter.hyundai_kona/blob/master/README.md",
+  "support": "https://community.athom.com/t/32487",
+  "flow": {
+    "triggers": [
+      {
+        "id": "ignition_true",
+        "title": {
+          "en": "The ignition turned on"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo"
+          }
+        ]
+      },
+      {
+        "id": "ignition_false",
+        "title": {
+          "en": "The ignition turned off"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo"
+          }
+        ]
+      },
+      {
+        "id": "climate_control_true",
+        "title": {
+          "en": "The A/C turned on"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo"
+          }
+        ]
+      },
+      {
+        "id": "climate_control_false",
+        "title": {
+          "en": "The A/C turned off"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo"
+          }
+        ]
+      },
+      {
+        "id": "defrost_true",
+        "title": {
+          "en": "Defrosting turned on"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo"
+          }
+        ]
+      },
+      {
+        "id": "defrost_false",
+        "title": {
+          "en": "Defrosting turned off"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo"
+          }
+        ]
+      }
+    ],
+    "conditions": [
+      {
+        "id": "ignition",
+        "title": {
+          "en": "The ignition is !{{on|off}}"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo"
+          }
+        ]
+      },
+      {
+        "id": "climate_control",
+        "title": {
+          "en": "The A/C is !{{on|off}}"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo"
+          }
+        ]
+      },
+      {
+        "id": "defrost",
+        "title": {
+          "en": "Defrosting is !{{on|off}}"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo"
+          }
+        ]
+      }
+    ]
+  },
+  "drivers": [
+    {
+      "class": "sensor",
+      "capabilities": [
+        "ignition",
+        "odometer",
+        "speed",
+        "measure_battery.EV",
+        "measure_battery.12V",
+        "range",
+        "location",
+        "distance",
+        "alarm_battery",
+        "locked",
+        "target_temperature",
+        "defrost",
+        "climate_control"
+      ],
+      "capabilitiesOptions": {
+        "measure_battery.EV": {
+          "title": {
+            "en": "EV Battery"
+          }
+        },
+        "measure_battery.12V": {
+          "title": {
+            "en": "12V Battery"
+          }
+        }
+      },
+      "images": {
+        "large": "/drivers/uvo/assets/images/large.jpg",
+        "small": "/drivers/uvo/assets/images/small.jpg"
+      },
+      "energy": {
+        "batteries": [
+          "INTERNAL"
+        ],
+        "usageConstant": 0
+      },
+      "pair": [
+        {
+          "id": "login_credentials",
+          "template": "login_credentials"
+        },
+        {
+          "id": "pincode",
+          "template": "pincode",
+          "options": {
+            "title": "Enter PIN code",
+            "hint": "Press OK once, and wait a few seconds!"
+          }
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "name": {
+        "en": "UVO (Kia)"
+      },
+      "id": "uvo",
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Car information"
+          },
+          "children": [
+            {
+              "id": "nameOrg",
+              "type": "text",
+              "label": {
+                "en": "Name"
+              },
+              "value": "",
+              "hint": {
+                "en": "Car name as per manufacturer."
+              }
+            },
+            {
+              "id": "idOrg",
+              "type": "text",
+              "label": {
+                "en": "ID"
+              },
+              "value": "",
+              "hint": {
+                "en": "Car ID as per manufacturer."
+              }
+            },
+            {
+              "id": "vin",
+              "type": "text",
+              "label": {
+                "en": "VIN"
+              },
+              "value": "",
+              "hint": {
+                "en": "Car VIN as per manufacturer."
+              }
+            },
+            {
+              "id": "regDate",
+              "type": "text",
+              "label": {
+                "en": "Registration date"
+              },
+              "value": ""
+            },
+            {
+              "id": "brandIndicator",
+              "type": "text",
+              "label": {
+                "en": "Brand Indicator"
+              },
+              "value": ""
+            },
+            {
+              "id": "generation",
+              "type": "text",
+              "label": {
+                "en": "Generation"
+              },
+              "value": ""
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Connection settings"
+          },
+          "children": [
+            {
+              "id": "username",
+              "type": "text",
+              "label": {
+                "en": "Username"
+              },
+              "value": ""
+            },
+            {
+              "id": "password",
+              "type": "password",
+              "label": {
+                "en": "Password"
+              },
+              "value": ""
+            },
+            {
+              "id": "pin",
+              "type": "password",
+              "label": {
+                "en": "PIN"
+              },
+              "value": ""
+            },
+            {
+              "id": "region",
+              "type": "dropdown",
+              "value": "EU",
+              "label": {
+                "en": "Region"
+              },
+              "values": [
+                {
+                  "id": "EU",
+                  "label": {
+                    "en": "EU"
+                  }
+                },
+                {
+                  "id": "US",
+                  "label": {
+                    "en": "US"
+                  }
+                },
+                {
+                  "id": "CA",
+                  "label": {
+                    "en": "CA"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "pollInterval",
+              "type": "number",
+              "label": {
+                "en": "Poll Interval ignition off (minutes)"
+              },
+              "hint": {
+                "en": "A lower interval gives faster updates in Homey. Attention: A low poll interval can drain your 12V battery and block your regular app from communicating with the car!"
+              },
+              "min": 1,
+              "value": 5
+            },
+            {
+              "id": "pollInterval2",
+              "type": "number",
+              "label": {
+                "en": "Poll Interval ignition on (minutes)"
+              },
+              "hint": {
+                "en": "When the ignition is on, you might want to have faster updates. Attention: A low poll interval can block your regular app from communicating with the car!"
+              },
+              "min": 0.5,
+              "value": 1
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Home location settings"
+          },
+          "children": [
+            {
+              "id": "lat",
+              "type": "number",
+              "label": {
+                "en": "Home latitude"
+              },
+              "hint": {
+                "en": "Home location is used to calculate the car's distance."
+              },
+              "value": 0
+            },
+            {
+              "id": "lon",
+              "type": "number",
+              "label": {
+                "en": "Home longitude"
+              },
+              "hint": {
+                "en": "Home location is used to calculate the car's distance."
+              },
+              "value": 0
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Various settings"
+          },
+          "children": [
+            {
+              "id": "batteryAlarmLevel",
+              "type": "number",
+              "label": {
+                "en": "12V battery alarm level (%)"
+              },
+              "hint": {
+                "en": "Homey will raise an alarm when the 12V battery charge is on or below this level."
+              },
+              "min": 0,
+              "max": 100,
+              "value": 60
+            },
+            {
+              "id": "EVbatteryAlarmLevel",
+              "type": "number",
+              "label": {
+                "en": "EV battery alarm level (%)"
+              },
+              "hint": {
+                "en": "Homey will raise an alarm when the EV battery charge is on or below this level."
+              },
+              "min": 0,
+              "max": 100,
+              "value": 5
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "capabilities": {
+    "charging": {
+      "type": "boolean",
+      "title": {
+        "en": "Charging"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Charging"
+      },
+      "insightsTitleFalse": {
+        "en": "Not charging"
+      },
+      "uiComponent": "toggle",
+      "uiQuickAction": false
+    },
+    "climate_control": {
+      "type": "boolean",
+      "title": {
+        "en": "Climate control"
+      },
+      "getable": true,
+      "setable": true,
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Climate control on"
+      },
+      "insightsTitleFalse": {
+        "en": "Climate control off"
+      },
+      "uiComponent": "toggle",
+      "uiQuickAction": false
+    },
+    "defrost": {
+      "type": "boolean",
+      "title": {
+        "en": "Defrost"
+      },
+      "getable": true,
+      "setable": true,
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Defrost on"
+      },
+      "insightsTitleFalse": {
+        "en": "Defrost off"
+      },
+      "uiComponent": "toggle",
+      "uiQuickAction": false
+    },
+    "distance": {
+      "type": "number",
+      "title": {
+        "en": "Distance"
+      },
+      "units": {
+        "en": "km",
+        "nl": "km"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "icon": "./assets/distance.svg"
+    },
+    "ignition": {
+      "type": "boolean",
+      "title": {
+        "en": "Ignition"
+      },
+      "icon": "/assets/ignition.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Ignition turned on"
+      },
+      "insightsTitleFalse": {
+        "en": "Ignition turned off"
+      },
+      "options": {
+        "greyout": {
+          "type": "boolean",
+          "default": false,
+          "desc": {
+            "en": "When this capability is false, give a visual hint to greyout the device.",
+            "de": "wenn diese Fähigkeit 'false' ist, gibt es einen visuellenen Hinweis, um das Gerät auszugrauen.",
+            "fr": "Quand cette capacité est fausse, donnez un indice visuel pour griser cet appareil.",
+            "it": "Quando questa funzione è impostata su falso, dai un indizio visivo per far apparire questo dispositivo in grigio.",
+            "sv": "När den här funktionen är falsk, ge en ett visuellt tips för att gråa ut enheten.",
+            "no": "Når denne egenskapen er usann, gi et visuelt tips for å vise enheten i grått.",
+            "es": "Cuando esta capacidad es falsa, da una indicación visual para poner en gris el dispositivo.",
+            "da": "Når denne funktion er falsk, skal du give et visuelt tip for at vise enheden i grå."
+          }
+        }
+      },
+      "uiComponent": "sensor",
+      "uiQuickAction": true
+    },
+    "location": {
+      "type": "string",
+      "title": {
+        "en": "Location",
+        "nl": "Locatie"
+      },
+      "desc": {
+        "en": "Location of the car"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "icon": "./assets/location.svg"
+    },
+    "measure_battery": {
+      "type": "number",
+      "title": {
+        "en": "Battery"
+      },
+      "units": {
+        "en": "%"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "battery"
+    },
+    "odometer": {
+      "type": "number",
+      "title": {
+        "en": "Odometer"
+      },
+      "units": {
+        "en": "km"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor",
+      "icon": "./assets/odometer.svg"
+    },
+    "range": {
+      "type": "number",
+      "title": {
+        "en": "Range"
+      },
+      "units": {
+        "en": "km"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor",
+      "icon": "./assets/range.svg"
+    },
+    "speed": {
+      "type": "number",
+      "title": {
+        "en": "Speed"
+      },
+      "units": {
+        "en": "km/h"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor",
+      "icon": "./assets/speed.svg"
+    }
+  }
+}

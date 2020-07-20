@@ -1,0 +1,17 @@
+{
+	"type": "boolean",
+	"title": {
+		"en": "Defrost"
+	},
+	"getable": true,
+	"setable": true,
+	"insights": true,
+	"insightsTitleTrue": {
+		"en": "Defrost on"
+	},
+	"insightsTitleFalse": {
+		"en": "Defrost off"
+	},
+	"uiComponent": "toggle",
+	"uiQuickAction": false
+}

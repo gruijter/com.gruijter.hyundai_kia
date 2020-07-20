@@ -1,0 +1,14 @@
+{
+	"type": "number",
+	"title": {
+		"en": "Range"
+	},
+	"units": {
+		"en": "km"
+	},
+	"getable": true,
+	"setable": false,
+	"insights": true,
+	"uiComponent": "sensor",
+	"icon": "./assets/range.svg"
+}

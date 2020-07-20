@@ -1,0 +1,64 @@
+{
+	"class": "sensor",
+	"capabilities": [
+		"ignition",
+		"odometer",
+		"speed",
+		"measure_battery.EV",
+		"measure_battery.12V",
+		"range",
+		"location",
+		"distance",
+		"alarm_battery",
+		"locked",
+		"target_temperature",
+		"defrost",
+		"climate_control"
+	],
+	"capabilitiesOptions": {
+		"measure_battery.EV": {
+			"title": {
+				"en": "EV Battery"
+			}
+		},
+		"measure_battery.12V": {
+			"title": {
+				"en": "12V Battery"
+			}
+		}
+	},
+	"images": {
+		"large": "{{driverAssetsPath}}/images/large.jpg",
+		"small": "{{driverAssetsPath}}/images/small.jpg"
+	},
+	"energy": {
+		"batteries": ["INTERNAL"],
+		"usageConstant": 0
+  },
+	"pair": [
+		{
+			"id": "login_credentials",
+			"template": "login_credentials"
+		},
+		{
+			"id": "pincode",
+			"template": "pincode",
+			"options": 
+				{
+					"title": "Enter PIN code",
+					"hint": "Press OK once, and wait a few seconds!"
+				}
+		},
+		{
+			"id": "list_devices",
+			"template": "list_devices",
+			"navigation": {
+				"next": "add_devices"
+			}
+		},
+		{
+			"id": "add_devices",
+			"template": "add_devices"
+		}
+	]
+}
