@@ -23,8 +23,6 @@ Let Homey control your locks, defroster and climate from a flow.
 * Odometer
 * Speed
 * Range
-* EV Battery charge %
-* 12V Battery charge %
 * GPS location
 * Distance from home
 
