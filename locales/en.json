@@ -1,1 +1,20 @@
-{}
+{
+    "settings": {
+		"tab1": {
+			"title": "Instructions",
+			"useTitle": "How to use",
+			"useInstructions": "You need to have a UVO (Kia) or Bluelink (Hyundai) account with PIN for your car(s). Add your car as a device in Homey, and fill in the username, password and PIN.",
+            "warningTitle": "Settings",
+            "warningInstructions": "USE THIS APP AT OWN RISK! In the app settings you can change the update interval. The default is 1 minute, but only when the engine is on. After switching on the engine it can take up to 5 minutes before the app starts updating the car status. You can set forced updates, that will also work when the engine is off. WARNING: forced updates will drain your 12V battery.",
+			"registerTitle": "***WIP***",
+			"registerInstructions": "This app is Work In Progress. At this stage only Kia cars in EU work. Hyundai and other regions will be added later."
+		},
+		"tab2": {
+			"title": "Logs",
+			"logs": "Logs",
+			"deletelogs": "Delete logs",
+			"deleteWarning": "Delete all logs?",
+			"deleted": "Logs deleted!"
+		}
+	}
+}

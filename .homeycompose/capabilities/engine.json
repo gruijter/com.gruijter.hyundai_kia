@@ -1,0 +1,24 @@
+{
+	"type": "boolean",
+	"title": {
+		"en": "Engine"
+	},
+	"icon": "/assets/engine.svg",
+	"getable": true,
+	"setable": false,
+	"insights": true,
+	"insightsTitleTrue": {
+		"en": "Engine turned on"
+	},
+	"insightsTitleFalse": {
+		"en": "Engine turned off"
+	},
+	"options": {
+		"greyout": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"uiComponent": "sensor",
+	"uiQuickAction": true
+}

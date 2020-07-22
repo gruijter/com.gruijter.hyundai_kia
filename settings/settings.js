@@ -23,7 +23,9 @@ function updateLogs() {
 						if (!showErrors) {
 							if (line.includes('[err]')) return;
 						}
-						const logLine = line.replace(' [CarApp]', '');
+						const logLine = line
+							.replace(' [CarApp]', '')
+							.replace(' [ManagerDrivers] [uvo]', '');
 						lines += `${logLine}<br />`;
 
 					});

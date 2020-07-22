@@ -1,7 +1,7 @@
 {
 	"class": "sensor",
 	"capabilities": [
-		"ignition",
+		"engine",
 		"odometer",
 		"speed",
 		"measure_battery.EV",
@@ -13,7 +13,8 @@
 		"locked",
 		"target_temperature",
 		"defrost",
-		"climate_control"
+		"climate_control",
+		"refresh_force"
 	],
 	"capabilitiesOptions": {
 		"measure_battery.EV": {
@@ -28,8 +29,8 @@
 		}
 	},
 	"images": {
-		"large": "{{driverAssetsPath}}/images/large.jpg",
-		"small": "{{driverAssetsPath}}/images/small.jpg"
+		"large": "{{driverAssetsPath}}/images/uvo_large.jpg",
+		"small": "{{driverAssetsPath}}/images/uvo_small.jpg"
 	},
 	"energy": {
 		"batteries": ["INTERNAL"],
@@ -46,7 +47,7 @@
 			"options": 
 				{
 					"title": "Enter PIN code",
-					"hint": "Press OK once, and wait a few seconds!"
+					"hint": "Press OK only once, and wait a few seconds!"
 				}
 		},
 		{

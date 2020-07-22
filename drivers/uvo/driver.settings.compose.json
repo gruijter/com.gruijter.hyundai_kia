@@ -126,25 +126,26 @@
 						"id": "pollInterval",
 						"type": "number",
 						"label": {
-								"en": "Poll Interval ignition off (minutes)"
+								"en": "Update interval (minutes)"
 						},
 						"hint": {
-								"en": "A lower interval gives faster updates in Homey. Attention: A low poll interval can drain your 12V battery and block your regular app from communicating with the car!"
-						},
-						"min": 1,
-						"value": 5
-				},
-				{
-						"id": "pollInterval2",
-						"type": "number",
-						"label": {
-								"en": "Poll Interval ignition on (minutes)"
-						},
-						"hint": {
-								"en": "When the ignition is on, you might want to have faster updates. Attention: A low poll interval can block your regular app from communicating with the car!"
+								"en": "A lower interval gives faster updates in Homey. Attention: Homey will only receive updates when the car engine is on! A low poll interval can block your regular app from communicating with the car!"
 						},
 						"min": 0.5,
 						"value": 1
+				},
+				{
+						"id": "pollIntervalForced",
+						"type": "number",
+						"label": {
+								"en": "Forced update interval (minutes)"
+						},
+						"hint": {
+								"en": "When the car engine is off, you can force updates by setting a time other then 0. CAUTION: This will drain your 12V battery fast!"
+						},
+						"min": 0,
+						"value": 0,
+						"step": 2.5
 				}
 		]
 	},

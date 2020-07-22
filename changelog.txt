@@ -1,1 +1,3 @@
+v0.1.0  22.07.2020 App store RC1
+v0.0.2  21.07.2020 Implemented sleepMode polling strategy.
 v0.0.1  20.07.2020 First alpha published on Github.

@@ -1,6 +1,6 @@
 {
   "id": "com.gruijter.hyundai_kia",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#00aaff",
@@ -26,8 +26,8 @@
     "homey:manager:geolocation"
   ],
   "images": {
-    "large": "/assets/images/large.jpg",
-    "small": "/assets/images/small.jpg"
+    "large": "/assets/images/app_large.jpg",
+    "small": "/assets/images/app_small.jpg"
   },
   "author": {
     "name": "Robin Gruijter",
@@ -62,12 +62,22 @@
   "source": "https://github.com/gruijter/com.gruijter.hyundai_kona",
   "homepage": "https://github.com/gruijter/com.gruijter.hyundai_kona/blob/master/README.md",
   "support": "https://community.athom.com/t/32487",
+  "api": {
+    "getLogs": {
+      "method": "get",
+      "path": "/getlogs/"
+    },
+    "deleteLogs": {
+      "method": "get",
+      "path": "/deletelogs/"
+    }
+  },
   "flow": {
     "triggers": [
       {
-        "id": "ignition_true",
+        "id": "engine_true",
         "title": {
-          "en": "The ignition turned on"
+          "en": "The engine turned on"
         },
         "args": [
           {
@@ -78,9 +88,35 @@
         ]
       },
       {
-        "id": "ignition_false",
+        "id": "engine_false",
         "title": {
-          "en": "The ignition turned off"
+          "en": "The engine turned off"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo"
+          }
+        ]
+      },
+      {
+        "id": "charging_true",
+        "title": {
+          "en": "The charger turned on"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo"
+          }
+        ]
+      },
+      {
+        "id": "charging_false",
+        "title": {
+          "en": "The chrarger turned off"
         },
         "args": [
           {
@@ -145,9 +181,22 @@
     ],
     "conditions": [
       {
-        "id": "ignition",
+        "id": "engine",
         "title": {
-          "en": "The ignition is !{{on|off}}"
+          "en": "The engine is !{{on|off}}"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo"
+          }
+        ]
+      },
+      {
+        "id": "charging",
+        "title": {
+          "en": "The charger is !{{on|off}}"
         },
         "args": [
           {
@@ -189,7 +238,7 @@
     {
       "class": "sensor",
       "capabilities": [
-        "ignition",
+        "engine",
         "odometer",
         "speed",
         "measure_battery.EV",
@@ -201,7 +250,8 @@
         "locked",
         "target_temperature",
         "defrost",
-        "climate_control"
+        "climate_control",
+        "refresh_force"
       ],
       "capabilitiesOptions": {
         "measure_battery.EV": {
@@ -216,8 +266,8 @@
         }
       },
       "images": {
-        "large": "/drivers/uvo/assets/images/large.jpg",
-        "small": "/drivers/uvo/assets/images/small.jpg"
+        "large": "/drivers/uvo/assets/images/uvo_large.jpg",
+        "small": "/drivers/uvo/assets/images/uvo_small.jpg"
       },
       "energy": {
         "batteries": [
@@ -235,7 +285,7 @@
           "template": "pincode",
           "options": {
             "title": "Enter PIN code",
-            "hint": "Press OK once, and wait a few seconds!"
+            "hint": "Press OK only once, and wait a few seconds!"
           }
         },
         {
@@ -382,25 +432,26 @@
               "id": "pollInterval",
               "type": "number",
               "label": {
-                "en": "Poll Interval ignition off (minutes)"
+                "en": "Update interval (minutes)"
               },
               "hint": {
-                "en": "A lower interval gives faster updates in Homey. Attention: A low poll interval can drain your 12V battery and block your regular app from communicating with the car!"
-              },
-              "min": 1,
-              "value": 5
-            },
-            {
-              "id": "pollInterval2",
-              "type": "number",
-              "label": {
-                "en": "Poll Interval ignition on (minutes)"
-              },
-              "hint": {
-                "en": "When the ignition is on, you might want to have faster updates. Attention: A low poll interval can block your regular app from communicating with the car!"
+                "en": "A lower interval gives faster updates in Homey. Attention: Homey will only receive updates when the car engine is on! A low poll interval can block your regular app from communicating with the car!"
               },
               "min": 0.5,
               "value": 1
+            },
+            {
+              "id": "pollIntervalForced",
+              "type": "number",
+              "label": {
+                "en": "Forced update interval (minutes)"
+              },
+              "hint": {
+                "en": "When the car engine is off, you can force updates by setting a time other then 0. CAUTION: This will drain your 12V battery fast!"
+              },
+              "min": 0,
+              "value": 0,
+              "step": 2.5
             }
           ]
         },
@@ -537,35 +588,25 @@
       "insights": false,
       "icon": "./assets/distance.svg"
     },
-    "ignition": {
+    "engine": {
       "type": "boolean",
       "title": {
-        "en": "Ignition"
+        "en": "Engine"
       },
-      "icon": "/assets/ignition.svg",
+      "icon": "/assets/engine.svg",
       "getable": true,
       "setable": false,
       "insights": true,
       "insightsTitleTrue": {
-        "en": "Ignition turned on"
+        "en": "Engine turned on"
       },
       "insightsTitleFalse": {
-        "en": "Ignition turned off"
+        "en": "Engine turned off"
       },
       "options": {
         "greyout": {
           "type": "boolean",
-          "default": false,
-          "desc": {
-            "en": "When this capability is false, give a visual hint to greyout the device.",
-            "de": "wenn diese Fähigkeit 'false' ist, gibt es einen visuellenen Hinweis, um das Gerät auszugrauen.",
-            "fr": "Quand cette capacité est fausse, donnez un indice visuel pour griser cet appareil.",
-            "it": "Quando questa funzione è impostata su falso, dai un indizio visivo per far apparire questo dispositivo in grigio.",
-            "sv": "När den här funktionen är falsk, ge en ett visuellt tips för att gråa ut enheten.",
-            "no": "Når denne egenskapen er usann, gi et visuelt tips for å vise enheten i grått.",
-            "es": "Cuando esta capacidad es falsa, da una indicación visual para poner en gris el dispositivo.",
-            "da": "Når denne funktion er falsk, skal du give et visuelt tip for at vise enheden i grå."
-          }
+          "default": false
         }
       },
       "uiComponent": "sensor",
@@ -625,6 +666,17 @@
       "insights": true,
       "uiComponent": "sensor",
       "icon": "./assets/range.svg"
+    },
+    "refresh_force": {
+      "type": "boolean",
+      "title": {
+        "en": "Force car state poll"
+      },
+      "getable": true,
+      "setable": true,
+      "insights": false,
+      "uiComponent": "toggle",
+      "uiQuickAction": false
     },
     "speed": {
       "type": "number",

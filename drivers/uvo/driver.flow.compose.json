@@ -1,15 +1,27 @@
 {
 	"triggers": [
 		{
-			"id": "ignition_true",
+			"id": "engine_true",
 			"title": {
-				"en": "The ignition turned on"
+				"en": "The engine turned on"
 			}
 		},
 		{
-			"id": "ignition_false",
+			"id": "engine_false",
 			"title": {
-				"en": "The ignition turned off"
+				"en": "The engine turned off"
+			}
+		},
+		{
+			"id": "charging_true",
+			"title": {
+				"en": "The charger turned on"
+			}
+		},
+		{
+			"id": "charging_false",
+			"title": {
+				"en": "The chrarger turned off"
 			}
 		},
 		{
@@ -39,9 +51,15 @@
 	],
 	"conditions": [
 		{
-			"id": "ignition",
+			"id": "engine",
 			"title": {
-				"en": "The ignition is !{{on|off}}"
+				"en": "The engine is !{{on|off}}"
+			}
+		},
+		{
+			"id": "charging",
+			"title": {
+				"en": "The charger is !{{on|off}}"
 			}
 		},
 		{

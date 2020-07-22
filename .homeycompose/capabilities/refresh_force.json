@@ -1,0 +1,11 @@
+{
+	"type": "boolean",
+	"title": {
+		"en": "Force car state poll"
+	},
+	"getable": true,
+	"setable": true,
+	"insights": false,
+	"uiComponent": "toggle",
+	"uiQuickAction": false
+}

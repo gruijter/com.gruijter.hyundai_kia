@@ -102,7 +102,6 @@ class CarDriver extends Homey.Driver {
 							reject(Error('No vehicles in this account!'));
 							return;
 						}
-						// veh[0].status({ refresh: false, parsed: false })
 						veh[0].odometer()
 							.then(() => {
 								this.log('PIN OK!');

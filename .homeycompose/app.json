@@ -1,6 +1,6 @@
 {
     "id": "com.gruijter.hyundai_kia",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "compatibility": ">=5.0.0",
     "sdk": 3,
     "brandColor": "#00aaff",
@@ -26,8 +26,8 @@
       "homey:manager:geolocation"
     ],
     "images": {
-      "large": "/assets/images/large.jpg",
-      "small": "/assets/images/small.jpg"
+      "large": "/assets/images/app_large.jpg",
+      "small": "/assets/images/app_small.jpg"
     },
     "author": {
       "name": "Robin Gruijter",
@@ -61,5 +61,15 @@
     "homeyCommunityTopicId": 32487,
     "source": "https://github.com/gruijter/com.gruijter.hyundai_kona",
     "homepage": "https://github.com/gruijter/com.gruijter.hyundai_kona/blob/master/README.md",
-    "support": "https://community.athom.com/t/32487"
+    "support": "https://community.athom.com/t/32487",
+    "api": {
+      "getLogs": {
+        "method": "get",
+        "path": "/getlogs/"
+      },
+      "deleteLogs": {
+        "method": "get",
+        "path": "/deletelogs/"
+      }
+    }
 }

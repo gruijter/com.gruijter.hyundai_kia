@@ -51,6 +51,15 @@ class carApp extends Homey.App {
 
 	}
 
+	//  stuff for frontend API
+	deleteLogs() {
+		return this.logger.deleteLogs();
+	}
+
+	getLogs() {
+		return this.logger.logArray;
+	}
+
 }
 
 module.exports = carApp;

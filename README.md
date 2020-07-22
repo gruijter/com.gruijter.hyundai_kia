@@ -2,12 +2,11 @@
 
 ## Connect your Hyundai or Kia smart car.
 
-In near real time Homey has access to the car's location, speed, range, lock-state and other states.
-Let Homey control your locks, defroster and climate from a flow.
+In near real time Homey has access to the car's location, speed, range, and can control locks, defroster and climate from a flow.
 
 <img src="https://aws1.discourse-cdn.com/business4/uploads/athom/original/3X/6/b/6bce7476628c47fe89a22771895c7597e6ae8e84.jpeg" alt="connect your car" width="250">
 
-## WARNING: This app is in alpha state and can damage your vehicle (e.g. drain your 12V battery). Use at own risk!
+## WARNING: This app can damage your vehicle (e.g. drain your 12V battery). Use at own risk!
 ## This app can only be used on Homey V5
 
 ## Supported cars:
@@ -26,7 +25,7 @@ Let Homey control your locks, defroster and climate from a flow.
 * GPS location
 * Distance from home
 
-## Control:
+## Control (only when the engine is off):
 * Doors
 * Temperature
 * Defrost

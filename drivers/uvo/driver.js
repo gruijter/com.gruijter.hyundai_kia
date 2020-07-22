@@ -24,7 +24,7 @@ const GenericDriver = require('../generic_driver.js');
 const driverSpecifics = {
 	driverId: 'uvo',
 	deviceCapabilities: [
-		'ignition',
+		'engine',
 		'odometer',
 		'speed',
 		'measure_battery.EV',
@@ -38,6 +38,7 @@ const driverSpecifics = {
 		'target_temperature',
 		'defrost',
 		'climate_control',
+		'refresh_force',
 	],
 };
 
