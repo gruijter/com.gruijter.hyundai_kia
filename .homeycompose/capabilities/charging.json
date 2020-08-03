@@ -12,6 +12,7 @@
 	"insightsTitleFalse": {
 		"en": "Not charging"
 	},
-	"uiComponent": "toggle",
+	"uiComponent": "sensor",
+	"icon": "./assets/charging.svg",
 	"uiQuickAction": false
 }

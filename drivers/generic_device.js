@@ -24,6 +24,7 @@ const BlueLinky = require('bluelinky');
 const Uvo = require('kuvork');
 const GeoPoint = require('geopoint');
 const util = require('util');
+const ABRP = require('../abrp_telemetry');
 const geo = require('../reverseGeo');
 const convert = require('./temp_convert');
 
@@ -54,17 +55,22 @@ class CarDevice extends Homey.Device {
 			} else this.client = new Uvo(options);
 
 			this.client.on('ready', async (vehicles) => {
-				// console.log(util.inspect(vehicles[0], true, 10, true));
+				if (vehicles && vehicles[0] && !this.vehicle) this.log(util.inspect(vehicles[0].vehicleConfig, true, 10, true));
 				[this.vehicle] = vehicles;
 			});
+
+			const abrpOptions = {
+				apiKey: Homey.env.ABRP_API_KEY,
+				userToken: this.settings.abrp_user_token,
+			};
+			this.abrp = new ABRP(abrpOptions);
+			this.log(`ABPR enabled: ${this.settings.abrp_user_token.length > 5}`);
 
 			// init listeners
 			if (!this.allListeners) this.registerListeners();
 
 			// wait 10 seconds to login
 			await setTimeoutPromise(10 * 1000, 'waiting is done');
-
-			this.log(`starting to poll ${this.getName()}`);
 			this.startPolling(this.settings.pollInterval);
 
 		} catch (error) {
@@ -107,11 +113,16 @@ class CarDevice extends Homey.Device {
 			} else this.log('forcing refresh with car');
 
 			// check if full status refresh is needed
-			const carActive = status ? (status.engine || status.airCtrlOn || status.defrost) : null;
 			const sleepModeCheck = status ? (status.sleepModeCheck || (status.time !== this.lastStatus.time)) : null;
 			if (sleepModeCheck) this.log('doing sleepModeCheck');
 
-			if (forceRefresh || sleepModeCheck || carActive) {
+			const carActive = status ? (status.engine || status.airCtrlOn || status.defrost || sleepModeCheck) : null;
+			const carJustActive = ((Date.now() - this.carLastActive) < 5 * 60 * 1000); // keep refreshing 5 minutes after car use or sleepModeCheck
+			const batSoCGood = status ? (status.battery.batSoc > this.settings.batteryAlarmLevel) : true;
+
+			this.liveData = forceRefresh || (batSoCGood && (carActive || carJustActive));
+
+			if (this.liveData) {
 				// get info from car
 				status = await this.vehicle.status({
 					refresh: true,
@@ -135,6 +146,12 @@ class CarDevice extends Homey.Device {
 				this.log(util.inspect(odometer, true, 10, true));
 			}
 			this.lastRefresh = newStatus ? Date.now() : this.lastRefresh;
+			this.carLastActive = carActive ? this.lastRefresh : this.carLastActive;
+
+			// update ABRP telemetry
+			if (this.liveData && (this.settings.abrp_user_token.length > 5)) {
+				this.abrpTelemetry({ status, location, odometer });
+			}
 
 			// update capabilities and flows
 			this.handleInfo({ status, location, odometer });
@@ -149,7 +166,7 @@ class CarDevice extends Homey.Device {
 	}
 
 	startPolling(interval) {
-		this.log(`Start polling @ ${interval} minute interval.`);
+		this.log(`Start polling ${this.getName()} @ ${interval} minute interval.`);
 		if (this.settings.pollIntervalForced) this.log(`Warning: forced polling is enabled @${this.settings.pollIntervalForced} minute interval.`);
 		this.stopPolling();
 		this.doPoll(true);
@@ -232,6 +249,25 @@ class CarDevice extends Homey.Device {
 		return Math.round(from.distanceTo(to, true) * 10) / 10;
 	}
 
+	async abrpTelemetry(info) {
+		try {
+			const {
+				batteryCharge: charging,
+				batteryStatus: soc,
+			} = info.status.evStatus;
+			const {
+				latitude: lat,
+				longitude: lon,
+			} = info.location;
+			const speed = info.location.speed.value;
+			await this.abrp.send({
+				lat, lon, speed, soc, charging,
+			});
+		} catch (error) {
+			this.error(error);
+		}
+	}
+
 	async handleInfo(info) {
 		try {
 			const {
@@ -239,12 +275,12 @@ class CarDevice extends Homey.Device {
 				doorLock: locked,
 				airCtrlOn,
 				defrost,
-				// trunkOpen,
-				// hoodOpen,
-				// doorOpen,
+				trunkOpen,
+				hoodOpen,
+				doorOpen,
 			} = info.status;
 			const {
-				// batteryPlugin: pluggedIn, // charge cable connected 0=none 1=fast? 2=portable 3=normal station?
+				batteryPlugin: charger, // charge cable connected 0=none 1=fast? 2=portable 3=normal station?
 				batteryCharge: charging,
 				batteryStatus: EVBatteryCharge,
 			} = info.status.evStatus;
@@ -252,16 +288,14 @@ class CarDevice extends Homey.Device {
 			const batteryCharge = info.status.battery.batSoc;
 			const range = info.status.evStatus.drvDistance[0].rangeByFuel.totalAvailableRange.value;
 			const targetTemperature = convert.getTempFromCode(info.status.airTemp.value);
-			// const alarmTirePressure = !!info.status.tirePressureLamp.tirePressureLampAll;
-			// console.log(`alarmTirePressure: ${alarmTirePressure}`);
+			const alarmTyrePressure = !!info.status.tirePressureLamp.tirePressureLampAll;
 
 			const { speed } = info.location;
 			const { odometer } = info;
 
 			// calculated properties
-			// const allDoorsClosedAndLocked = locked && !trunkOpen && !hoodOpen
-			// 	&& Object.keys(doorOpen).reduce((closedAccu, door) => closedAccu || !doorOpen[door], true);
-			// console.log(`all doors closed and locked: ${allDoorsClosedAndLocked}`);
+			const closedLocked = locked && !trunkOpen && !hoodOpen
+				&& Object.keys(doorOpen).reduce((closedAccu, door) => closedAccu || !doorOpen[door], true);
 			const alarmEVBattery = EVBatteryCharge <= this.settings.EVbatteryAlarmLevel;
 			const alarmBattery = batteryCharge <= this.settings.batteryAlarmLevel;
 			const distance = this.distance(info.location);
@@ -277,18 +311,21 @@ class CarDevice extends Homey.Device {
 			this.setCapability('measure_battery.EV', EVBatteryCharge);
 			this.setCapability('measure_battery.12V', batteryCharge);
 			this.setCapability('alarm_battery', alarmBattery || alarmEVBattery);
+			this.setCapability('alarm_tyre_pressure', alarmTyrePressure);
 			this.setCapability('locked', locked);
+			this.setCapability('closed_locked', closedLocked);
 			this.setCapability('target_temperature', targetTemperature);
 			this.setCapability('defrost', defrost);
 			this.setCapability('climate_control', airCtrlOn);
 			this.setCapability('engine', engine);
 			this.setCapability('charging', charging);
+			this.setCapability('charger', charger.toString());
 			this.setCapability('odometer', odometer.value);
 			this.setCapability('range', range);
 			this.setCapability('speed', speed.value);
 			this.setCapability('location', locString);
 			this.setCapability('distance', distance);
-			this.setCapability('refresh_force', false);
+			this.setCapability('live_data', this.liveData);
 
 			// update flow triggers
 			const tokens = {};
@@ -345,12 +382,19 @@ class CarDevice extends Homey.Device {
 	// register capability listeners
 	async registerListeners() {
 		try {
-			this.log('registering capability listeners');
+			this.log('registering listeners');
+
 			if (!this.allListeners) this.allListeners = {};
 
 			// // unregister listeners first
 			// const ready = Object.keys(this.allListeners).map((token) => Promise.resolve(Homey.ManagerFlow.unregisterToken(this.tokens[token])));
 			// await Promise.all(ready);
+
+			this.allListeners.forcepoll = this.homey.flow.getActionCard('force_poll');
+			this.allListeners.forcepoll.registerRunListener(() => {
+				this.doPoll(true);
+				return true;
+			});
 
 			// capabilityListeners will be overwritten, so no need to unregister them
 
@@ -413,8 +457,12 @@ class CarDevice extends Homey.Device {
 			});
 
 			this.registerCapabilityListener('target_temperature', async (temp) => {
-				this.log(`Changing temperarture by app to ${temp}`);
-				let success;
+				// if (this.busy) {
+				// 	console.log('ignoring temp set for now');
+				// 	return Promise.resolve(false);
+				// }
+				this.log(`Changing temperature by app to ${temp}`);
+				// let success;
 				// if (this.getCapabilityValue('climate_control')) {
 				// 	success = await this.vehicle.start({
 				// 		// defrost: this.getCapabilityValue('defrost'),
@@ -428,16 +476,16 @@ class CarDevice extends Homey.Device {
 				// 		temperature: temp || 22,
 				// 	});
 				// }
-				this.doPoll(true);
-				return Promise.resolve(success);
+				// this.doPoll(true);
+				return Promise.resolve(false);
 			});
 
-			this.registerCapabilityListener('refresh_force', (refresh) => {
-				if (refresh) {
-					this.log('Refreshing car state by app');
+			this.registerCapabilityListener('live_data', (liveData) => {
+				if (liveData) {
+					this.log('Switching on live data by app');
 					this.doPoll(true);
-					this.setCapability('refresh_force', false);
 				}
+				// ADD STOP LIVE DATA HERE
 				return Promise.resolve(true);
 			});
 

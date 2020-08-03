@@ -1,0 +1,24 @@
+{
+	"type": "boolean",
+	"title": {
+		"en": "Closed and locked"
+	},
+	"icon": "/assets/closed_locked.svg",
+	"getable": true,
+	"setable": false,
+	"insights": true,
+	"insightsTitleTrue": {
+		"en": "Doors closed and locked"
+	},
+	"insightsTitleFalse": {
+		"en": "Doors opened or unlocked"
+	},
+	"options": {
+		"greyout": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"uiComponent": "sensor",
+	"uiQuickAction": false
+}

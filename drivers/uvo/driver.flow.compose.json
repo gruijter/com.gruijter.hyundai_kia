@@ -21,7 +21,7 @@
 		{
 			"id": "charging_false",
 			"title": {
-				"en": "The chrarger turned off"
+				"en": "The charger turned off"
 			}
 		},
 		{
@@ -46,6 +46,30 @@
 			"id": "defrost_false",
 			"title": {
 				"en": "Defrosting turned off"
+			}
+		},
+		{
+			"id": "alarm_battery_true",
+			"title": {
+				"en": "The battery alarm turned on"
+			}
+		},
+		{
+			"id": "alarm_battery_false",
+			"title": {
+				"en": "The battery alarm turned off"
+			}
+		},
+		{
+			"id": "tyre_pressure_alarm_true",
+			"title": {
+				"en": "The tyre pressure alarm turned on"
+			}
+		},
+		{
+			"id": "tyre_pressure_alarm_false",
+			"title": {
+				"en": "The tyre pressure alarm turned off"
 			}
 		}
 	],
@@ -72,6 +96,26 @@
 			"id": "defrost",
 			"title": {
 				"en": "Defrosting is !{{on|off}}"
+			}
+		},
+		{
+			"id": "alarm_battery",
+			"title": {
+				"en": "The battery alarm is !{{on|off}}"
+			}
+		},
+		{
+			"id": "alarm_generic",
+			"title": {
+				"en": "The tyre pressure alarm is !{{on|off}}"
+			}
+		}
+	],
+	"actions": [
+		{
+			"id": "force_poll",
+			"title": {
+				"en": "Force live data poll"
 			}
 		}
 	]

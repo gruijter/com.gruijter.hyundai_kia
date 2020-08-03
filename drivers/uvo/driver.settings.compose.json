@@ -126,12 +126,12 @@
 						"id": "pollInterval",
 						"type": "number",
 						"label": {
-								"en": "Update interval (minutes)"
+								"en": "Live update interval (minutes)"
 						},
 						"hint": {
 								"en": "A lower interval gives faster updates in Homey. Attention: Homey will only receive updates when the car engine is on! A low poll interval can block your regular app from communicating with the car!"
 						},
-						"min": 0.5,
+						"min": 0.2,
 						"value": 1
 				},
 				{
@@ -145,9 +145,28 @@
 						},
 						"min": 0,
 						"value": 0,
-						"step": 2.5
+						"step": 5
 				}
 		]
+	},
+	{
+		"type": "group",
+		"label": {
+				"en": "A Better Route Planner (ABRP)"
+		},
+		"children": [
+				{
+					"id": "abrp_user_token",
+					"type": "password",
+					"label": {
+							"en": "ABRP user token"
+					},
+					"hint": {
+						"en": "Get a token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Torque > copy the token."
+					},
+					"value": ""
+				}
+			]
 	},
 	{
 		"type": "group",

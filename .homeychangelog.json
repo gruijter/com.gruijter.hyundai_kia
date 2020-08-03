@@ -1,6 +1,8 @@
 {
-	"0.1.0": {
-		"en": "v0.1.0 App store RC1"
-	}
-
+  "0.1.0": {
+    "en": "v0.1.0 App store RC1"
+  },
+  "1.0.0": {
+    "en": "First app store release"
+  }
 }

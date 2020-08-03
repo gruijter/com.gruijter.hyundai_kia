@@ -1,0 +1,37 @@
+{
+	"type": "enum",
+	"title": {
+		"en": "Charger"
+	},
+	"getable": true,
+	"setable": false,
+	"insights": false,
+	"uiComponent": "sensor",
+	"icon": "./assets/charger.svg",
+	"values": [
+		{
+			"id": "0",
+			"title": {
+				"en": "Not plugged in"
+			}
+		},
+		{
+			"id": "1",
+			"title": {
+				"en": "Fast"
+			}
+		},
+		{
+			"id": "2",
+			"title": {
+				"en": "Portable"
+			}
+		},
+		{
+			"id": "3",
+			"title": {
+				"en": "Normal"
+			}
+		}
+	]
+}

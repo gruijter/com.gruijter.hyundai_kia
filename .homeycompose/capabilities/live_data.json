@@ -1,7 +1,7 @@
 {
 	"type": "boolean",
 	"title": {
-		"en": "Force car state poll"
+		"en": "Live data"
 	},
 	"getable": true,
 	"setable": true,

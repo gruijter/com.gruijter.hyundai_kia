@@ -24,21 +24,28 @@ const GenericDriver = require('../generic_driver.js');
 const driverSpecifics = {
 	driverId: 'uvo',
 	deviceCapabilities: [
-		'engine',
-		'odometer',
-		'speed',
-		'measure_battery.EV',
-		'measure_battery.12V',
-		'range',
-		'location',
-		'distance',
-		'alarm_battery',
-		'locked',
-		'charging',
 		'target_temperature',
+
+		'live_data',
+		'locked',
 		'defrost',
 		'climate_control',
-		'refresh_force',
+
+		'engine',
+		'closed_locked',
+		'location',
+		'distance',
+		'speed',
+		'range',
+
+		'charger',
+		'charging',
+		'odometer',
+		'alarm_tyre_pressure',
+		'alarm_battery',
+
+		'measure_battery.EV',
+		'measure_battery.12V',
 	],
 };
 

@@ -63,12 +63,16 @@ exports.getTempCode = (temperature) => {
 		case 30.0:
 			return '20H';
 		default:
-			throw new Error('temperature out of bounds! min: 15.0* max: 30*, max step: 0.5');
+			throw new Error(`${temperature} temperature out of bounds! min: 15.0* max: 30*, max step: 0.5`);
 	}
 };
 
 exports.getTempFromCode = (code) => {
 	switch (code) {
+		case '00H':
+			return null;
+		case '01H':
+			return 14.5;
 		case '02H':
 			return 15.0;
 		case '03H':
@@ -132,6 +136,6 @@ exports.getTempFromCode = (code) => {
 		case '20H':
 			return 30.0;
 		default:
-			throw new Error('temperature out of bounds! min: 15.0* max: 30*, max step: 0.5');
+			throw new Error(`${code} temperature out of bounds! min: 15.0* max: 30*, max step: 0.5`);
 	}
 };

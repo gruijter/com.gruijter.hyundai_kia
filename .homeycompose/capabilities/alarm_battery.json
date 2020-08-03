@@ -1,0 +1,51 @@
+{
+	"type": "boolean",
+	"title": {
+	  "en": "Battery alarm",
+	  "nl": "Batterij alarm",
+	  "de": "Batterie-Alarm",
+	  "fr": "Alarme batterie",
+	  "it": "Allarme batteria",
+	  "sv": "Batterialarm",
+	  "no": "Batterialarm",
+	  "es": "Alarma de batería",
+	  "da": "Batterialarm"
+	},
+	"desc": {
+	  "en": "True when there is a battery warning",
+	  "nl": "Geeft een batterijwaarschuwing",
+	  "de": "True, wenn es eine Batterie-Warnung gibt",
+	  "fr": "Vrai quand il y a un avertissement de batterie",
+	  "it": "Vero quando c'è un avvertimento sulla batteria",
+	  "sv": "Sant när det finns en batterivarning",
+	  "no": "Sant når det finnes en batteriadvarsel",
+	  "es": "Verdadero cuando hay una advertencia de la batería",
+	  "da": "Sandt, når der er en batterialarm"
+	},
+	"insights": true,
+	"insightsTitleTrue": {
+	  "en": "Battery alarm turned on",
+	  "nl": "Batterijalarm ging af",
+	  "de": "Batterie-Alarm ist angegangen",
+	  "fr": "Alarme batterie activée",
+	  "it": "Allarme batteria attivato",
+	  "sv": "Batterialarm aktiverat",
+	  "no": "Batterialarm aktivert",
+	  "es": "Alarma de la batería activada",
+	  "da": "Batterialarm aktiveret"
+	},
+	"insightsTitleFalse": {
+	  "en": "Battery alarm turned off",
+	  "nl": "Batterijalarm ging uit",
+	  "de": "Batterie-Alarm ist ausgegangen",
+	  "fr": "Alarme batterie désactivée",
+	  "it": "Allarme batteria disattivato",
+	  "sv": "Batterialarm avstängt",
+	  "no": "Batterialarm deaktivert",
+	  "es": "Alarma de la batería desactivada",
+	  "da": "Batterialarm deaktiveret"
+	},
+	"getable": true,
+	"setable": false,
+	"uiComponent": "sensor"
+  }

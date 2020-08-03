@@ -1,3 +1,4 @@
+v1.0.0  03.08.2020 First app store release. Keep polling for 5 minutes after car activity. Disable ABRP when no key entered. Add vehicle and ABRP info log on start. Add 12V battery check when live polling. Added ABPR setup instructions. Added closed_locked, charger, alarm_tyre_pressure capabilities. Added force live poll from flow.
 v0.1.0  22.07.2020 App store RC1
 v0.0.2  21.07.2020 Implemented sleepMode polling strategy.
 v0.0.1  20.07.2020 First alpha published on Github.

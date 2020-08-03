@@ -1,6 +1,6 @@
 {
   "id": "com.gruijter.hyundai_kia",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#00aaff",
@@ -16,7 +16,9 @@
       "hyundai",
       "kia",
       "uvo",
-      "bluelink"
+      "bluelink",
+      "ABRP",
+      "better route planner"
     ]
   },
   "category": [
@@ -116,7 +118,7 @@
       {
         "id": "charging_false",
         "title": {
-          "en": "The chrarger turned off"
+          "en": "The charger turned off"
         },
         "args": [
           {
@@ -169,6 +171,58 @@
         "id": "defrost_false",
         "title": {
           "en": "Defrosting turned off"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo"
+          }
+        ]
+      },
+      {
+        "id": "alarm_battery_true",
+        "title": {
+          "en": "The battery alarm turned on"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo"
+          }
+        ]
+      },
+      {
+        "id": "alarm_battery_false",
+        "title": {
+          "en": "The battery alarm turned off"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo"
+          }
+        ]
+      },
+      {
+        "id": "tyre_pressure_alarm_true",
+        "title": {
+          "en": "The tyre pressure alarm turned on"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo"
+          }
+        ]
+      },
+      {
+        "id": "tyre_pressure_alarm_false",
+        "title": {
+          "en": "The tyre pressure alarm turned off"
         },
         "args": [
           {
@@ -231,6 +285,47 @@
             "filter": "driver_id=uvo"
           }
         ]
+      },
+      {
+        "id": "alarm_battery",
+        "title": {
+          "en": "The battery alarm is !{{on|off}}"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo"
+          }
+        ]
+      },
+      {
+        "id": "alarm_generic",
+        "title": {
+          "en": "The tyre pressure alarm is !{{on|off}}"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo"
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "id": "force_poll",
+        "title": {
+          "en": "Force live data poll"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo"
+          }
+        ]
       }
     ]
   },
@@ -238,20 +333,24 @@
     {
       "class": "sensor",
       "capabilities": [
-        "engine",
-        "odometer",
-        "speed",
-        "measure_battery.EV",
-        "measure_battery.12V",
-        "range",
-        "location",
-        "distance",
-        "alarm_battery",
-        "locked",
         "target_temperature",
+        "live_data",
+        "locked",
         "defrost",
         "climate_control",
-        "refresh_force"
+        "engine",
+        "closed_locked",
+        "location",
+        "distance",
+        "speed",
+        "range",
+        "charger",
+        "charging",
+        "odometer",
+        "alarm_tyre_pressure",
+        "alarm_battery",
+        "measure_battery.EV",
+        "measure_battery.12V"
       ],
       "capabilitiesOptions": {
         "measure_battery.EV": {
@@ -432,12 +531,12 @@
               "id": "pollInterval",
               "type": "number",
               "label": {
-                "en": "Update interval (minutes)"
+                "en": "Live update interval (minutes)"
               },
               "hint": {
                 "en": "A lower interval gives faster updates in Homey. Attention: Homey will only receive updates when the car engine is on! A low poll interval can block your regular app from communicating with the car!"
               },
-              "min": 0.5,
+              "min": 0.2,
               "value": 1
             },
             {
@@ -451,7 +550,26 @@
               },
               "min": 0,
               "value": 0,
-              "step": 2.5
+              "step": 5
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "A Better Route Planner (ABRP)"
+          },
+          "children": [
+            {
+              "id": "abrp_user_token",
+              "type": "password",
+              "label": {
+                "en": "ABRP user token"
+              },
+              "hint": {
+                "en": "Get a token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Torque > copy the token."
+              },
+              "value": ""
             }
           ]
         },
@@ -523,6 +641,114 @@
     }
   ],
   "capabilities": {
+    "alarm_battery": {
+      "type": "boolean",
+      "title": {
+        "en": "Battery alarm",
+        "nl": "Batterij alarm",
+        "de": "Batterie-Alarm",
+        "fr": "Alarme batterie",
+        "it": "Allarme batteria",
+        "sv": "Batterialarm",
+        "no": "Batterialarm",
+        "es": "Alarma de batería",
+        "da": "Batterialarm"
+      },
+      "desc": {
+        "en": "True when there is a battery warning",
+        "nl": "Geeft een batterijwaarschuwing",
+        "de": "True, wenn es eine Batterie-Warnung gibt",
+        "fr": "Vrai quand il y a un avertissement de batterie",
+        "it": "Vero quando c'è un avvertimento sulla batteria",
+        "sv": "Sant när det finns en batterivarning",
+        "no": "Sant når det finnes en batteriadvarsel",
+        "es": "Verdadero cuando hay una advertencia de la batería",
+        "da": "Sandt, når der er en batterialarm"
+      },
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Battery alarm turned on",
+        "nl": "Batterijalarm ging af",
+        "de": "Batterie-Alarm ist angegangen",
+        "fr": "Alarme batterie activée",
+        "it": "Allarme batteria attivato",
+        "sv": "Batterialarm aktiverat",
+        "no": "Batterialarm aktivert",
+        "es": "Alarma de la batería activada",
+        "da": "Batterialarm aktiveret"
+      },
+      "insightsTitleFalse": {
+        "en": "Battery alarm turned off",
+        "nl": "Batterijalarm ging uit",
+        "de": "Batterie-Alarm ist ausgegangen",
+        "fr": "Alarme batterie désactivée",
+        "it": "Allarme batteria disattivato",
+        "sv": "Batterialarm avstängt",
+        "no": "Batterialarm deaktivert",
+        "es": "Alarma de la batería desactivada",
+        "da": "Batterialarm deaktiveret"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor"
+    },
+    "alarm_tyre_pressure": {
+      "type": "boolean",
+      "title": {
+        "en": "Tyre pressure alarm"
+      },
+      "desc": {
+        "en": "Tyre pressure alarm"
+      },
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Tyre pressure alarm turned on"
+      },
+      "insightsTitleFalse": {
+        "en": "Tyre pressure alarm turned off"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "icon": "./assets/alarm_tyre_pressure.svg"
+    },
+    "charger": {
+      "type": "enum",
+      "title": {
+        "en": "Charger"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "uiComponent": "sensor",
+      "icon": "./assets/charger.svg",
+      "values": [
+        {
+          "id": "0",
+          "title": {
+            "en": "Not plugged in"
+          }
+        },
+        {
+          "id": "1",
+          "title": {
+            "en": "Fast"
+          }
+        },
+        {
+          "id": "2",
+          "title": {
+            "en": "Portable"
+          }
+        },
+        {
+          "id": "3",
+          "title": {
+            "en": "Normal"
+          }
+        }
+      ]
+    },
     "charging": {
       "type": "boolean",
       "title": {
@@ -537,7 +763,8 @@
       "insightsTitleFalse": {
         "en": "Not charging"
       },
-      "uiComponent": "toggle",
+      "uiComponent": "sensor",
+      "icon": "./assets/charging.svg",
       "uiQuickAction": false
     },
     "climate_control": {
@@ -555,6 +782,30 @@
         "en": "Climate control off"
       },
       "uiComponent": "toggle",
+      "uiQuickAction": false
+    },
+    "closed_locked": {
+      "type": "boolean",
+      "title": {
+        "en": "Closed and locked"
+      },
+      "icon": "/assets/closed_locked.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Doors closed and locked"
+      },
+      "insightsTitleFalse": {
+        "en": "Doors opened or unlocked"
+      },
+      "options": {
+        "greyout": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "uiComponent": "sensor",
       "uiQuickAction": false
     },
     "defrost": {
@@ -612,6 +863,17 @@
       "uiComponent": "sensor",
       "uiQuickAction": true
     },
+    "live_data": {
+      "type": "boolean",
+      "title": {
+        "en": "Live data"
+      },
+      "getable": true,
+      "setable": true,
+      "insights": false,
+      "uiComponent": "toggle",
+      "uiQuickAction": false
+    },
     "location": {
       "type": "string",
       "title": {
@@ -666,17 +928,6 @@
       "insights": true,
       "uiComponent": "sensor",
       "icon": "./assets/range.svg"
-    },
-    "refresh_force": {
-      "type": "boolean",
-      "title": {
-        "en": "Force car state poll"
-      },
-      "getable": true,
-      "setable": true,
-      "insights": false,
-      "uiComponent": "toggle",
-      "uiQuickAction": false
     },
     "speed": {
       "type": "number",
