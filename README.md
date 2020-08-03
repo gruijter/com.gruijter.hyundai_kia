@@ -18,12 +18,15 @@ In near real time Homey has access to the car's location, speed, range, and can 
 * EV Battery charge %
 * 12V Battery charge %
 * Charging
-* Doors locked
+* Charger type connected
+* Doors closed and locked
 * Odometer
 * Speed
 * Range
 * GPS location
 * Distance from home
+* Tyre pressure alarm
+* Battery alarm
 
 ## Control (only when the engine is off):
 * Doors
