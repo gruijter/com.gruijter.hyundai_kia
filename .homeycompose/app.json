@@ -1,6 +1,6 @@
 {
   "id": "com.gruijter.hyundai_kia",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#00aaff",
@@ -56,11 +56,11 @@
     }
   },
   "bugs": {
-    "url": "https://github.com/gruijter/com.gruijter.facepp/issues"
+    "url": "https://github.com/gruijter/com.gruijter.hyundai_kia/issues"
   },
   "homeyCommunityTopicId": 32487,
-  "source": "https://github.com/gruijter/com.gruijter.hyundai_kona",
-  "homepage": "https://github.com/gruijter/com.gruijter.hyundai_kona/blob/master/README.md",
+  "source": "https://github.com/gruijter/com.gruijter.hyundai_kia",
+  "homepage": "https://github.com/gruijter/com.gruijter.hyundai_kia/blob/master/README.md",
   "support": "https://community.athom.com/t/32487",
   "api": {
     "getLogs": {

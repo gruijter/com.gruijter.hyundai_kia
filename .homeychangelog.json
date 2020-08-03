@@ -4,5 +4,8 @@
   },
   "1.0.0": {
     "en": "First app store release"
+  },
+  "1.0.1": {
+    "en": "Fixed multiple cars support. App store fixes."
   }
 }

@@ -162,7 +162,7 @@
 							"en": "ABRP user token"
 					},
 					"hint": {
-						"en": "Get a token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Torque > copy the token."
+						"en": "Get a token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Homey > copy the token."
 					},
 					"value": ""
 				}

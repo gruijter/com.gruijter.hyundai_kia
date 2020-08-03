@@ -41,7 +41,7 @@ const driverSpecifics = {
 		'charger',
 		'charging',
 		'odometer',
-		'alarm_tyre_pressure',
+		'alarm_tire_pressure',
 		'alarm_battery',
 
 		'measure_battery.EV',

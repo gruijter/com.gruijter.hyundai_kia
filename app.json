@@ -1,6 +1,6 @@
 {
   "id": "com.gruijter.hyundai_kia",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#00aaff",
@@ -16,9 +16,7 @@
       "hyundai",
       "kia",
       "uvo",
-      "bluelink",
-      "ABRP",
-      "better route planner"
+      "bluelink"
     ]
   },
   "category": [
@@ -58,11 +56,11 @@
     }
   },
   "bugs": {
-    "url": "https://github.com/gruijter/com.gruijter.facepp/issues"
+    "url": "https://github.com/gruijter/com.gruijter.hyundai_kia/issues"
   },
   "homeyCommunityTopicId": 32487,
-  "source": "https://github.com/gruijter/com.gruijter.hyundai_kona",
-  "homepage": "https://github.com/gruijter/com.gruijter.hyundai_kona/blob/master/README.md",
+  "source": "https://github.com/gruijter/com.gruijter.hyundai_kia",
+  "homepage": "https://github.com/gruijter/com.gruijter.hyundai_kia/blob/master/README.md",
   "support": "https://community.athom.com/t/32487",
   "api": {
     "getLogs": {
@@ -347,7 +345,7 @@
         "charger",
         "charging",
         "odometer",
-        "alarm_tyre_pressure",
+        "alarm_tire_pressure",
         "alarm_battery",
         "measure_battery.EV",
         "measure_battery.12V"
@@ -567,7 +565,7 @@
                 "en": "ABRP user token"
               },
               "hint": {
-                "en": "Get a token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Torque > copy the token."
+                "en": "Get a token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Homey > copy the token."
               },
               "value": ""
             }
@@ -692,25 +690,25 @@
       "setable": false,
       "uiComponent": "sensor"
     },
-    "alarm_tyre_pressure": {
+    "alarm_tire_pressure": {
       "type": "boolean",
       "title": {
-        "en": "Tyre pressure alarm"
+        "en": "tire pressure alarm"
       },
       "desc": {
-        "en": "Tyre pressure alarm"
+        "en": "tire pressure alarm"
       },
       "insights": true,
       "insightsTitleTrue": {
-        "en": "Tyre pressure alarm turned on"
+        "en": "tire pressure alarm turned on"
       },
       "insightsTitleFalse": {
-        "en": "Tyre pressure alarm turned off"
+        "en": "tire pressure alarm turned off"
       },
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
-      "icon": "./assets/alarm_tyre_pressure.svg"
+      "icon": "./assets/alarm_tire_pressure.svg"
     },
     "charger": {
       "type": "enum",
