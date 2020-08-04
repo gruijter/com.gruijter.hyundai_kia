@@ -1,0 +1,13 @@
+{
+    "id": "force_poll",
+    "title": {
+        "en": "Force live data poll"
+    },
+    "args": [
+        {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+        }
+    ]
+}

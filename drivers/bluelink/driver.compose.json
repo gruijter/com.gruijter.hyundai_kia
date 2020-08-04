@@ -1,0 +1,6 @@
+{
+	"name": {
+		"en": "Bluelink (Hyundai)"
+	},
+	"$extends": ["driver_defaults"]
+}

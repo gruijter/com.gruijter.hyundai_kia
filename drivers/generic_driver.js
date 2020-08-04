@@ -20,7 +20,7 @@ along with com.gruijter.hyundai_kia. If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const Homey = require('homey');
-const BlueLinky = require('bluelinky');
+const Bluelink = require('bluelinky');
 const Uvo = require('kuvork');
 const util = require('util');
 
@@ -35,7 +35,7 @@ class CarDriver extends Homey.Driver {
 	onPair(session) {
 		try {
 			const deviceUuid = 'homeyPair';
-			const regions = ['EU']; // , 'CA', 'US'];
+			const regions = ['EU', 'CA', 'US'];
 			let region = null;
 			let {	username,	password, pin } = {};
 			let vehicles = [];
@@ -59,8 +59,8 @@ class CarDriver extends Homey.Driver {
 					};
 					try {
 						let client;
-						if (this.ds.driverId === 'bluelinky') {
-							client = new BlueLinky(options);
+						if (this.ds.driverId === 'bluelink') {
+							client = new Bluelink(options);
 						} else { client = new Uvo(options); }
 						client.on('ready', () => {
 							this.log('username/password OK!');
@@ -91,8 +91,8 @@ class CarDriver extends Homey.Driver {
 					deviceUuid,
 				};
 				let client;
-				if (this.ds.driverId === 'bluelinky') {
-					client = new BlueLinky(options);
+				if (this.ds.driverId === 'bluelink') {
+					client = new Bluelink(options);
 				} else client = new Uvo(options);
 
 				const loginResult = await new Promise((resolve, reject) => {

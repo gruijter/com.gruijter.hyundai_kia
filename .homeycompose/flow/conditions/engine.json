@@ -1,0 +1,13 @@
+{
+    "id": "engine",
+    "title": {
+        "en": "The engine is !{{on|off}}"
+    },
+    "args": [
+        {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+        }
+    ]
+}

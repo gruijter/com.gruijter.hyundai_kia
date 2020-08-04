@@ -1,0 +1,13 @@
+{
+    "id": "alarm_tire_pressure",
+    "title": {
+        "en": "The tire pressure alarm is !{{on|off}}"
+    },
+    "args": [
+        {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+        }
+    ]
+}

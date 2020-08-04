@@ -1,0 +1,13 @@
+{
+    "id": "charging_true",
+    "title": {
+        "en": "The charger turned on"
+    },
+    "args": [
+        {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+        }
+    ]
+}

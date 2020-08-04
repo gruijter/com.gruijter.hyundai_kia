@@ -1,0 +1,13 @@
+{
+    "id": "alarm_battery",
+    "title": {
+        "en": "The battery alarm is !{{on|off}}"
+    },
+    "args": [
+        {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+        }
+    ]
+}

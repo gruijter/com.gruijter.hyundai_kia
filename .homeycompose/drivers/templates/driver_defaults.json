@@ -37,8 +37,8 @@
 		}
 	},
 	"images": {
-		"large": "{{driverAssetsPath}}/images/uvo_large.jpg",
-		"small": "{{driverAssetsPath}}/images/uvo_small.jpg"
+		"large": "{{driverAssetsPath}}/images/large.jpg",
+		"small": "{{driverAssetsPath}}/images/small.jpg"
 	},
 	"energy": {
 		"batteries": ["INTERNAL"],

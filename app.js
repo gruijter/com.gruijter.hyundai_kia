@@ -30,7 +30,7 @@ class carApp extends Homey.App {
 
 		// register some listeners
 		process.on('unhandledRejection', (error) => {
-			this.error('unhandledRejection! ', error);
+			this.error('unhandledRejection! ', error.message);
 		});
 		process.on('uncaughtException', (error) => {
 			this.error('uncaughtException! ', error);

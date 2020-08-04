@@ -1,3 +1,4 @@
+v1.1.0  04.08.2020 Bluelink (Hyundai) driver added. Kia PHEV support added. EU, CA, US regions added.
 v1.0.1  03.08.2020 Fixed multiple cars support. App store fixes.
 v1.0.0  03.08.2020 First app store release. Keep polling for 5 minutes after car activity. Disable ABRP when no key entered. Add vehicle and ABRP info log on start. Add 12V battery check when live polling. Added ABPR setup instructions. Added closed_locked, charger, alarm_tyre_pressure capabilities. Added force live poll from flow.
 v0.1.0  22.07.2020 App store RC1

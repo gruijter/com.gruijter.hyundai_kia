@@ -1,0 +1,13 @@
+{
+    "id": "alarm_battery_true",
+    "title": {
+        "en": "The battery alarm turned on"
+    },
+    "args": [
+        {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+        }
+    ]
+}

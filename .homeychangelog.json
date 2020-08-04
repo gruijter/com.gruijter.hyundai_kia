@@ -7,5 +7,8 @@
   },
   "1.0.1": {
     "en": "Fixed multiple cars support. App store fixes."
+  },
+  "1.1.0": {
+    "en": "Bluelink (Hyundai) driver added. Kia PHEV support added. EU, CA, US regions added."
   }
 }

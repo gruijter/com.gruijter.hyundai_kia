@@ -20,7 +20,7 @@ along with com.gruijter.hyundai_kia. If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const Homey = require('homey');
-const BlueLinky = require('bluelinky');
+const Bluelink = require('bluelinky');
 const Uvo = require('kuvork');
 const GeoPoint = require('geopoint');
 const util = require('util');
@@ -51,7 +51,7 @@ class CarDevice extends Homey.Device {
 				deviceUuid: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15), // 'homey',
 			};
 			if (this.ds.deviceId === 'bluelink') {
-				this.client = new BlueLinky(options);
+				this.client = new Bluelink(options);
 			} else this.client = new Uvo(options);
 
 			this.client.on('ready', async (vehicles) => {
@@ -59,12 +59,15 @@ class CarDevice extends Homey.Device {
 				if (!this.busy && this.vehicle) this.log(util.inspect(this.vehicle.vehicleConfig, true, 10, true));
 			});
 
-			const abrpOptions = {
-				apiKey: Homey.env.ABRP_API_KEY,
-				userToken: this.settings.abrp_user_token,
-			};
-			this.abrp = new ABRP(abrpOptions);
-			this.log(`ABRP enabled: ${this.settings.abrp_user_token.length > 5}`);
+			this.abrpEnabled = this.settings && this.settings.abrp_user_token && this.settings.abrp_user_token.length > 5;
+			this.log(`ABRP enabled: ${this.abrpEnabled}`);
+			if (this.abrpEnabled) {
+				const abrpOptions = {
+					apiKey: Homey.env.ABRP_API_KEY,
+					userToken: this.settings.abrp_user_token,
+				};
+				this.abrp = new ABRP(abrpOptions);
+			}
 
 			// init listeners
 			if (!this.allListeners) this.registerListeners();
@@ -82,7 +85,7 @@ class CarDevice extends Homey.Device {
 		try {
 			if (this.watchDogCounter <= 0) {
 				// restart the app here
-				this.log('watchdog triggered, restarting app now');
+				this.log('watchdog triggered, restarting device now');
 				this.restartDevice();
 				return;
 			}
@@ -111,9 +114,6 @@ class CarDevice extends Homey.Device {
 					parsed: false,
 				});
 			} else this.log('forcing refresh with car');
-
-			// location = await this.vehicle.location();
-			// console.log(location);
 
 			// check if full status refresh is needed
 			const sleepModeCheck = status ? (status.sleepModeCheck || (status.time !== this.lastStatus.time)) : null;
@@ -152,7 +152,7 @@ class CarDevice extends Homey.Device {
 			this.carLastActive = carActive ? this.lastRefresh : this.carLastActive;
 
 			// update ABRP telemetry
-			if (this.liveData && (this.settings.abrp_user_token.length > 5)) {
+			if (this.liveData) {
 				this.abrpTelemetry({ status, location, odometer });
 			}
 
@@ -254,6 +254,7 @@ class CarDevice extends Homey.Device {
 
 	async abrpTelemetry(info) {
 		try {
+			if (!this.abrpEnabled) return;
 			const {
 				batteryCharge: charging,
 				batteryStatus: soc,
@@ -273,6 +274,8 @@ class CarDevice extends Homey.Device {
 
 	async handleInfo(info) {
 		try {
+			const { speed } = info.location;
+			const { odometer } = info;
 			const {
 				engine,
 				doorLock: locked,
@@ -282,25 +285,20 @@ class CarDevice extends Homey.Device {
 				hoodOpen,
 				doorOpen,
 			} = info.status;
-			const {
-				batteryPlugin: charger, // charge cable connected 0=none 1=fast? 2=portable 3=normal station?
-				batteryCharge: charging,
-				batteryStatus: EVBatteryCharge,
-			} = info.status.evStatus;
-			// console.log(`pluggedIn: ${pluggedIn}`);
-			const batteryCharge = info.status.battery.batSoc;
-			const range = info.status.evStatus.drvDistance[0].rangeByFuel.totalAvailableRange.value;
 			const targetTemperature = convert.getTempFromCode(info.status.airTemp.value);
 			const alarmTirePressure = !!info.status.tirePressureLamp.tirePressureLampAll;
-
-			const { speed } = info.location;
-			const { odometer } = info;
+			// set defaults for non-EV vehicles
+			const charger = info.status.evStatus ? info.status.evStatus.batteryPlugin : 0; // 0=none 1=fast? 2=portable 3=normal station?
+			const charging = info.status.evStatus ? info.status.evStatus.batteryCharge : false;
+			const EVBatteryCharge = info.status.evStatus ? info.status.evStatus.batteryStatus : 0;
+			const range = info.status.evStatus ? info.status.evStatus.drvDistance[0].rangeByFuel.totalAvailableRange.value : info.status.dte.value;
+			const batteryCharge = info.status.battery.batSoc;
 
 			// calculated properties
 			const closedLocked = locked && !trunkOpen && !hoodOpen
 				&& Object.keys(doorOpen).reduce((closedAccu, door) => closedAccu || !doorOpen[door], true);
-			const alarmEVBattery = EVBatteryCharge <= this.settings.EVbatteryAlarmLevel;
-			const alarmBattery = batteryCharge <= this.settings.batteryAlarmLevel;
+			const alarmEVBattery = EVBatteryCharge < this.settings.EVbatteryAlarmLevel;
+			const alarmBattery = batteryCharge < this.settings.batteryAlarmLevel;
 			const distance = this.distance(info.location);
 			const locString = await geo.getCarLocString(info.location); // reverse ReverseGeocoding
 
@@ -333,6 +331,7 @@ class CarDevice extends Homey.Device {
 			// update flow triggers
 			const tokens = {};
 			if (engineChange) {
+				// console.log(`engine ${engine}`);
 				if (engine) {
 					this.homey.flow.getDeviceTriggerCard('engine_true')
 						.trigger(this, tokens)
@@ -344,6 +343,7 @@ class CarDevice extends Homey.Device {
 				}
 			}
 			if (chargingChange) {
+				// console.log(`charging ${charging}`);
 				if (charging) {
 					this.homey.flow.getDeviceTriggerCard('charging_true')
 						.trigger(this, tokens)
@@ -355,6 +355,7 @@ class CarDevice extends Homey.Device {
 				}
 			}
 			if (climateControlChange) {
+				// console.log(`airCtrlOn ${airCtrlOn}`);
 				if (airCtrlOn) {
 					this.homey.flow.getDeviceTriggerCard('climate_control_true')
 						.trigger(this, tokens)
@@ -366,6 +367,7 @@ class CarDevice extends Homey.Device {
 				}
 			}
 			if (defrostChange) {
+				// console.log(`defrostChange ${defrostChange}`);
 				if (defrost) {
 					this.homey.flow.getDeviceTriggerCard('defrost_true')
 						.trigger(this, tokens)

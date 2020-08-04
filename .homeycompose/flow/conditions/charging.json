@@ -1,0 +1,13 @@
+{
+    "id": "charging",
+    "title": {
+        "en": "The charger is !{{on|off}}"
+    },
+    "args": [
+        {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+        }
+    ]
+}

@@ -10,28 +10,32 @@ In near real time Homey has access to the car's location, speed, range, and can 
 ## This app can only be used on Homey V5
 
 ## Supported cars:
-* Kia UVO (Only Europe implemented at this stage)
-* Hyundai Bluelink (Not implemeted at this stage)
-* Genesis Bluelink (Not implemeted at this stage)
+* Kia UVO
+* Hyundai Bluelink
+* Genesis Bluelink
 
 ## Status:
 * EV Battery charge %
 * 12V Battery charge %
+* Engine on/off
 * Charging
 * Charger type connected
 * Doors closed and locked
+* Defrost on/off
+* A/C on/off
 * Odometer
 * Speed
 * Range
 * GPS location
 * Distance from home
-* Tyre pressure alarm
+* Tire pressure alarm
 * Battery alarm
 
 ## Control (only when the engine is off):
-* Doors
-* Temperature
-* Defrost
+* Doors lock/unlock
+* A/C on/off
+* Defrost on/off
+* Target temperature (work in progress)
 
 
 <img src="https://aws1.discourse-cdn.com/business4/uploads/athom/original/3X/f/c/fcccb3a231747095e1b90dbbd805924cbb89bbd8.jpeg" alt="State" width="250">
