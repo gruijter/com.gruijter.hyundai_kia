@@ -2,7 +2,7 @@
 
 ## Connect your Hyundai or Kia smart car.
 
-In near real time Homey has access to the car's location, speed, range, and can control locks, defroster and climate from a flow.
+Homey has access to the car's location, speed, range, door state and charge state. Control locks, defroster and A/C from a flow.
 
 <img src="https://aws1.discourse-cdn.com/business4/uploads/athom/original/3X/6/b/6bce7476628c47fe89a22771895c7597e6ae8e84.jpeg" alt="connect your car" width="250">
 
@@ -31,17 +31,35 @@ In near real time Homey has access to the car's location, speed, range, and can 
 * Tire pressure alarm
 * Battery alarm
 
-## Control (only when the engine is off):
-* Doors lock/unlock
-* A/C on/off
-* Defrost on/off
-* Target temperature (work in progress)
+<img src="https://aws1.discourse-cdn.com/business4/uploads/athom/original/3X/f/7/f74e05e35b24e99846155d191844b67c8d72e0c4.jpeg" alt="State" width="250">
 
-
-<img src="https://aws1.discourse-cdn.com/business4/uploads/athom/original/3X/f/c/fcccb3a231747095e1b90dbbd805924cbb89bbd8.jpeg" alt="State" width="250">
+<img src="https://aws1.discourse-cdn.com/business4/uploads/athom/original/3X/7/a/7aedbd63c10e11d65dafdcb966f0cb81c5eac446.jpeg" alt="State" width="250">
 
 <img src="https://aws1.discourse-cdn.com/business4/uploads/athom/original/3X/f/a/fae2249622cd234d75f0f908ae3a6ceabf8474de.jpeg" alt="State" width="250">
 
 <img src="https://aws1.discourse-cdn.com/business4/uploads/athom/original/3X/7/8/7858ce2a2a3e4a64f908a1f631b2933d415280d1.jpeg" alt="Flow tags" width="250">
 
-<img src="https://aws1.discourse-cdn.com/business4/uploads/athom/original/3X/0/6/06c3a31c8d7c9061e5abd063a5bb92dffad4c814.jpeg" alt="settings" width="250">
+## Control (Note: this only works when the engine is off):
+* Doors lock/unlock
+* A/C on/off
+* Defrost on/off
+* Target temperature (work in progress)
+
+<img src="https://aws1.discourse-cdn.com/business4/uploads/athom/original/3X/7/8/78f40377769dcbed6db05e3471af9369fbfd6a37.jpeg" alt="Control" width="250">
+
+## How to get live status updates:
+To prevent draining the 12V battery, the status of the car is only retrieved after one of these conditions is met:
+* Car was just parked (engine turned off), and A/C or heater is on
+* Charging just finished or stopped
+* Live data was switched on from the Homey app
+* Live data was switched on via a flow
+
+If the engine is on, the status will be automatically refreshed untill 5 minutes after the engine is turned off.
+
+## Force 24/7 live status updates:
+You can set a forced status update interval in the advanced device settings. This will however drain the 12V battery of your car when the car is parked (engine turned off). When the 12V battery is empty, you will need your emergency key to open the door, and use a battery jumper to get going again!
+
+## ABRP
+A Better Route Planner helps you to plan your trip. For its calculations ABRP can use real energy consumption data. By entering your ABRP user token in the device settings, Homey will get the live data for you from the car and acts as a bridge to upload it live to ABRP. Note that if you don’t want to upload any data to ABRP, just don’t enter your car user token in Homey
+
+<img src="https://aws1.discourse-cdn.com/business4/uploads/athom/original/3X/a/f/afef2806940fa7428a7e16bc71bef5c4ff157934.jpeg" alt="settings" width="250">

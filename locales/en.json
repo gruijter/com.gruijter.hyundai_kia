@@ -3,11 +3,11 @@
 		"tab1": {
 			"title": "Instructions",
 			"useTitle": "How to use",
-			"useInstructions": "You need to have a UVO (Kia) or Bluelink (Hyundai) account with PIN for your car(s). Add your car as a device in Homey, and fill in the username, password and PIN. ***WIP*** This app is Work In Progress. At this stage only Kia cars in EU work. Hyundai and other regions will be added later",
+			"useInstructions": "You need to have a UVO (Kia) or Bluelink (Hyundai) account with PIN for your car(s). Add your car as a device in Homey, and fill in the username, password and PIN. After switching on the engine, use the Homey app to start retrieving live data from the car.",
             "settingsTitle": "Settings",
-            "settingsInstructions": "After switching on the engine, use the Homey app to start retrieving live data from the car. In the app settings you can change the live update interval. You can also set 24/7 forced updates, also when the engine is off. WARNING: forced updates will drain your 12V battery.",
+            "settingsInstructions": "In the app settings you can change the live update interval. You can also set 24/7 forced updates. WARNING: forced updates will drain your 12V battery.",
 			"ABRPTitle": "A Better Route Planner",
-			"ABRPInstructions": "In the device settings you can enter the user token from ABRP. Get a user token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Torque > copy the token. "
+			"ABRPInstructions": "If you want to link live data with ABRP, enter the user token in the Homey device settings. You can get a user token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Homey > copy the token. "
 		},
 		"tab2": {
 			"title": "Logs",

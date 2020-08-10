@@ -1,1 +1,1 @@
-In near real time Homey has access to the car's location, speed, range, and can control locks, defroster and climate from a flow.
+Homey has access to the car's location, speed, range, door state and charge state. Control locks, defroster and A/C from a flow.

@@ -1,6 +1,6 @@
 {
   "id": "com.gruijter.hyundai_kia",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#00aaff",
@@ -415,7 +415,7 @@
           "children": [
             {
               "id": "nameOrg",
-              "type": "text",
+              "type": "label",
               "label": {
                 "en": "Name"
               },
@@ -426,7 +426,7 @@
             },
             {
               "id": "idOrg",
-              "type": "text",
+              "type": "label",
               "label": {
                 "en": "ID"
               },
@@ -437,7 +437,7 @@
             },
             {
               "id": "vin",
-              "type": "text",
+              "type": "label",
               "label": {
                 "en": "VIN"
               },
@@ -448,7 +448,7 @@
             },
             {
               "id": "regDate",
-              "type": "text",
+              "type": "label",
               "label": {
                 "en": "Registration date"
               },
@@ -456,7 +456,7 @@
             },
             {
               "id": "brandIndicator",
-              "type": "text",
+              "type": "label",
               "label": {
                 "en": "Brand Indicator"
               },
@@ -464,7 +464,7 @@
             },
             {
               "id": "generation",
-              "type": "text",
+              "type": "label",
               "label": {
                 "en": "Generation"
               },
@@ -537,7 +537,7 @@
                 "en": "Live update interval (minutes)"
               },
               "hint": {
-                "en": "A lower interval gives faster updates in Homey. Attention: Homey will only receive updates when the car engine is on! A low poll interval can block your regular app from communicating with the car!"
+                "en": "A lower interval gives faster updates in Homey. Attention: Homey will only receive updates when you manually start 'live data' and the car engine is on! A low poll interval can block your regular app from communicating with the car!"
               },
               "min": 0.2,
               "value": 1
@@ -549,7 +549,7 @@
                 "en": "Forced update interval (minutes)"
               },
               "hint": {
-                "en": "When the car engine is off, you can force updates by setting a time other then 0. CAUTION: This will drain your 12V battery fast!"
+                "en": "You can force live data updates without manual start by setting a time other then 0. CAUTION: This will drain your 12V battery fast!"
               },
               "min": 0,
               "value": 0,
@@ -619,11 +619,11 @@
                 "en": "12V battery alarm level (%)"
               },
               "hint": {
-                "en": "Homey will raise an alarm when the 12V battery charge is on or below this level."
+                "en": "Homey will raise an alarm when the 12V battery charge is below this level."
               },
               "min": 0,
               "max": 100,
-              "value": 60
+              "value": 50
             },
             {
               "id": "EVbatteryAlarmLevel",
@@ -632,7 +632,7 @@
                 "en": "EV battery alarm level (%)"
               },
               "hint": {
-                "en": "Homey will raise an alarm when the EV battery charge is on or below this level."
+                "en": "Homey will raise an alarm when the EV battery charge is below this level."
               },
               "min": 0,
               "max": 100,
@@ -724,7 +724,7 @@
           "children": [
             {
               "id": "nameOrg",
-              "type": "text",
+              "type": "label",
               "label": {
                 "en": "Name"
               },
@@ -735,7 +735,7 @@
             },
             {
               "id": "idOrg",
-              "type": "text",
+              "type": "label",
               "label": {
                 "en": "ID"
               },
@@ -746,7 +746,7 @@
             },
             {
               "id": "vin",
-              "type": "text",
+              "type": "label",
               "label": {
                 "en": "VIN"
               },
@@ -757,7 +757,7 @@
             },
             {
               "id": "regDate",
-              "type": "text",
+              "type": "label",
               "label": {
                 "en": "Registration date"
               },
@@ -765,7 +765,7 @@
             },
             {
               "id": "brandIndicator",
-              "type": "text",
+              "type": "label",
               "label": {
                 "en": "Brand Indicator"
               },
@@ -773,7 +773,7 @@
             },
             {
               "id": "generation",
-              "type": "text",
+              "type": "label",
               "label": {
                 "en": "Generation"
               },
@@ -846,7 +846,7 @@
                 "en": "Live update interval (minutes)"
               },
               "hint": {
-                "en": "A lower interval gives faster updates in Homey. Attention: Homey will only receive updates when the car engine is on! A low poll interval can block your regular app from communicating with the car!"
+                "en": "A lower interval gives faster updates in Homey. Attention: Homey will only receive updates when you manually start 'live data' and the car engine is on! A low poll interval can block your regular app from communicating with the car!"
               },
               "min": 0.2,
               "value": 1
@@ -858,7 +858,7 @@
                 "en": "Forced update interval (minutes)"
               },
               "hint": {
-                "en": "When the car engine is off, you can force updates by setting a time other then 0. CAUTION: This will drain your 12V battery fast!"
+                "en": "You can force live data updates without manual start by setting a time other then 0. CAUTION: This will drain your 12V battery fast!"
               },
               "min": 0,
               "value": 0,
@@ -928,11 +928,11 @@
                 "en": "12V battery alarm level (%)"
               },
               "hint": {
-                "en": "Homey will raise an alarm when the 12V battery charge is on or below this level."
+                "en": "Homey will raise an alarm when the 12V battery charge is below this level."
               },
               "min": 0,
               "max": 100,
-              "value": 60
+              "value": 50
             },
             {
               "id": "EVbatteryAlarmLevel",
@@ -941,7 +941,7 @@
                 "en": "EV battery alarm level (%)"
               },
               "hint": {
-                "en": "Homey will raise an alarm when the EV battery charge is on or below this level."
+                "en": "Homey will raise an alarm when the EV battery charge is below this level."
               },
               "min": 0,
               "max": 100,
@@ -1038,7 +1038,7 @@
         {
           "id": "0",
           "title": {
-            "en": "Not plugged in"
+            "en": "Not connected"
           }
         },
         {
@@ -1050,13 +1050,13 @@
         {
           "id": "2",
           "title": {
-            "en": "Portable"
+            "en": "Slow"
           }
         },
         {
           "id": "3",
           "title": {
-            "en": "Normal"
+            "en": "UNKNOWN"
           }
         }
       ]

@@ -53,6 +53,7 @@ class ABRP_TLM {
 					lat: data.lat, // [degrees]: Current vehicle latitude
 					lon: data.lon, //  [degrees]: Current vehicle longitude
 					is_charging: data.charging, // [boolean or 1/0]: Determines vehicle state. 0 is not charging, 1 is charging
+					is_dcfc: data.dcfc, // If is_charging, indicate if this is DC fast charging
 				},
 			};
 			const path = `${sendEP}?tlm=${JSON.stringify(body.tlm)}&token=${this.userToken}`;
