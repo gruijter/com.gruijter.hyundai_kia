@@ -13,5 +13,8 @@
   },
   "1.2.0": {
     "en": "Fix dual flow triggers, chager labels, settings and change settings log. Readme and instructions update. Notify device as unavailable on restart. Improved car-active detection. Added ABRP DC fast charger state."
+  },
+  "1.2.1": {
+    "en": "Changed forced poll method to GPS."
   }
 }

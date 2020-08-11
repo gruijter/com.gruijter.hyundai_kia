@@ -176,14 +176,12 @@ class CarDevice extends Homey.Device {
 
 			if (forcePollLocation) {
 				// get location from car
-				// location = await this.vehicle.location();
-				// moving = location.speed.value > 0
-				// 	|| (Math.abs(location.latitude - this.lastLocation.latitude) > 0.0001
-				// 	|| Math.abs(location.longitude - this.lastLocation.longitude) > 0.0001);
-				// console.log(`forcing location refresh. Moving: ${moving}@${location.speed.value} km/h`);
-				// this.lastRefresh = Date.now();
-				moving = true;
-				this.log('forcing refresh with car');
+				location = await this.vehicle.location();
+				moving = location.speed.value > 0
+					|| (Math.abs(location.latitude - this.lastLocation.latitude) > 0.0001
+					|| Math.abs(location.longitude - this.lastLocation.longitude) > 0.0001);
+				console.log(`forcing location refresh. Moving: ${moving}@${location.speed.value} km/h`);
+				this.lastRefresh = Date.now();
 			}
 
 			if (!forceRefresh) {
