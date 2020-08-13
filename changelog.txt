@@ -1,4 +1,4 @@
-v1.2.1  11.08.2020 Changed forced poll method to GPS.
+v1.3.0  13.08.2020 Fix target temp setting. Fix target temp scale. Stability improvements. Added command queueing. Added force live via cloud (HTTP GET). Changed forced poll method to GPS.
 v1.2.0  10.08.2020 Fix dual flow triggers, chager labels, settings and change settings log. Readme and instructions update. Notify device as unavailable on restart. Improved car-active detection. Added ABRP DC fast charger state.
 v1.1.0  04.08.2020 Bluelink (Hyundai) driver added. Kia PHEV support added. EU, CA, US regions added.
 v1.0.1  03.08.2020 Fixed multiple cars support. App store fixes.

@@ -96,7 +96,6 @@ class CarDevice extends Homey.Device {
 		this.tail += 1;
 		if (!this.queueRunning) {
 			this.queueRunning = true;
-			// await this.initExport();
 			this.runQueue();
 		}
 	}
@@ -124,35 +123,44 @@ class CarDevice extends Homey.Device {
 	}
 
 	async runQueue() {
+		if (this.busy && !this.queueRunning) {
+			this.log('command not executed, still busy with poll...');
+			this.flushQueue();
+			return;
+		}
+		this.busy = true;
 		this.queueRunning = true;
 		const item = this.deQueue();
 		if (item) {
-			// await this._exportApp(item.appId, item.resolution)
-			// 	.catch(this.error);
-			// wait a bit to reduce cpu and mem load?
-			// global.gc();
-			await setTimeoutPromise(10 * 1000, 'waiting is done');
+			await this.vehicle[item.command](item.args)
+				.catch((error) => {
+					const msg = error.body || error.message || error;
+					this.error(`${item} failed`, msg);
+				});
+			await setTimeoutPromise(5 * 1000, 'waiting is done');
 			this.runQueue();
 		} else {
 			this.queueRunning = false;
-			this.log('Finshed queue');
+			this.busy = false;
+			this.doPoll(true);
+			// console.log('Finshed queue');
 		}
 	}
 
 	// main polling loop
-	async doPoll(force) {
+	async doPoll(forceOnce) {
 		try {
 			// this.setAvailable();
 			if (this.watchDogCounter <= 0) {
 				// restart the app here
 				this.log('watchdog triggered, restarting device now');
 				this.restartDevice();
-				return;
+				return Promise.resolve(false);
 			}
 			if (this.busy) {
-				this.log('still busy with previous poll...');
+				this.log('still busy with command or previous poll...');
 				this.watchDogCounter -= 1;
-				return;
+				return Promise.resolve(false);
 			}
 			this.busy = true;
 			await this.client.login();
@@ -163,7 +171,7 @@ class CarDevice extends Homey.Device {
 			let odometer = this.lastOdometer;
 			let moving = false;
 
-			const forceRefresh = force || !status || !location || !odometer;
+			const forceRefresh = forceOnce || !status || !location || !odometer;
 			if (forceRefresh) this.log('forcing refresh with car');
 
 			const batSoc = this.getCapabilityValue('measure_battery.12V');
@@ -180,7 +188,7 @@ class CarDevice extends Homey.Device {
 				moving = location.speed.value > 0
 					|| (Math.abs(location.latitude - this.lastLocation.latitude) > 0.0001
 					|| Math.abs(location.longitude - this.lastLocation.longitude) > 0.0001);
-				console.log(`forcing location refresh. Moving: ${moving}@${location.speed.value} km/h`);
+				// console.log(`forcing location refresh. Moving: ${moving}@${location.speed.value} km/h`);
 				this.lastRefresh = Date.now();
 			}
 
@@ -197,7 +205,7 @@ class CarDevice extends Homey.Device {
 			const unlocked = status && !status.doorLock && this.getCapabilityValue('locked');
 			const carActive = status ? (moving || status.engine || status.airCtrlOn || status.defrost
 				|| unplugged || unlocked) : null;
-			const carJustActive = ((Date.now() - this.carLastActive) < 5 * 60 * 1000); // keep refreshing 5 minutes after car use or sleepModeCheck
+			const carJustActive = ((Date.now() - this.carLastActive) < 3 * 60 * 1000); // keep refreshing 3 minutes after car use or sleepModeCheck
 			const sleepModeCheck = status ? (status.sleepModeCheck || (status.time !== this.lastStatus.time)) : null;
 			if (sleepModeCheck) this.log('doing sleepModeCheck');
 			const batSoCGood = status ? (status.battery.batSoc > this.settings.batteryAlarmLevel) : true;
@@ -238,10 +246,13 @@ class CarDevice extends Homey.Device {
 			this.busy = false;
 			this.setAvailable();
 			this.setCapability('live_data', this.liveData);
+			return Promise.resolve(true);
 		} catch (error) {
 			this.watchDogCounter -= 1;
 			this.busy = false;
-			this.error('Poll error', error.body || error);
+			const msg = error.body || error.message || error;
+			this.error('Poll error', msg);
+			return Promise.resolve(false);
 		}
 	}
 
@@ -286,9 +297,8 @@ class CarDevice extends Homey.Device {
 
 	// this method is called when the user has changed the device's settings in Homey.
 	async onSettings({ newSettings }) {
-		this.log('settings change requested by user');
-		this.log(newSettings);
-		this.log(`${this.getName()} device settings changed`);
+		// this.log(newSettings);
+		this.log(`${this.getName()} device settings changed by user`);
 		this.restartDevice(1000);
 		// do callback to confirm settings change
 		return Promise.resolve(true); // string can be returned to user
@@ -327,9 +337,17 @@ class CarDevice extends Homey.Device {
 		return Math.round(from.distanceTo(to, true) * 10) / 10;
 	}
 
+	async forceLive(secret) {
+		if (!this.settings.remote_force_secret || this.settings.remote_force_secret === '') return;
+		if (secret !== this.settings.remote_force_secret) return;
+		this.log('forcing Live data via cloud API');
+		this.carLastActive = Date.now();
+		this.doPoll(true);
+	}
+
 	async abrpTelemetry(info) {
 		try {
-			if (!this.abrpEnabled) return;
+			if (!this.abrpEnabled || !info || !info.location || !info.status || !info.status.evStatus) return;
 			const {
 				batteryCharge: charging,
 				batteryStatus: soc,
@@ -479,88 +497,74 @@ class CarDevice extends Homey.Device {
 
 			// capabilityListeners will be overwritten, so no need to unregister them
 
-			this.registerCapabilityListener('locked', async (locked) => {
-				let success;
-				console.log(locked, Date.now());
+			this.registerCapabilityListener('locked', (locked) => {
+				let command;
 				if (locked) {
 					this.log('locking doors via app');
-					success = await this.vehicle.lock();
+					command = 'lock';
 				} else {
 					this.log('unlocking doors via app');
-					success = await this.vehicle.unlock();
+					command = 'unlock';
 				}
-				console.log(locked, 'done', Date.now());
-				await setTimeoutPromise(5 * 1000, 'waiting is done');
-				this.doPoll(true);
-				return Promise.resolve(success);
+				this.enQueue({ command });
+				return true;
 			});
 
-			this.registerCapabilityListener('defrost', async (defrost) => {
-				let success;
+			this.registerCapabilityListener('defrost', (defrost) => {
+				let command;
+				let args;
 				if (defrost) {
 					this.log('defrost start via app');
-					success = await this.vehicle.start({
+					command = 'start';
+					args = {
 						defrost: true,
 						windscreenHeating: true,
 						temperature: this.getCapabilityValue('target_temperature') || 22,
-					});
+					};
 				} else {
 					this.log('defrost stop via app');
-					success = await this.vehicle.stop({
+					command = 'stop';
+					args = {
 						defrost: false,
 						windscreenHeating: false,
 						temperature: this.getCapabilityValue('target_temperature') || 22,
-					});
+					};
 				}
-				await setTimeoutPromise(5 * 1000, 'waiting is done');
-				this.doPoll(true);
-				return Promise.resolve(success);
+				this.enQueue({ command, args });
+				return true;
 			});
 
-			this.registerCapabilityListener('climate_control', async (acOn) => {
-				let success;
+			this.registerCapabilityListener('climate_control', (acOn) => {
+				let command;
+				let args;
 				if (acOn) {
 					this.log('A/C on via app');
-					success = await this.vehicle.start({
-						// defrost: this.getCapabilityValue('defrost'),
-						// windscreenHeating: true,
+					command = 'start';
+					args = {
 						temperature: this.getCapabilityValue('target_temperature') || 22,
-					});
+					};
 				} else {
 					this.log('A/C off via app');
-					success = await this.vehicle.stop({
-						// defrost: this.getCapabilityValue('defrost'),
-						// windscreenHeating: true,
+					command = 'stop';
+					args = {
 						temperature: this.getCapabilityValue('target_temperature') || 22,
-					});
+					};
 				}
-				await setTimeoutPromise(5 * 1000, 'waiting is done');
-				this.doPoll(true);
-				return Promise.resolve(success);
+				this.enQueue({ command, args });
+				return true;
 			});
 
 			this.registerCapabilityListener('target_temperature', async (temp) => {
-				// if (this.busy) {
-				// 	console.log('ignoring temp set for now');
-				// 	return Promise.resolve(false);
-				// }
+				if (!this.getCapabilityValue('climate_control')) {
+					return Promise.reject(Error('Climate control not on'));
+				}
 				this.log(`Changing temperature by app to ${temp}`);
-				// let success;
-				// if (this.getCapabilityValue('climate_control')) {
-				// 	success = await this.vehicle.start({
-				// 		// defrost: this.getCapabilityValue('defrost'),
-				// 		// windscreenHeating: true,
-				// 		temperature: temp || 22,
-				// 	});
-				// } else {
-				// 	success = await this.vehicle.stop({
-				// 		// defrost: this.getCapabilityValue('defrost'),
-				// 		// windscreenHeating: true,
-				// 		temperature: temp || 22,
-				// 	});
-				// }
-				// this.doPoll(true);
-				return Promise.resolve(false);
+				const args = {
+					temperature: temp || 22,
+				};
+				const command = 'start';
+				this.enQueue({ command, args });
+				return true;
 			});
 
 			this.registerCapabilityListener('live_data', (liveData) => {

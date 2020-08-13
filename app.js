@@ -60,6 +60,19 @@ class carApp extends Homey.App {
 		return this.logger.logArray;
 	}
 
+	forceLive(query) {
+		// http://<IP>/api/app/com.gruijter.hyundai_kia/live?secret=1234abcd
+		// https://<cloudid>.connect.athom.com/api/app/com.gruijter.hyundai_kia/live?secret=1234abcd
+		const drivers = this.homey.drivers.getDrivers();
+		Object.keys(drivers).forEach((driverId) => {
+			const devices = drivers[driverId].getDevices();
+			devices.forEach((device) => {
+				device.forceLive(query.secret);
+			});
+		});
+
+	}
+
 }
 
 module.exports = carApp;

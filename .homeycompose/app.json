@@ -1,6 +1,6 @@
 {
   "id": "com.gruijter.hyundai_kia",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#00aaff",
@@ -70,11 +70,16 @@
   "api": {
     "getLogs": {
       "method": "get",
-      "path": "/getlogs/"
+      "path": "/getlogs"
     },
     "deleteLogs": {
       "method": "get",
-      "path": "/deletelogs/"
+      "path": "/deletelogs"
+    },
+    "forceLive": {
+      "method": "get",
+      "path": "/live",
+      "public": true
     }
   }
 }

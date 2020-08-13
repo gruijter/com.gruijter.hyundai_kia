@@ -54,10 +54,17 @@ To prevent draining the 12V battery, the status of the car is only retrieved aft
 * Live data was switched on from the Homey app
 * Live data was switched on via a flow
 
-If the engine is on, the status will be automatically refreshed untill 5 minutes after the engine is turned off.
+If the engine is on, the status will be automatically refreshed untill 3 minutes after the engine is turned off.
 
 ## Force 24/7 live status updates:
 You can set a forced status update interval in the advanced device settings. This will however drain the 12V battery of your car when the car is parked (engine turned off). When the 12V battery is empty, you will need your emergency key to open the door, and use a battery jumper to get going again!
+
+## Force live status updates when your phone connects to the car's Bluetooth
+For Android and iOS there are apps that automatically trigger Homey to start getting live updates as soon as your phone connects to the car's Bluetooth. In the automation script you need to open the following web-page (HTTP GET):
+
+`https://<your Homey cloudid>.connect.athom.com/api/app/com.gruijter.hyundai_kia/live?secret=<your secret>`
+
+There are multiple apps that can do this. For Android have a look at [automate](https://play.google.com/store/apps/details?id=com.llamalab.automate) and adapt [this](https://llamalab.com/automate/community/flows/36268) flow to match your own car's Bluetooth, your Homey cloudId and secret (search for Homey in the community flows). For iOS have a look at [shortcuts](https://apps.apple.com/app/id915249334).
 
 ## ABRP
 A Better Route Planner helps you to plan your trip. For its calculations ABRP can use real energy consumption data. By entering your ABRP user token in the device settings, Homey will get the live data for you from the car and acts as a bridge to upload it live to ABRP. Note that if you don’t want to upload any data to ABRP, just don’t enter your car user token in Homey

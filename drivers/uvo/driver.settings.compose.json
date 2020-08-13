@@ -70,83 +70,102 @@
 				"en": "Connection settings"
 		},
 		"children": [
-				{
-						"id": "username",
-						"type": "text",
-						"label": {
-								"en": "Username"
-						},
-						"value": ""
+			{
+					"id": "username",
+					"type": "text",
+					"label": {
+							"en": "Username"
+					},
+					"value": ""
+			},
+			{
+					"id": "password",
+					"type": "password",
+					"label": {
+							"en": "Password"
+					},
+					"value": ""
+			},
+			{
+					"id": "pin",
+					"type": "password",
+					"label": {
+							"en": "PIN"
+					},
+					"value": ""
+			},
+			{
+					"id": "region",
+					"type": "dropdown",
+					"value": "EU",
+					"label": {
+							"en": "Region"
+					},
+					"values": [
+							{
+									"id": "EU",
+									"label": {
+											"en": "EU"
+									}
+							},
+							{
+									"id": "US",
+									"label": {
+											"en": "US"
+									}
+							},
+							{
+									"id": "CA",
+									"label": {
+											"en": "CA"
+									}
+							}
+					]
+			},
+			{
+					"id": "pollInterval",
+					"type": "number",
+					"label": {
+							"en": "Live update interval (minutes)"
+					},
+					"hint": {
+							"en": "A lower interval gives faster updates in Homey. Attention: Homey will only receive updates when you manually start 'live data' and the car engine is on! A low poll interval can block your regular app from communicating with the car!"
+					},
+					"min": 0.2,
+					"value": 1
+			},
+			{
+					"id": "pollIntervalForced",
+					"type": "number",
+					"label": {
+							"en": "Forced update interval (minutes)"
+					},
+					"hint": {
+							"en": "You can force live data updates without manual start by setting a time other then 0. CAUTION: This will drain your 12V battery fast!"
+					},
+					"min": 0,
+					"value": 0,
+					"step": 5
+			}
+		]
+	},
+	{
+		"type": "group",
+		"label": {
+				"en": "Force via cloud (HTTP GET)"
+		},
+		"children": [
+			{
+				"id": "remote_force_secret",
+				"type": "text",
+				"label": {
+						"en": "Remote force secret"
 				},
-				{
-						"id": "password",
-						"type": "password",
-						"label": {
-								"en": "Password"
-						},
-						"value": ""
+				"hint": {
+					"en": "Force a refresh by calling https://<Homey CloudId>.connect.athom.com/api/app/com.gruijter.hyundai_kia/live?secret=<Remote force secret>."
 				},
-				{
-						"id": "pin",
-						"type": "password",
-						"label": {
-								"en": "PIN"
-						},
-						"value": ""
-				},
-				{
-						"id": "region",
-						"type": "dropdown",
-						"value": "EU",
-						"label": {
-								"en": "Region"
-						},
-						"values": [
-								{
-										"id": "EU",
-										"label": {
-												"en": "EU"
-										}
-								},
-								{
-										"id": "US",
-										"label": {
-												"en": "US"
-										}
-								},
-								{
-										"id": "CA",
-										"label": {
-												"en": "CA"
-										}
-								}
-						]
-				},
-				{
-						"id": "pollInterval",
-						"type": "number",
-						"label": {
-								"en": "Live update interval (minutes)"
-						},
-						"hint": {
-								"en": "A lower interval gives faster updates in Homey. Attention: Homey will only receive updates when you manually start 'live data' and the car engine is on! A low poll interval can block your regular app from communicating with the car!"
-						},
-						"min": 0.2,
-						"value": 1
-				},
-				{
-						"id": "pollIntervalForced",
-						"type": "number",
-						"label": {
-								"en": "Forced update interval (minutes)"
-						},
-						"hint": {
-								"en": "You can force live data updates without manual start by setting a time other then 0. CAUTION: This will drain your 12V battery fast!"
-						},
-						"min": 0,
-						"value": 0,
-						"step": 5
-				}
+				"value": ""
+			}
 		]
 	},
 	{
