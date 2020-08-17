@@ -25,7 +25,8 @@ function updateLogs() {
 						}
 						const logLine = line
 							.replace(' [CarApp]', '')
-							.replace(' [ManagerDrivers] [uvo]', '');
+							.replace(' [ManagerDrivers]', '');
+							// .replace('  [uvo]', '');
 						lines += `${logLine}<br />`;
 
 					});

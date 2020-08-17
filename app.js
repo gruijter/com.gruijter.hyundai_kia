@@ -25,7 +25,7 @@ const Logger = require('./captureLogs.js');
 class carApp extends Homey.App {
 
 	onInit() {
-		if (!this.logger) this.logger = new Logger({ name: 'log', size: 200, homey: this.homey });
+		if (!this.logger) this.logger = new Logger({ name: 'log', length: 200, homey: this.homey });
 		this.log('Hyundai and Kia app is running...');
 
 		// register some listeners

@@ -30,6 +30,16 @@ const convert = require('./temp_convert');
 
 const setTimeoutPromise = util.promisify(setTimeout);
 
+const isClosedLocked = (status) => {
+	const {
+		doorLock,
+		trunkOpen,
+		hoodOpen,
+		doorOpen,
+	} = status;
+	return doorLock && !trunkOpen && !hoodOpen && Object.keys(doorOpen).reduce((closedAccu, door) => closedAccu || !doorOpen[door], true);
+};
+
 class CarDevice extends Homey.Device {
 
 	// this method is called when the Device is inited
@@ -40,10 +50,11 @@ class CarDevice extends Homey.Device {
 			this.settings = await this.getSettings();
 			this.vehicle = null;
 			this.busy = false;
-			this.watchDogCounter = 5;
+			this.watchDogCounter = 6;
+			this.lastSleepModeCheck = Date.now();
 
 			// queue properties
-			this.abort = false;
+			// this.abort = false;
 			this.queue = [];
 			this.head = 0;
 			this.tail = 0;
@@ -56,6 +67,7 @@ class CarDevice extends Homey.Device {
 				region: this.settings.region,
 				pin: this.settings.pin,
 				deviceUuid: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15), // 'homey',
+				autoLogin: false,
 			};
 			if (this.ds.deviceId === 'bluelink') {
 				this.client = new Bluelink(options);
@@ -63,13 +75,15 @@ class CarDevice extends Homey.Device {
 
 			this.client.on('ready', async (vehicles) => {
 				[this.vehicle] = vehicles.filter((veh) => veh.vehicleConfig.vin === this.settings.vin);
-				if (!this.busy && this.vehicle) this.log(JSON.stringify(this.vehicle.vehicleConfig));
 				// util.inspect(this.vehicle.vehicleConfig, true, 10, true));
 			});
+			// wait for client login
+			await this.client.login();
+			if (this.vehicle) this.log(JSON.stringify(this.vehicle.vehicleConfig));
 
 			// setup ABRP client
 			this.abrpEnabled = this.settings && this.settings.abrp_user_token && this.settings.abrp_user_token.length > 5;
-			this.log(`ABRP enabled: ${this.abrpEnabled}`);
+			this.log(`ABRP enabled: ${!!this.abrpEnabled}`);
 			if (this.abrpEnabled) {
 				const abrpOptions = {
 					apiKey: Homey.env.ABRP_API_KEY,
@@ -81,8 +95,7 @@ class CarDevice extends Homey.Device {
 			// init listeners
 			if (!this.allListeners) this.registerListeners();
 
-			// wait 10 seconds for client login
-			await setTimeoutPromise(10 * 1000, 'waiting is done');
+			// start polling
 			this.startPolling(this.settings.pollInterval);
 
 		} catch (error) {
@@ -92,9 +105,14 @@ class CarDevice extends Homey.Device {
 
 	// stuff for queue handling here
 	async enQueue(item) {
+		if (this.tail >= 10) {
+			this.error('queue overflow');
+			return;
+		}
 		this.queue[this.tail] = item;
 		this.tail += 1;
 		if (!this.queueRunning) {
+			await this.client.login();
 			this.queueRunning = true;
 			this.runQueue();
 		}
@@ -123,49 +141,77 @@ class CarDevice extends Homey.Device {
 	}
 
 	async runQueue() {
-		if (this.busy && !this.queueRunning) {
-			this.log('command not executed, still busy with poll...');
-			this.flushQueue();
-			return;
-		}
-		this.busy = true;
-		this.queueRunning = true;
-		const item = this.deQueue();
-		if (item) {
-			await this.vehicle[item.command](item.args)
-				.catch((error) => {
-					const msg = error.body || error.message || error;
-					this.error(`${item} failed`, msg);
-				});
-			await setTimeoutPromise(5 * 1000, 'waiting is done');
-			this.runQueue();
-		} else {
+		try {
+			this.busy = true;
+			this.queueRunning = true;
+			const item = this.deQueue();
+			if (item) {
+				if (!this.vehicle || !this.vehicle.vehicleConfig) {
+					throw Error('pausing queue; not logged in');
+				}
+				const itemWait = {
+					doPoll: 1,
+					start: 65,
+					stop: 5,
+					lock: 5,
+					unlock: 5,
+				};
+				// console.log(item.command);
+				this.lastCommand = item.command;
+				let methodClass = this.vehicle;
+				if (item.command === 'doPoll') {
+					methodClass = this;
+				}
+				await methodClass[item.command](item.args)
+					.then(() => {
+						this.watchDogCounter = 6;
+						this.setAvailable();
+					})
+					.catch(async (error) => {
+						this.watchDogCounter -= 1;
+						if (this.watchDogCounter <= 0) {
+							// restart the app here
+							this.log('watchdog triggered, restarting device now');
+							this.flushQueue();
+							this.restartDevice();
+						}
+						const msg = error.body || error.message || error;
+						this.error(`${item} failed`, msg);
+						// retry once on duplicate request
+						// if (msg.resMsg && msg.resMsg.includes('Duplicate request')) {
+						// 	await setTimeoutPromise(5 * 1000, 'waiting is done');
+						// 	await methodClass[item.command](item.args)
+						// 		.then(() => {
+						// 			this.log('retry succesfull');
+						// 			this.watchDogCounter = 6;
+						// 			this.setAvailable();
+						// 		})
+						// 		.catch(() => this.error('retry failed'));
+						// }
+						this.busy = false;
+					});
+				await setTimeoutPromise((itemWait[item.command] || 5) * 1000, 'waiting is done');
+				this.runQueue();
+			} else {
+				// console.log('Finshed queue');
+				this.queueRunning = false;
+				this.busy = false;
+				if (this.lastCommand !== 'doPoll') {
+					this.carLastActive = Date.now();
+					this.enQueue({ command: 'doPoll', args: true });
+				}
+			}
+		} catch (error) {
 			this.queueRunning = false;
 			this.busy = false;
-			this.doPoll(true);
-			// console.log('Finshed queue');
+			this.error(error.message);
 		}
 	}
 
-	// main polling loop
+	// poll server and/or car for status
 	async doPoll(forceOnce) {
+		// console.log(forceOnce);
 		try {
-			// this.setAvailable();
-			if (this.watchDogCounter <= 0) {
-				// restart the app here
-				this.log('watchdog triggered, restarting device now');
-				this.restartDevice();
-				return Promise.resolve(false);
-			}
-			if (this.busy) {
-				this.log('still busy with command or previous poll...');
-				this.watchDogCounter -= 1;
-				return Promise.resolve(false);
-			}
-			this.busy = true;
-			await this.client.login();
-			if (!this.vehicle || !this.vehicle.vehicleConfig) throw Error('not logged in');
-
 			let status = this.lastStatus;
 			let location = this.lastLocation;
 			let odometer = this.lastOdometer;
@@ -188,7 +234,7 @@ class CarDevice extends Homey.Device {
 				moving = location.speed.value > 0
 					|| (Math.abs(location.latitude - this.lastLocation.latitude) > 0.0001
 					|| Math.abs(location.longitude - this.lastLocation.longitude) > 0.0001);
-				// console.log(`forcing location refresh. Moving: ${moving}@${location.speed.value} km/h`);
+				this.log(`forcing location refresh. Moving: ${moving}@${location.speed.value} km/h`);
 				this.lastRefresh = Date.now();
 			}
 
@@ -201,15 +247,26 @@ class CarDevice extends Homey.Device {
 			}
 
 			// check if live data (full status refresh) is needed
-			const unplugged = status && status.evStatus && !status.evStatus.batteryPlugin && this.getCapabilityValue('charger') !== '0';
-			const unlocked = status && !status.doorLock && this.getCapabilityValue('locked');
-			const carActive = status ? (moving || status.engine || status.airCtrlOn || status.defrost
-				|| unplugged || unlocked) : null;
-			const carJustActive = ((Date.now() - this.carLastActive) < 3 * 60 * 1000); // keep refreshing 3 minutes after car use or sleepModeCheck
-			const sleepModeCheck = status ? (status.sleepModeCheck || (status.time !== this.lastStatus.time)) : null;
-			if (sleepModeCheck) this.log('doing sleepModeCheck');
-			const batSoCGood = status ? (status.battery.batSoc > this.settings.batteryAlarmLevel) : true;
 
+			// check if car is active
+			const justUnplugged = status && status.evStatus && !status.evStatus.batteryPlugin && this.getCapabilityValue('charger') !== '0';
+			const justUnlocked = status && !isClosedLocked(status) && this.getCapabilityValue('closed_locked');
+			const carActive = status ? (moving || status.engine || status.airCtrlOn || status.defrost
+				|| justUnplugged || justUnlocked) : null;
+			const carJustActive = ((Date.now() - this.carLastActive) < 3 * 60 * 1000); // keep refreshing 3 minutes after car use
+
+			// check if server state changed
+			let sleepModeCheck = false;
+			const timestampChange = status && (status.time !== this.lastStatus.time);
+			if (timestampChange && (Date.now() - this.lastSleepModeCheck) > 3 * 60 * 1000)	{	// ignore recent timestampChange
+				sleepModeCheck = true;
+				this.lastSleepModeCheck = Date.now();
+				this.log('doing sleepModeCheck');
+			}
+			if (!forceRefresh) this.lastStatus = status;
+
+			// check if live data conditions are met
+			const batSoCGood = status ? (status.battery.batSoc > this.settings.batteryAlarmLevel) : true;
 			this.liveData = forceRefresh || sleepModeCheck || (batSoCGood && (carActive || carJustActive));
 
 			if (this.liveData) {
@@ -242,16 +299,10 @@ class CarDevice extends Homey.Device {
 				this.handleInfo({ status, location, odometer });
 			}
 
-			this.watchDogCounter = 5;
-			this.busy = false;
-			this.setAvailable();
+			if (this.liveData !== this.getCapabilityValue('live_data')) this.log(`Live data: ${this.liveData}`);
 			this.setCapability('live_data', this.liveData);
 			return Promise.resolve(true);
 		} catch (error) {
-			this.watchDogCounter -= 1;
-			this.busy = false;
-			const msg = error.body || error.message || error;
-			this.error('Poll error', msg);
 			return Promise.resolve(false);
 		}
 	}
@@ -260,9 +311,21 @@ class CarDevice extends Homey.Device {
 		this.log(`Start polling ${this.getName()} @ ${interval} minute interval.`);
 		if (this.settings.pollIntervalForced) this.log(`Warning: forced polling is enabled @${this.settings.pollIntervalForced} minute interval.`);
 		this.stopPolling();
-		this.doPoll(true);
+		this.enQueue({ command: 'doPoll', args: true });
 		this.intervalIdDevicePoll = setInterval(() => {
-			this.doPoll();
+			if (this.busy) {
+				this.watchDogCounter -= 1;
+				if (this.watchDogCounter <= 0) {
+					// restart the app here
+					this.log('watchdog triggered, restarting device now');
+					this.flushQueue();
+					this.restartDevice();
+					return;
+				}
+				this.log('skipping a poll');
+				return;
+			}
+			this.enQueue({ command: 'doPoll', args: false });
 		}, 1000 * 60 * interval);
 	}
 
@@ -342,7 +405,7 @@ class CarDevice extends Homey.Device {
 		if (secret !== this.settings.remote_force_secret) return;
 		this.log('forcing Live data via cloud API');
 		this.carLastActive = Date.now();
-		this.doPoll(true);
+		this.enQueue({ command: 'doPoll', args: true });
 	}
 
 	async abrpTelemetry(info) {
@@ -375,9 +438,9 @@ class CarDevice extends Homey.Device {
 				doorLock: locked,
 				airCtrlOn,
 				defrost,
-				trunkOpen,
-				hoodOpen,
-				doorOpen,
+				// trunkOpen,
+				// hoodOpen,
+				// doorOpen,
 			} = info.status;
 			const targetTemperature = convert.getTempFromCode(info.status.airTemp.value);
 			const alarmTirePressure = !!info.status.tirePressureLamp.tirePressureLampAll;
@@ -389,8 +452,9 @@ class CarDevice extends Homey.Device {
 			const batteryCharge = info.status.battery.batSoc;
 
 			// calculated properties
-			const closedLocked = locked && !trunkOpen && !hoodOpen
-				&& Object.keys(doorOpen).reduce((closedAccu, door) => closedAccu || !doorOpen[door], true);
+			// const closedLocked = locked && !trunkOpen && !hoodOpen
+			// 	&& Object.keys(doorOpen).reduce((closedAccu, door) => closedAccu || !doorOpen[door], true);
+			const closedLocked = isClosedLocked(info.status);
 			const alarmEVBattery = EVBatteryCharge < this.settings.EVbatteryAlarmLevel;
 			const alarmBattery = batteryCharge < this.settings.batteryAlarmLevel;
 			const distance = this.distance(info.location);
@@ -489,12 +553,6 @@ class CarDevice extends Homey.Device {
 			// const ready = Object.keys(this.allListeners).map((token) => Promise.resolve(Homey.ManagerFlow.unregisterToken(this.tokens[token])));
 			// await Promise.all(ready);
 
-			this.allListeners.forcepoll = this.homey.flow.getActionCard('force_poll');
-			this.allListeners.forcepoll.registerRunListener(() => {
-				this.doPoll(true);
-				return true;
-			});
-
 			// capabilityListeners will be overwritten, so no need to unregister them
 
 			this.registerCapabilityListener('locked', (locked) => {
@@ -507,10 +565,11 @@ class CarDevice extends Homey.Device {
 					command = 'unlock';
 				}
 				this.enQueue({ command });
-				return true;
+				return Promise.resolve(true);
 			});
 
 			this.registerCapabilityListener('defrost', (defrost) => {
+				if (this.getCapabilityValue('engine')) return Promise.reject(Error('Control not possible; engine is on'));
 				let command;
 				let args;
 				if (defrost) {
@@ -531,10 +590,11 @@ class CarDevice extends Homey.Device {
 					};
 				}
 				this.enQueue({ command, args });
-				return true;
+				return Promise.resolve(true);
 			});
 
 			this.registerCapabilityListener('climate_control', (acOn) => {
+				if (this.getCapabilityValue('engine')) return Promise.reject(Error('Control not possible; engine is on'));
 				let command;
 				let args;
 				if (acOn) {
@@ -551,26 +611,26 @@ class CarDevice extends Homey.Device {
 					};
 				}
 				this.enQueue({ command, args });
-				return true;
+				return Promise.resolve(true);
 			});
 
 			this.registerCapabilityListener('target_temperature', async (temp) => {
-				if (!this.getCapabilityValue('climate_control')) {
-					return Promise.reject(Error('Climate control not on'));
-				}
+				if (this.getCapabilityValue('engine')) return Promise.reject(Error('Control not possible; engine is on'));
+				if (!this.getCapabilityValue('climate_control')) return Promise.reject(Error('Climate control not on'));
 				this.log(`Changing temperature by app to ${temp}`);
 				const args = {
 					temperature: temp || 22,
 				};
 				const command = 'start';
 				this.enQueue({ command, args });
-				return true;
+				return Promise.resolve(true);
 			});
 
 			this.registerCapabilityListener('live_data', (liveData) => {
 				if (liveData) {
-					this.log('Switching on live data by app');
-					this.doPoll(true);
+					this.log('Forcing live data via app');
+					this.carLastActive = Date.now();
+					this.enQueue({ command: 'doPoll', args: true });
 				}
 				// ADD STOP LIVE DATA HERE
 				return Promise.resolve(true);

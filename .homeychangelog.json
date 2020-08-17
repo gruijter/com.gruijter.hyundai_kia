@@ -16,5 +16,8 @@
   },
   "1.3.0": {
     "en": "Fix target temp setting. Fix target temp scale. Stability improvements. Added command queueing. Added force live via cloud (HTTP GET). Changed forced poll method to GPS."
+  },
+  "1.4.0": {
+    "en": "Stability improvements. Fix pairing. Fix log length. Climate control check engine on. Improved queuing. Added rate limiting. Improved car active detection. Prevent dual Homey active triggering."
   }
 }

@@ -62,7 +62,7 @@ You can set a forced status update interval in the advanced device settings. Thi
 ## Force live status updates when your phone connects to the car's Bluetooth
 For Android and iOS there are apps that automatically trigger Homey to start getting live updates as soon as your phone connects to the car's Bluetooth. In the automation script you need to open the following web-page (HTTP GET):
 
-`https://<your Homey cloudid>.connect.athom.com/api/app/com.gruijter.hyundai_kia/live?secret=<your secret>`
+`https://[your Homey cloudid].connect.athom.com/api/app/com.gruijter.hyundai_kia/live?secret=[your secret]`
 
 There are multiple apps that can do this. For Android have a look at [automate](https://play.google.com/store/apps/details?id=com.llamalab.automate) and adapt [this](https://llamalab.com/automate/community/flows/36268) flow to match your own car's Bluetooth, your Homey cloudId and secret (search for Homey in the community flows). For iOS have a look at [shortcuts](https://apps.apple.com/app/id915249334).
 

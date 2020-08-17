@@ -30,6 +30,17 @@ class CarDriver extends Homey.Driver {
 
 	async onDriverInit() {
 		this.log('onDriverInit');
+		this.registerFlowListeners();
+	}
+
+	registerFlowListeners() {
+		const forcePoll = this.homey.flow.getActionCard('force_poll');
+		forcePoll.registerRunListener((args) => {
+			// console.log(state);
+			args.device.log('forcing live poll from flow');
+			args.device.enQueue({ command: 'doPoll', args: true });
+			return true;
+		});
 	}
 
 	onPair(session) {
@@ -70,8 +81,8 @@ class CarDriver extends Homey.Driver {
 					} catch (error) { this.error(error); }
 				});
 
-				// timeout after 5 seconds
-				await setTimeoutPromise(5 * 1000, 'done waiting');
+				// timeout after 10 seconds
+				await setTimeoutPromise(10 * 1000, 'done waiting');
 
 				if (region) return true;
 				return false;
@@ -116,7 +127,7 @@ class CarDriver extends Homey.Driver {
 					setTimeout(() => {
 						// reject(Error('Login timeout'));
 						resolve(false);
-					}, 8 * 1000);
+					}, 12 * 1000);
 				});
 				return loginResult;
 			});
