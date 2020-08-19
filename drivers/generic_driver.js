@@ -35,12 +35,23 @@ class CarDriver extends Homey.Driver {
 
 	registerFlowListeners() {
 		const forcePoll = this.homey.flow.getActionCard('force_poll');
-		forcePoll.registerRunListener((args) => {
-			// console.log(state);
-			args.device.log('forcing live poll from flow');
-			args.device.enQueue({ command: 'doPoll', args: true });
-			return true;
-		});
+		forcePoll.registerRunListener((args) => args.device.liveData(true, 'flow'));
+
+		const acOff = this.homey.flow.getActionCard('ac_off');
+		acOff.registerRunListener((args) => args.device.acOnOff(false, 'flow'));
+
+		const acOn = this.homey.flow.getActionCard('ac_on');
+		acOn.registerRunListener((args) => args.device.acOnOff(true, 'flow'));
+
+		const defrostOff = this.homey.flow.getActionCard('defrost_off');
+		defrostOff.registerRunListener((args) => args.device.defrostOnOff(false, 'flow'));
+
+		const defrostOn = this.homey.flow.getActionCard('defrost_on');
+		defrostOn.registerRunListener((args) => args.device.defrostOnOff(true, 'flow'));
+
+		const setTargetTemp = this.homey.flow.getActionCard('set_target_temp');
+		setTargetTemp.registerRunListener((args) => args.device.setTargetTemp(args.temp, 'flow'));
+
 	}
 
 	onPair(session) {
@@ -60,30 +71,35 @@ class CarDriver extends Homey.Driver {
 
 				// auto check region
 				region = null;
-				regions.forEach(async (reg) => {
-					// console.log(`checking ${reg}`);
-					const options = {
-						username,
-						password,
-						region: reg,
-						deviceUuid,
-					};
-					try {
-						let client;
-						if (this.ds.driverId === 'bluelink') {
-							client = new Bluelink(options);
-						} else { client = new Uvo(options); }
-						client.on('ready', () => {
-							this.log('username/password OK!');
-							this.log(`region is ${reg}`);
-							region = reg;
-						});
-					} catch (error) { this.error(error); }
+				const regionPromise = new Promise((resolve) => {
+					regions.forEach(async (reg) => {
+						// console.log(`checking ${reg}`);
+						try {
+							const options = {
+								username,
+								password,
+								region: reg,
+								deviceUuid,
+								autoLogin: true,
+							};
+							let client;
+							if (this.ds.driverId === 'bluelink') {
+								client = new Bluelink(options);
+							} else { client = new Uvo(options); }
+							client.on('ready', () => {
+								this.log('username/password OK!');
+								this.log(`region is ${reg}`);
+								region = reg;
+								return resolve(reg);
+							});
+						} catch (error) {
+							this.log(error);
+						}
+					});
+					setTimeoutPromise(15 * 1000, 'done waiting')	// login timeout
+						.then(() => resolve(null));
 				});
-
-				// timeout after 10 seconds
-				await setTimeoutPromise(10 * 1000, 'done waiting');
-
+				await regionPromise;
 				if (region) return true;
 				return false;
 			});
@@ -100,6 +116,7 @@ class CarDriver extends Homey.Driver {
 					pin,
 					region,
 					deviceUuid,
+					autoLogin: true,
 				};
 				let client;
 				if (this.ds.driverId === 'bluelink') {
@@ -124,10 +141,8 @@ class CarDriver extends Homey.Driver {
 								reject(Error('Incorrect PIN!'));
 							});
 					});
-					setTimeout(() => {
-						// reject(Error('Login timeout'));
-						resolve(false);
-					}, 12 * 1000);
+					setTimeoutPromise(15 * 1000, 'done waiting')	// login timeout
+						.then(() => resolve(false));
 				});
 				return loginResult;
 			});

@@ -46,6 +46,9 @@ const driverSpecifics = {
 
 		'measure_battery.EV',
 		'measure_battery.12V',
+
+		'latitude',
+		'longitude',
 	],
 };
 

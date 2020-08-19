@@ -1,0 +1,13 @@
+{
+    "id": "defrost_off",
+    "title": {
+        "en": "Turn defrost off"
+    },
+    "args": [
+        {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+        }
+    ]
+}

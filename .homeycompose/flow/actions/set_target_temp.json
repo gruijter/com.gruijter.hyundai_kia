@@ -1,0 +1,23 @@
+{
+    "id": "set_target_temp",
+    "title": {
+        "en": "Set target temperature"
+    },
+    "args": [
+        {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+        },
+        {
+            "type": "range",
+            "name": "temp",
+            "min": 15,
+            "max": 30,
+            "value": 22,
+            "step": 0.5,
+            "label": "°C",
+            "labelDecimals": 1
+        }
+    ]
+}

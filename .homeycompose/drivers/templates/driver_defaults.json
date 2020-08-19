@@ -22,7 +22,10 @@
 		"alarm_battery",
 
 		"measure_battery.EV",
-		"measure_battery.12V"
+		"measure_battery.12V",
+
+		"latitude",
+		"longitude"
 	],
 	"capabilitiesOptions": {
 		"measure_battery.EV": {

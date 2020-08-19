@@ -19,5 +19,8 @@
   },
   "1.4.0": {
     "en": "Stability improvements. Fix pairing. Fix log length. Climate control check engine on. Improved queuing. Added rate limiting. Improved car active detection. Prevent dual Homey active triggering."
+  },
+  "1.5.0": {
+    "en": "Added action flow cards for A/C on/off, Defrost on/off, set Temp. Added lat/lon capabilities/flow tokens (repair needed). Fix step 0.5 target temp. Improved pairing."
   }
 }

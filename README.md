@@ -43,7 +43,7 @@ Homey has access to the car's location, speed, range, door state and charge stat
 * Doors lock/unlock
 * A/C on/off
 * Defrost on/off
-* Target temperature (work in progress)
+* Target temperature
 
 <img src="https://aws1.discourse-cdn.com/business4/uploads/athom/original/3X/7/8/78f40377769dcbed6db05e3471af9369fbfd6a37.jpeg" alt="Control" width="250">
 

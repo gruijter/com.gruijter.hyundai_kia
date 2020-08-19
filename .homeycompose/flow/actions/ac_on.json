@@ -1,0 +1,13 @@
+{
+    "id": "ac_on",
+    "title": {
+        "en": "Turn A/C on"
+    },
+    "args": [
+        {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+        }
+    ]
+}
