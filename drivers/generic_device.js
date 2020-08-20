@@ -230,9 +230,7 @@ class CarDevice extends Homey.Device {
 			if (forcePollLocation) {
 				// get location from car
 				location = await this.vehicle.location();
-				moving = location.speed.value > 0
-					|| (Math.abs(location.latitude - this.lastLocation.latitude) > 0.0001
-					|| Math.abs(location.longitude - this.lastLocation.longitude) > 0.0001);
+				moving = this.isMoving(location);
 				this.log(`forcing location refresh. Moving: ${moving}@${location.speed.value} km/h`);
 				this.lastRefresh = Date.now();
 			}
@@ -446,6 +444,8 @@ class CarDevice extends Homey.Device {
 			const alarmBattery = batteryCharge < this.settings.batteryAlarmLevel;
 			const distance = this.distance(info.location);
 			const locString = await geo.getCarLocString(info.location); // reverse ReverseGeocoding
+			const parked = !engine && (Date.now() - this.lastMoved > 30 * 1000); // && locked;
+			const moving = this.isMoving(info.location);
 
 			// update capabilities
 			this.setCapability('live_data', this.liveData);
@@ -470,19 +470,21 @@ class CarDevice extends Homey.Device {
 			this.setCapability('longitude', info.location.longitude);
 
 			// update flow triggers
-			// const tokens = {};
-			// if (engineChange) {
-			// 	console.log(`engine ${engine}`);
-			// 	if (engine) {
-			// 		this.homey.flow.getDeviceTriggerCard('engine_true')
-			// 			.trigger(this, tokens)
-			// 			.catch(this.error);
-			// 	} else {
-			// 		this.homey.flow.getDeviceTriggerCard('engine_false')
-			// 			.trigger(this, tokens)
-			// 			.catch(this.error);
-			// 	}
-			// }
+			const tokens = {};
+			if (moving) {
+				this.homey.flow.getDeviceTriggerCard('has_moved')
+					.trigger(this, tokens)
+					.catch(this.error);
+			}
+			this.moving = moving;
+
+			if (parked && !this.parked) {
+				this.homey.flow.getDeviceTriggerCard('has_parked')
+					.trigger(this, tokens)
+					.catch(this.error);
+			}
+			this.parked = parked;
+
 
 		} catch (error) {
 			this.error(error);
@@ -490,6 +492,16 @@ class CarDevice extends Homey.Device {
 	}
 
 	// helper functions
+	isMoving(location) {
+		const lastLocation = { latitude: this.getCapabilityValue('latitude'), longitude: this.getCapabilityValue('longitude') };
+		const moving = location.speed.value > 0
+			|| (Math.abs(location.latitude - lastLocation.latitude) > 0.0001
+			|| Math.abs(location.longitude - lastLocation.longitude) > 0.0001);
+		console.log(`Moving: ${moving}@${location.speed.value} km/h`);
+		if (moving) this.lastMoved = Date.now();
+		return moving;
+	}
+
 	acOnOff(acOn, source) {
 		if (this.getCapabilityValue('engine')) return Promise.reject(Error('Control not possible; engine is on'));
 		let command;
@@ -548,7 +560,7 @@ class CarDevice extends Homey.Device {
 		return Promise.resolve(true);
 	}
 
-	liveData(liveData, source) {
+	startLiveData(liveData, source) {
 		if (liveData) {
 			this.log(`Forcing live data via ${source}`);
 			if (source === 'app') this.carLastActive = Date.now();
@@ -586,7 +598,7 @@ class CarDevice extends Homey.Device {
 			this.registerCapabilityListener('defrost', (defrost) => this.defrostOnOff(defrost, 'app'));
 			this.registerCapabilityListener('climate_control', (acOn) => this.acOnOff(acOn, 'app'));
 			this.registerCapabilityListener('target_temperature', async (temp) => this.setTargetTemp(temp, 'app'));
-			this.registerCapabilityListener('live_data', (liveData) => this.liveData(liveData, 'app'));
+			this.registerCapabilityListener('live_data', (liveData) => this.startLiveData(liveData, 'app'));
 
 			return Promise.resolve(this.listeners);
 		} catch (error) {

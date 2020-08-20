@@ -1,6 +1,6 @@
 {
   "id": "com.gruijter.hyundai_kia",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#00aaff",
@@ -239,6 +239,32 @@
             "filter": "driver_id=uvo|bluelink"
           }
         ]
+      },
+      {
+        "id": "has_moved",
+        "title": {
+          "en": "The car has moved"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+          }
+        ]
+      },
+      {
+        "id": "has_parked",
+        "title": {
+          "en": "The car has parked"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+          }
+        ]
       }
     ],
     "conditions": [
@@ -295,6 +321,19 @@
         ]
       },
       {
+        "id": "closed_locked",
+        "title": {
+          "en": "The car !{{is|is not}} closed and locked"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+          }
+        ]
+      },
+      {
         "id": "defrost",
         "title": {
           "en": "Defrosting is !{{on|off}}"
@@ -311,6 +350,32 @@
         "id": "engine",
         "title": {
           "en": "The engine is !{{on|off}}"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+          }
+        ]
+      },
+      {
+        "id": "moving",
+        "title": {
+          "en": "The car !{{is|is not}} moving"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+          }
+        ]
+      },
+      {
+        "id": "parked",
+        "title": {
+          "en": "The car !{{is|is not}} parked"
         },
         "args": [
           {

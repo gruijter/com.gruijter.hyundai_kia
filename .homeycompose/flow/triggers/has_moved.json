@@ -1,0 +1,13 @@
+{
+    "id": "has_moved",
+    "title": {
+        "en": "The car has moved"
+    },
+    "args": [
+        {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+        }
+    ]
+}

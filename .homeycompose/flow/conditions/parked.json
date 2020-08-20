@@ -1,0 +1,13 @@
+{
+    "id": "parked",
+    "title": {
+        "en": "The car !{{is|is not}} parked"
+    },
+    "args": [
+        {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+        }
+    ]
+}

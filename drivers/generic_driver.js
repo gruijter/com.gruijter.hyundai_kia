@@ -34,8 +34,9 @@ class CarDriver extends Homey.Driver {
 	}
 
 	registerFlowListeners() {
+		// action cards
 		const forcePoll = this.homey.flow.getActionCard('force_poll');
-		forcePoll.registerRunListener((args) => args.device.liveData(true, 'flow'));
+		forcePoll.registerRunListener((args) => args.device.startLiveData(true, 'flow'));
 
 		const acOff = this.homey.flow.getActionCard('ac_off');
 		acOff.registerRunListener((args) => args.device.acOnOff(false, 'flow'));
@@ -51,6 +52,34 @@ class CarDriver extends Homey.Driver {
 
 		const setTargetTemp = this.homey.flow.getActionCard('set_target_temp');
 		setTargetTemp.registerRunListener((args) => args.device.setTargetTemp(args.temp, 'flow'));
+
+		// condition cards
+		const alarmBattery = this.homey.flow.getConditionCard('alarm_battery');
+		alarmBattery.registerRunListener((args) => args.device.getCapabilityValue('alarm_battery'));
+
+		const alarmTirePressure = this.homey.flow.getConditionCard('alarm_tire_pressure');
+		alarmTirePressure.registerRunListener((args) => args.device.getCapabilityValue('alarm_tire_pressure'));
+
+		const charging = this.homey.flow.getConditionCard('charging');
+		charging.registerRunListener((args) => args.device.getCapabilityValue('charging'));
+
+		const climateControl = this.homey.flow.getConditionCard('climate_control');
+		climateControl.registerRunListener((args) => args.device.getCapabilityValue('climate_control'));
+
+		const closedLocked = this.homey.flow.getConditionCard('closed_locked');
+		closedLocked.registerRunListener((args) => args.device.getCapabilityValue('closed_locked'));
+
+		const defrost = this.homey.flow.getConditionCard('defrost');
+		defrost.registerRunListener((args) => args.device.getCapabilityValue('defrost'));
+
+		const engine = this.homey.flow.getConditionCard('engine');
+		engine.registerRunListener((args) => args.device.getCapabilityValue('engine'));
+
+		const moving = this.homey.flow.getConditionCard('moving');
+		moving.registerRunListener((args) => args.device.moving);
+
+		const parked = this.homey.flow.getConditionCard('parked');
+		parked.registerRunListener((args) => args.device.parked);
 
 	}
 

@@ -1,0 +1,13 @@
+{
+    "id": "has_parked",
+    "title": {
+        "en": "The car has parked"
+    },
+    "args": [
+        {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+        }
+    ]
+}

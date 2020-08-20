@@ -1,3 +1,4 @@
+v1.6.0  20.08.2020 Fix live data from app and flow. Fix condition cards. Added flow cards for car moving, parked, closed&locked.
 v1.5.0  19.08.2020 Added action flow cards for A/C on/off, Defrost on/off, set Temp. Added lat/lon capabilities/flow tokens (repair needed). Fix step 0.5 target temp. Improved pairing.
 v1.4.0  17.08.2020 Stability improvements. Fix pairing. Fix log length. Climate control check engine on. Improved queuing. Added rate limiting. Improved car active detection. Prevent dual Homey active triggering.
 v1.3.0  13.08.2020 Fix target temp setting. Fix target temp scale. Stability improvements. Added command queueing. Added force live via cloud (HTTP GET). Changed forced poll method to GPS.

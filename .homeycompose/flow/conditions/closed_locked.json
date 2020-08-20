@@ -1,0 +1,13 @@
+{
+    "id": "closed_locked",
+    "title": {
+        "en": "The car !{{is|is not}} closed and locked"
+    },
+    "args": [
+        {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+        }
+    ]
+}
