@@ -497,7 +497,7 @@ class CarDevice extends Homey.Device {
 		const moving = location.speed.value > 0
 			|| (Math.abs(location.latitude - lastLocation.latitude) > 0.0001
 			|| Math.abs(location.longitude - lastLocation.longitude) > 0.0001);
-		console.log(`Moving: ${moving}@${location.speed.value} km/h`);
+		// console.log(`Moving: ${moving}@${location.speed.value} km/h`);
 		if (moving) this.lastMoved = Date.now();
 		return moving;
 	}
