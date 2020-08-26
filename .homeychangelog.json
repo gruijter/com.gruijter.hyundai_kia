@@ -25,5 +25,8 @@
   },
   "1.6.0": {
     "en": "Fix live data from app and flow. Fix condition cards. Added flow cards for car moving, parked, closed&locked."
+  },
+  "1.6.1": {
+    "en": "Added short URL for remote force. Improved parked detection. Disable/Enable live data and control from flow (privacy mode)."
   }
 }

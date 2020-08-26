@@ -1,3 +1,5 @@
+
+v1.6.1  26.08.2020 Added short URL for remote force. Improved parked detection. Disable/Enable live data and control from flow (privacy mode).
 v1.6.0  20.08.2020 Fix live data from app and flow. Fix condition cards. Added flow cards for car moving, parked, closed&locked.
 v1.5.0  19.08.2020 Added action flow cards for A/C on/off, Defrost on/off, set Temp. Added lat/lon capabilities/flow tokens (repair needed). Fix step 0.5 target temp. Improved pairing.
 v1.4.0  17.08.2020 Stability improvements. Fix pairing. Fix log length. Climate control check engine on. Improved queuing. Added rate limiting. Improved car active detection. Prevent dual Homey active triggering.
@@ -9,3 +11,4 @@ v1.0.0  03.08.2020 First app store release. Keep polling for 5 minutes after car
 v0.1.0  22.07.2020 App store RC1
 v0.0.2  21.07.2020 Implemented sleepMode polling strategy.
 v0.0.1  20.07.2020 First alpha published on Github.
+

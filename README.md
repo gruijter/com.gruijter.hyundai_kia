@@ -60,11 +60,14 @@ If the engine is on, the status will be automatically refreshed untill 3 minutes
 You can set a forced status update interval in the advanced device settings. This will however drain the 12V battery of your car when the car is parked (engine turned off). When the 12V battery is empty, you will need your emergency key to open the door, and use a battery jumper to get going again!
 
 ## Force live status updates when your phone connects to the car's Bluetooth
-For Android and iOS there are apps that automatically trigger Homey to start getting live updates as soon as your phone connects to the car's Bluetooth. In the automation script you need to open the following web-page (HTTP GET):
+For Android and iOS there are apps that automatically trigger Homey to start getting live updates as soon as your phone connects to the car's Bluetooth. In the automation script you need to open a specific web-page (HTTP GET). The URL of this page can be found in the advanced device settings.
 
-`https://[your Homey cloudid].connect.athom.com/api/app/com.gruijter.hyundai_kia/live?secret=[your secret]`
+There are multiple apps that can do this. For Android have a look at [automate](https://play.google.com/store/apps/details?id=com.llamalab.automate) and adapt [this](https://llamalab.com/automate/community/flows/36268) flow to match your own car's Bluetooth and the URL.
 
-There are multiple apps that can do this. For Android have a look at [automate](https://play.google.com/store/apps/details?id=com.llamalab.automate) and adapt [this](https://llamalab.com/automate/community/flows/36268) flow to match your own car's Bluetooth, your Homey cloudId and secret (search for Homey in the community flows). For iOS have a look at [shortcuts](https://apps.apple.com/app/id915249334).
+For iOS have a look at [shortcuts](https://apps.apple.com/app/id915249334). In Shortcuts Automation > Create Personal Automation > Bluetooth > Choose Your Vehicles Bluetooth Device Name > Get URL.
+
+## Privacy mode
+To temporarily disable Homey being able to get live (location) data, you can create a flow with the action card 'Disable Homey control and live data'. By adding this to your favorite flows, you can fully disable the connection that Homey has with the car from the Homey app. This means that no data is received or logged by Homey, but also that no controls can be sent to the car via Homey. Create a second flow with the action card 'Enable Homey control and live data' to enable the connection again.
 
 ## ABRP
 A Better Route Planner helps you to plan your trip. For its calculations ABRP can use real energy consumption data. By entering your ABRP user token in the device settings, Homey will get the live data for you from the car and acts as a bridge to upload it live to ABRP. Note that if you don’t want to upload any data to ABRP, just don’t enter your car user token in Homey

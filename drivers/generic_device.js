@@ -25,6 +25,7 @@ const Uvo = require('kuvork');
 const GeoPoint = require('geopoint');
 const util = require('util');
 const ABRP = require('../abrp_telemetry');
+const Bitly = require('../bitly');
 const geo = require('../reverseGeo');
 const convert = require('./temp_convert');
 
@@ -52,6 +53,8 @@ class CarDevice extends Homey.Device {
 			this.busy = false;
 			this.watchDogCounter = 6;
 			this.lastSleepModeCheck = Date.now();
+			this.lastMoved = 0;
+			// this.unsetWarning();
 
 			// queue properties
 			this.queue = [];
@@ -91,6 +94,19 @@ class CarDevice extends Homey.Device {
 				this.abrp = new ABRP(abrpOptions);
 			}
 
+			// create Force live URL
+			const secret = this.settings.remote_force_secret ? this.settings.remote_force_secret.replace(/[^a-zA-Z0-9-_*!~]/g, '') : '';
+			await this.setSettings({ remote_force_secret: secret });
+			if (secret !== '') {
+				// setup Bitly client
+				const bitly = new Bitly({ apiKey: Homey.env.BITLY_API_KEY });
+				const cloudID = await this.homey.cloud.getHomeyId();
+				let url = `https://${cloudID}.connect.athom.com/api/app/com.gruijter.hyundai_kia/live?secret=${secret}`;
+				if (this.settings.shorten_url) url = await bitly.shorten(url);
+				this.setSettings({ remote_force_url: url });
+				this.log('Remote force URL:', url);
+			} else this.setSettings({ remote_force_url: '' });
+
 			// init listeners
 			if (!this.allListeners) this.registerListeners();
 
@@ -104,6 +120,10 @@ class CarDevice extends Homey.Device {
 
 	// stuff for queue handling here
 	async enQueue(item) {
+		if (this.disabled) {
+			this.log('ignoring command; Homey live link is disabled.');
+			return;
+		}
 		if (this.tail >= 10) {
 			this.error('queue overflow');
 			return;
@@ -330,13 +350,14 @@ class CarDevice extends Homey.Device {
 		clearInterval(this.intervalIdDevicePoll);
 	}
 
-	restartDevice(delay) {
+	async restartDevice(delay) {
 		// this.destroyListeners();
-		this.setUnavailable('Device is restarting. Wait a few minutes!');
 		this.stopPolling();
-		setTimeout(() => {
-			this.onInitDevice();
-		}, delay || 1000 * 60 * 5);	// wait 5 minutes to reset possible auth failure
+		this.setUnavailable('Device is restarting. Wait a few minutes!');
+		await setTimeoutPromise(delay || 1000 * 60 * 5).then(() => this.onInitDevice());
+		// setTimeout(() => {
+		// 	this.onInitDevice();
+		// }, delay || 1000 * 60 * 5);	// wait 5 minutes to reset possible auth failure
 	}
 
 	// this method is called when the Device is added
@@ -356,10 +377,9 @@ class CarDevice extends Homey.Device {
 	}
 
 	// this method is called when the user has changed the device's settings in Homey.
-	async onSettings() {	// { newSettings }
-		// this.log(newSettings);
+	async onSettings() { // { newSettings }) {
 		this.log(`${this.getName()} device settings changed by user`);
-		this.restartDevice(1000);
+		this.restartDevice(250);
 		// do callback to confirm settings change
 		return Promise.resolve(true); // string can be returned to user
 	}
@@ -444,8 +464,8 @@ class CarDevice extends Homey.Device {
 			const alarmBattery = batteryCharge < this.settings.batteryAlarmLevel;
 			const distance = this.distance(info.location);
 			const locString = await geo.getCarLocString(info.location); // reverse ReverseGeocoding
-			const parked = !engine && (Date.now() - this.lastMoved > 30 * 1000); // && locked;
 			const moving = this.isMoving(info.location);
+			const { newParkLocation } = this.isParked(info);
 
 			// update capabilities
 			this.setCapability('live_data', this.liveData);
@@ -476,15 +496,14 @@ class CarDevice extends Homey.Device {
 					.trigger(this, tokens)
 					.catch(this.error);
 			}
-			this.moving = moving;
+			// this.moving = moving;
 
-			if (parked && !this.parked) {
+			if (newParkLocation) {
 				this.homey.flow.getDeviceTriggerCard('has_parked')
 					.trigger(this, tokens)
 					.catch(this.error);
 			}
-			this.parked = parked;
-
+			// this.parked = parked;
 
 		} catch (error) {
 			this.error(error);
@@ -500,6 +519,19 @@ class CarDevice extends Homey.Device {
 		// console.log(`Moving: ${moving}@${location.speed.value} km/h`);
 		if (moving) this.lastMoved = Date.now();
 		return moving;
+	}
+
+	isParked(info) {
+		const parked = !info.status.engine; //  && (Date.now() - this.lastMoved > 30 * 1000); // 30s after engine shut off or sleepModeCheck
+		if (!this.parkLocation) this.parkLocation = info.location;
+		const newParkLocation = parked
+			&& (info.location.latitude !== this.parkLocation.latitude || info.location.longitude !== this.parkLocation.longitude);
+		if (newParkLocation) {
+			this.parkLocation = info.location;
+			this.carLastActive = Date.now(); // keep polling for some time
+		}
+		// console.log(`isParked: ${parked}. newParkLoc: ${newParkLocation}`);
+		return { parked, newParkLocation };
 	}
 
 	acOnOff(acOn, source) {
@@ -567,6 +599,23 @@ class CarDevice extends Homey.Device {
 			this.enQueue({ command: 'doPoll', args: true });
 		}
 		// ADD STOP LIVE DATA HERE
+		return Promise.resolve(true);
+	}
+
+	setHomeyLink(available, source) {
+		this.log(`Homey live link enabled via ${source}: ${available}`);
+		if (!available) {
+			this.disabled = true;
+			this.stopPolling();
+			// this.flushQueue();
+			this.setWarning(`Homey live link has been disabled via ${source}`);
+			// this.setUnavailable('Homey live link has been disabled');
+		} else {
+			this.disabled = false;
+			// this.setAvailable();
+			this.unsetWarning();
+			this.startPolling(this.settings.pollInterval);
+		}
 		return Promise.resolve(true);
 	}
 
@@ -781,7 +830,6 @@ status : {
 		"batState": 0
 	},
 	"time": "20200721101303"
-
 
 // unparsed (power off, exit car, lock door, get server status):
 status : {

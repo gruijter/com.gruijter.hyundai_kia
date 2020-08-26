@@ -1,6 +1,6 @@
 {
   "id": "com.gruijter.hyundai_kia",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#00aaff",
@@ -453,6 +453,36 @@
         ]
       },
       {
+        "id": "homey_link_off",
+        "title": {
+          "en": "Disable Homey control and live data"
+        },
+        "args": [
+          {
+            "type": "autocomplete",
+            "name": "device",
+            "placeholder": {
+              "en": "Select which car"
+            }
+          }
+        ]
+      },
+      {
+        "id": "homey_link_on",
+        "title": {
+          "en": "Enable Homey control and live data"
+        },
+        "args": [
+          {
+            "type": "autocomplete",
+            "name": "device",
+            "placeholder": {
+              "en": "Select which car"
+            }
+          }
+        ]
+      },
+      {
         "id": "set_target_temp",
         "title": {
           "en": "Set target temperature"
@@ -707,7 +737,7 @@
         {
           "type": "group",
           "label": {
-            "en": "Force via cloud (HTTP GET)"
+            "en": "Force live data via cloud (HTTP GET)"
           },
           "children": [
             {
@@ -717,7 +747,29 @@
                 "en": "Remote force secret"
               },
               "hint": {
-                "en": "Force a refresh by calling https://<Homey CloudId>.connect.athom.com/api/app/com.gruijter.hyundai_kia/live?secret=<Remote force secret>."
+                "en": "Enter a unique secret (numbers and normal characters only). Leave empty to disable remote force."
+              },
+              "value": ""
+            },
+            {
+              "id": "shorten_url",
+              "type": "checkbox",
+              "label": {
+                "en": "Create short URL"
+              },
+              "hint": {
+                "en": "The force live data URL is very long and difficult to type into your phone automation app. A short URL can be created for you using Bitly. Attention: Bitly gathers statistics when this link is used."
+              },
+              "value": true
+            },
+            {
+              "id": "remote_force_url",
+              "type": "label",
+              "label": {
+                "en": "Remote force URL"
+              },
+              "hint": {
+                "en": "After entering a secret, you can force live data by calling this website (HTTP GET)."
               },
               "value": ""
             }
@@ -1037,7 +1089,7 @@
         {
           "type": "group",
           "label": {
-            "en": "Force via cloud (HTTP GET)"
+            "en": "Force live data via cloud (HTTP GET)"
           },
           "children": [
             {
@@ -1047,7 +1099,29 @@
                 "en": "Remote force secret"
               },
               "hint": {
-                "en": "Force a refresh by calling https://<Homey CloudId>.connect.athom.com/api/app/com.gruijter.hyundai_kia/live?secret=<Remote force secret>."
+                "en": "Enter a unique secret (numbers and normal characters only). Leave empty to disable remote force."
+              },
+              "value": ""
+            },
+            {
+              "id": "shorten_url",
+              "type": "checkbox",
+              "label": {
+                "en": "Create short URL"
+              },
+              "hint": {
+                "en": "The force live data URL is very long and difficult to type into your phone automation app. A short URL can be created for you using Bitly. Attention: Bitly gathers statistics when this link is used."
+              },
+              "value": true
+            },
+            {
+              "id": "remote_force_url",
+              "type": "label",
+              "label": {
+                "en": "Remote force URL"
+              },
+              "hint": {
+                "en": "After entering a secret, you can force live data by calling this website (HTTP GET)."
               },
               "value": ""
             }

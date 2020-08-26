@@ -1,0 +1,15 @@
+{
+    "id": "homey_link_off",
+    "title": {
+        "en": "Disable Homey control and live data"
+    },
+    "args": [
+        {
+          "type": "autocomplete",
+          "name": "device",
+          "placeholder": {
+            "en": "Select which car"
+          }
+        }
+      ]
+}

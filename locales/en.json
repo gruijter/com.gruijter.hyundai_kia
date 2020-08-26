@@ -7,7 +7,7 @@
 				"settingsTitle": "Settings",
 				"settingsInstructions": "In the app settings you can change the live update interval. You can also set 24/7 forced updates. WARNING: forced updates will drain your 12V battery.",
 				"CloudForceTitle": "Start live data via car Bluetooth",
-				"CloudForceInstructions": "For Android and iOS there are apps or automation scripts that you can use to automatically start getting live updates as soon as your phone connects to the car's Bleutooth. In this automation script you need to open the following web-page (HTTP GET): https://[your Homey cloudid].connect.athom.com/api/app/com.gruijter.hyundai_kia/live?secret=[your secret]",
+				"CloudForceInstructions": "For Android and iOS there are apps or automation scripts that you can use to automatically start getting live updates as soon as your phone connects to the car's Bleutooth. In this automation script you need to open a specific web-page (HTTP GET). The URL of this page can be found in the advanced device settings.",
 				"ABRPTitle": "A Better Route Planner",
 			"ABRPInstructions": "If you want to link live data with ABRP, enter the user token in the Homey device settings. You can get a user token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Homey > copy the token. "
 		},

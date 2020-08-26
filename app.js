@@ -44,6 +44,7 @@ class carApp extends Homey.App {
 			.on('memwarn', () => {
 				this.log('memwarn!');
 			});
+		this.registerFlowListeners();
 		// do garbage collection every 10 minutes
 		// this.intervalIdGc = setInterval(() => {
 		// 	global.gc();
@@ -61,16 +62,84 @@ class carApp extends Homey.App {
 	}
 
 	forceLive(query) {
-		// http://<IP>/api/app/com.gruijter.hyundai_kia/live?secret=1234abcd
-		// https://<cloudid>.connect.athom.com/api/app/com.gruijter.hyundai_kia/live?secret=1234abcd
+		const devices = this.getAllDevices();
+		devices.forEach((device) => device.forceLive(query.secret));
+		// const drivers = this.homey.drivers.getDrivers();
+		// Object.keys(drivers).forEach((driverId) => {
+		// 	const devices = drivers[driverId].getDevices();
+		// 	devices.forEach((device) => {
+		// 		device.forceLive(query.secret);
+		// 	});
+		// });
+	}
+
+	// special stuff
+	getAllDevices() {
+		let devices = [];
 		const drivers = this.homey.drivers.getDrivers();
 		Object.keys(drivers).forEach((driverId) => {
-			const devices = drivers[driverId].getDevices();
-			devices.forEach((device) => {
-				device.forceLive(query.secret);
-			});
+			devices = devices.concat(drivers[driverId].getDevices());
 		});
+		return devices;
+	}
 
+	setHomeyLink(available, source) {	// call with device bound as this
+		if (!available) {
+			this.disabled = true;
+			this.stopPolling();
+			// this.flushQueue();
+			this.log(`Homey live link has been disabled via ${source}`);
+			this.setUnavailable(`Homey live link has been disabled via ${source}`);
+		} else {
+			this.disabled = false;
+			this.setAvailable();
+			this.log(`Homey live link has been enabled via ${source}`);
+			this.startPolling(this.settings.pollInterval);
+		}
+		return Promise.resolve(true);
+	}
+
+	registerFlowListeners() {
+
+		const homeyLinkOn = this.homey.flow.getActionCard('homey_link_on');
+		homeyLinkOn.registerRunListener((args) => {
+			const devices = this.getAllDevices();
+			const device = devices.filter((dev) => dev.getData().id === args.device.id)[0];
+			if (device) {
+				this.setHomeyLink.call(device, true, 'flow');
+			}
+		});
+		homeyLinkOn
+			.getArgument('device')
+			.registerAutocompleteListener(() => {
+				const devices = this.getAllDevices();
+				return devices.map((device) => (
+					{
+						name: device.getName(),
+						id: device.getData().id,
+					}
+				));
+			});
+
+		const homeyLinkOff = this.homey.flow.getActionCard('homey_link_off');
+		homeyLinkOff.registerRunListener((args) => {
+			const devices = this.getAllDevices();
+			const device = devices.filter((dev) => dev.getData().id === args.device.id)[0];
+			if (device) {
+				this.setHomeyLink.call(device, false, 'flow');
+			}
+		});
+		homeyLinkOff
+			.getArgument('device')
+			.registerAutocompleteListener(() => {
+				const devices = this.getAllDevices();
+				return devices.map((device) => (
+					{
+						name: device.getName(),
+						id: device.getData().id,
+					}
+				));
+			});
 	}
 
 }

@@ -1,0 +1,15 @@
+{
+    "id": "homey_link_on",
+    "title": {
+        "en": "Enable Homey control and live data"
+    },
+    "args": [
+        {
+          "type": "autocomplete",
+          "name": "device",
+          "placeholder": {
+            "en": "Select which car"
+          }
+        }
+      ]
+}
