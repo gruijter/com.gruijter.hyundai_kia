@@ -531,50 +531,50 @@ class CarDevice extends Homey.Device {
 			// console.log('coming home confidence', confidence);
 
 			// TEMP LOGS FOR DEV PURPOSES
-			const opts = {
-				title: 'avgSpd2Home',
-				type: 'number',
-				chart: 'stepLine',
-				units: 'km/h',
-				decimals: 2,
-			};
-			this.homey.insights.getLog('avgSpd2Home')
-				.then((log) => log.createEntry(avgSpd2Home))
-				.catch(() => {
-					this.homey.insights.createLog('avgSpd2Home', opts)
-						.then((log) => log.createEntry(avgSpd2Home))
-						.catch(this.error);
-				});
+			// const opts = {
+			// 	title: 'avgSpd2Home',
+			// 	type: 'number',
+			// 	chart: 'stepLine',
+			// 	units: 'km/h',
+			// 	decimals: 2,
+			// };
+			// this.homey.insights.getLog('avgSpd2Home')
+			// 	.then((log) => log.createEntry(avgSpd2Home))
+			// 	.catch(() => {
+			// 		this.homey.insights.createLog('avgSpd2Home', opts)
+			// 			.then((log) => log.createEntry(avgSpd2Home))
+			// 			.catch(this.error);
+			// 	});
 
-			const opts2 = {
-				title: 'avgRoadSpd',
-				type: 'number',
-				chart: 'stepLine',
-				units: 'km/h',
-				decimals: 2,
-			};
-			this.homey.insights.getLog('avgRoadSpd')
-				.then((log) => log.createEntry(avgRoadSpd))
-				.catch(() => {
-					this.homey.insights.createLog('avgRoadSpd', opts2)
-						.then((log) => log.createEntry(avgRoadSpd))
-						.catch(this.error);
-				});
+			// const opts2 = {
+			// 	title: 'avgRoadSpd',
+			// 	type: 'number',
+			// 	chart: 'stepLine',
+			// 	units: 'km/h',
+			// 	decimals: 2,
+			// };
+			// this.homey.insights.getLog('avgRoadSpd')
+			// 	.then((log) => log.createEntry(avgRoadSpd))
+			// 	.catch(() => {
+			// 		this.homey.insights.createLog('avgRoadSpd', opts2)
+			// 			.then((log) => log.createEntry(avgRoadSpd))
+			// 			.catch(this.error);
+			// 	});
 
-			const opts3 = {
-				title: 'confidence',
-				type: 'number',
-				chart: 'stepLine',
-				units: '%',
-				decimals: 2,
-			};
-			this.homey.insights.getLog('ratio')
-				.then((log) => log.createEntry(confidence))
-				.catch(() => {
-					this.homey.insights.createLog('ratio', opts3)
-						.then((log) => log.createEntry(confidence))
-						.catch(this.error);
-				});
+			// const opts3 = {
+			// 	title: 'confidence',
+			// 	type: 'number',
+			// 	chart: 'stepLine',
+			// 	units: '%',
+			// 	decimals: 2,
+			// };
+			// this.homey.insights.getLog('ratio')
+			// 	.then((log) => log.createEntry(confidence))
+			// 	.catch(() => {
+			// 		this.homey.insights.createLog('ratio', opts3)
+			// 			.then((log) => log.createEntry(confidence))
+			// 			.catch(this.error);
+			// 	});
 
 		}
 		return headingHome;
