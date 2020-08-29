@@ -1,0 +1,13 @@
+{
+	"type": "number",
+	"title": {
+		"en": "ETTH"
+	},
+	"units": {
+		"en": "minutes"
+	},
+	"getable": true,
+	"setable": false,
+	"insights": true,
+	"icon": "./assets/etth.svg"
+}

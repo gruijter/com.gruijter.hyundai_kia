@@ -35,6 +35,8 @@ const driverSpecifics = {
 		'closed_locked',
 		'location',
 		'distance',
+		'etth',
+		'heading_home',
 		'speed',
 		'range',
 

@@ -1,7 +1,7 @@
 {
-    "id": "force_poll",
+    "id": "heading_home",
     "title": {
-        "en": "Force live data poll (once)"
+        "en": "The car !{{is|isn't}} heading home"
     },
     "args": [
         {

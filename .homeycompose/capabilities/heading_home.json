@@ -1,0 +1,17 @@
+{
+	"type": "boolean",
+	"title": {
+		"en": "Heading home"
+	},
+	"getable": true,
+	"setable": false,
+	"insights": true,
+	"insightsTitleTrue": {
+		"en": "Heading home"
+	},
+	"insightsTitleFalse": {
+		"en": "Not heading home"
+	},
+	"icon": "./assets/heading_home.svg",
+	"uiQuickAction": false
+}

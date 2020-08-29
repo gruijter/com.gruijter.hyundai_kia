@@ -41,6 +41,17 @@ const isClosedLocked = (status) => {
 	return doorLock && !trunkOpen && !hoodOpen && Object.keys(doorOpen).reduce((closedAccu, door) => closedAccu || !doorOpen[door], true);
 };
 
+const stringToDate = (str) => {
+	// var str = "20140711090807";
+	const year = str.substring(0, 4);
+	const month = str.substring(4, 6);
+	const day = str.substring(6, 8);
+	const hour = str.substring(8, 10);
+	const minute = str.substring(10, 12);
+	const second = str.substring(12, 14);
+	return new Date(year, month - 1, day, hour, minute, second);
+};
+
 class CarDevice extends Homey.Device {
 
 	// this method is called when the Device is inited
@@ -54,6 +65,7 @@ class CarDevice extends Homey.Device {
 			this.watchDogCounter = 6;
 			this.lastSleepModeCheck = Date.now();
 			this.lastMoved = 0;
+			this.history = [];
 			// this.unsetWarning();
 
 			// queue properties
@@ -196,17 +208,6 @@ class CarDevice extends Homey.Device {
 						}
 						const msg = error.body || error.message || error;
 						this.error(`${item} failed`, msg);
-						// retry once on duplicate request
-						// if (msg.resMsg && msg.resMsg.includes('Duplicate request')) {
-						// 	await setTimeoutPromise(5 * 1000, 'waiting is done');
-						// 	await methodClass[item.command](item.args)
-						// 		.then(() => {
-						// 			this.log('retry succesfull');
-						// 			this.watchDogCounter = 6;
-						// 			this.setAvailable();
-						// 		})
-						// 		.catch(() => this.error('retry failed'));
-						// }
 						this.busy = false;
 					});
 				await setTimeoutPromise((itemWait[item.command] || 5) * 1000, 'waiting is done');
@@ -355,9 +356,6 @@ class CarDevice extends Homey.Device {
 		this.stopPolling();
 		this.setUnavailable('Device is restarting. Wait a few minutes!');
 		await setTimeoutPromise(delay || 1000 * 60 * 5).then(() => this.onInitDevice());
-		// setTimeout(() => {
-		// 	this.onInitDevice();
-		// }, delay || 1000 * 60 * 5);	// wait 5 minutes to reset possible auth failure
 	}
 
 	// this method is called when the Device is added
@@ -396,6 +394,203 @@ class CarDevice extends Homey.Device {
 		}
 	}
 
+	async handleInfo(info) {
+		try {
+			const { speed } = info.location;
+			const { odometer } = info;
+			const {
+				engine,
+				doorLock: locked,
+				airCtrlOn,
+				defrost,
+			} = info.status;
+			const targetTemperature = convert.getTempFromCode(info.status.airTemp.value);
+			const alarmTirePressure = !!info.status.tirePressureLamp.tirePressureLampAll;
+			const batteryCharge = info.status.battery.batSoc;
+
+			// set defaults for non-EV vehicles
+			const charger = info.status.evStatus ? info.status.evStatus.batteryPlugin : 0; // 0=none 1=fast 2=slow/normal
+			const charging = info.status.evStatus ? info.status.evStatus.batteryCharge : false;
+			const EVBatteryCharge = info.status.evStatus ? info.status.evStatus.batteryStatus : 0;
+			const range = info.status.evStatus ? info.status.evStatus.drvDistance[0].rangeByFuel.totalAvailableRange.value : info.status.dte.value;
+
+			// calculated properties
+			const locString = geo.getCarLocString(info.location); // reverse ReverseGeocoding ASYNC!!!
+			const etth = this.etth(info);	// ASYNC in future!!!
+			const headingHome = this.isHeadingHome(info);
+			const distance = this.distance(info.location);
+			const moving = this.isMoving(info.location);
+			const hasParked = this.isParking(info);
+			const closedLocked = isClosedLocked(info.status);
+			const alarmEVBattery = EVBatteryCharge < this.settings.EVbatteryAlarmLevel;
+			const alarmBattery = batteryCharge < this.settings.batteryAlarmLevel;
+
+			// update capabilities
+			this.setCapability('measure_battery.EV', EVBatteryCharge);
+			this.setCapability('measure_battery.12V', batteryCharge);
+			this.setCapability('alarm_battery', alarmBattery || alarmEVBattery);
+			this.setCapability('alarm_tire_pressure', alarmTirePressure);
+			this.setCapability('locked', locked);
+			this.setCapability('closed_locked', closedLocked);
+			this.setCapability('target_temperature', targetTemperature);
+			this.setCapability('defrost', defrost);
+			this.setCapability('climate_control', airCtrlOn);
+			this.setCapability('engine', engine);
+			this.setCapability('charging', charging);
+			this.setCapability('charger', charger.toString());
+			this.setCapability('odometer', odometer.value);
+			this.setCapability('range', range);
+			this.setCapability('speed', speed.value);
+			this.setCapability('latitude', info.location.latitude);
+			this.setCapability('longitude', info.location.longitude);
+			this.setCapability('distance', distance);
+			this.setCapability('heading_home', headingHome);
+			this.setCapability('location', await Promise.resolve(locString));
+			this.setCapability('etth', await Promise.resolve(etth));
+			// this.setCapability('live_data', this.liveData);
+
+			// update flow triggers
+			const tokens = {};
+			if (moving) {
+				this.homey.flow.getDeviceTriggerCard('has_moved')
+					.trigger(this, tokens)
+					.catch(this.error);
+			}
+
+			if (hasParked) {
+				this.homey.flow.getDeviceTriggerCard('has_parked')
+					.trigger(this, tokens)
+					.catch(this.error);
+			}
+
+		} catch (error) {
+			this.error(error);
+		}
+	}
+
+	// helper functions
+	isMoving(location) {
+		const lastLocation = { latitude: this.getCapabilityValue('latitude'), longitude: this.getCapabilityValue('longitude') };
+		const moving = location.speed.value > 0
+			|| (Math.abs(location.latitude - lastLocation.latitude) > 0.0001
+			|| Math.abs(location.longitude - lastLocation.longitude) > 0.0001);
+		// console.log(`Moving: ${moving}@${location.speed.value} km/h`);
+		if (moving) this.lastMoved = Date.now();
+		return moving;
+	}
+
+	isParking(info) {
+		const parked = !info.status.engine; //  && (Date.now() - this.lastMoved > 30 * 1000); // 30s after engine shut off or sleepModeCheck
+		if (!this.parkLocation) this.parkLocation = info.location;
+		const hasParked = parked	// on new parking location
+			&& (info.location.latitude !== this.parkLocation.latitude || info.location.longitude !== this.parkLocation.longitude);
+		if (hasParked) {
+			this.parkLocation = info.location;
+			this.carLastActive = Date.now(); // keep polling for some time
+		}
+		// console.log(`isParked: ${parked}. newParkLoc: ${newParkLocation}`);
+		return hasParked;
+	}
+
+	// alternative: check if route matches google route
+	isHeadingHome(info) {
+		const distance = this.distance(info.location);
+		const timeNow = stringToDate(info.status.time);
+		let headingHome = !!this.getCapabilityValue('heading_home');
+
+		// keep history max 15 mins, will be reset on engine off
+		if (!info.status.engine) {
+			this.history = [];
+			headingHome = false;
+		}
+		this.history.push(info);
+		this.history = this.history.filter((histInfo) => timeNow - stringToDate(histInfo.status.time) < 15 * 60 * 1000);
+
+		// return old state if too far away from home
+		if (distance > (this.settings.heading_home_max_distance || 100)) return headingHome;
+
+		const oldestEntry = this.history[0];
+		const distOldest = this.distance(oldestEntry.location);
+		const timeOldest = stringToDate(oldestEntry.status.time);
+		const deltaTm = timeNow - timeOldest;
+
+		if (deltaTm > 4 * 60 * 1000) {	// at least 4 min of history
+			const avgSpd2Home = (distOldest - distance) / (deltaTm / 3600 / 1000); // km/h
+			const samples = this.history.length;
+			const avgRoadSpd = this.history.reduce((avg, histInfo) => {
+				const average = avg + histInfo.location.speed.value / samples;
+				return average;
+			}, 0);
+
+			this.avgSpd2Home = avgSpd2Home;
+			this.avgRoadSpd = avgRoadSpd;
+
+			const confidence = avgRoadSpd ? 100 * (avgSpd2Home / avgRoadSpd) : 0;
+			headingHome = confidence > (this.settings.heading_home_confidence || 50);
+			// console.log('comingHome', headingHome);
+			// console.log('coming home confidence', confidence);
+
+			// TEMP LOGS FOR DEV PURPOSES
+			const opts = {
+				title: 'avgSpd2Home',
+				type: 'number',
+				chart: 'stepLine',
+				units: 'km/h',
+				decimals: 2,
+			};
+			this.homey.insights.getLog('avgSpd2Home')
+				.then((log) => log.createEntry(avgSpd2Home))
+				.catch(() => {
+					this.homey.insights.createLog('avgSpd2Home', opts)
+						.then((log) => log.createEntry(avgSpd2Home))
+						.catch(this.error);
+				});
+
+			const opts2 = {
+				title: 'avgRoadSpd',
+				type: 'number',
+				chart: 'stepLine',
+				units: 'km/h',
+				decimals: 2,
+			};
+			this.homey.insights.getLog('avgRoadSpd')
+				.then((log) => log.createEntry(avgRoadSpd))
+				.catch(() => {
+					this.homey.insights.createLog('avgRoadSpd', opts2)
+						.then((log) => log.createEntry(avgRoadSpd))
+						.catch(this.error);
+				});
+
+			const opts3 = {
+				title: 'confidence',
+				type: 'number',
+				chart: 'stepLine',
+				units: '%',
+				decimals: 2,
+			};
+			this.homey.insights.getLog('ratio')
+				.then((log) => log.createEntry(confidence))
+				.catch(() => {
+					this.homey.insights.createLog('ratio', opts3)
+						.then((log) => log.createEntry(confidence))
+						.catch(this.error);
+				});
+
+		}
+		return headingHome;
+	}
+
+	// Estimated Time to Home. make async and include Google API
+	etth(info) {
+		const distance = this.distance(info.location);
+		let avgSpd = Math.abs(this.avgSpd2Home) || (this.avgRoadSpd * 0.7) || 40; // Make settable?? What to do with this????
+		avgSpd = (avgSpd < 15) ? 15 : avgSpd;
+		avgSpd = (avgSpd > 120) ? 120 : avgSpd;
+		const etth = (distance > 0.15) ? (60 * (distance / avgSpd)) : 0;	// in minutes
+		// console.log('home in minutes:', etth);
+		return Math.round(etth);
+	}
+
 	distance(location) {
 		const lat1 = location.latitude;
 		const lon1 = location.longitude;
@@ -403,7 +598,7 @@ class CarDevice extends Homey.Device {
 		const lon2 = this.settings.lon;
 		const from = new GeoPoint(Number(lat1), Number(lon1));
 		const to = new GeoPoint(Number(lat2), Number(lon2));
-		return Math.round(from.distanceTo(to, true) * 10) / 10;
+		return Math.round(from.distanceTo(to, true) * 100) / 100;
 	}
 
 	async forceLive(secret) {
@@ -433,105 +628,6 @@ class CarDevice extends Homey.Device {
 		} catch (error) {
 			this.error(error);
 		}
-	}
-
-	async handleInfo(info) {
-		try {
-			const { speed } = info.location;
-			const { odometer } = info;
-			const {
-				engine,
-				doorLock: locked,
-				airCtrlOn,
-				defrost,
-				// trunkOpen,
-				// hoodOpen,
-				// doorOpen,
-			} = info.status;
-			const targetTemperature = convert.getTempFromCode(info.status.airTemp.value);
-			const alarmTirePressure = !!info.status.tirePressureLamp.tirePressureLampAll;
-
-			// set defaults for non-EV vehicles
-			const charger = info.status.evStatus ? info.status.evStatus.batteryPlugin : 0; // 0=none 1=fast? 2=slow 3=???
-			const charging = info.status.evStatus ? info.status.evStatus.batteryCharge : false;
-			const EVBatteryCharge = info.status.evStatus ? info.status.evStatus.batteryStatus : 0;
-			const range = info.status.evStatus ? info.status.evStatus.drvDistance[0].rangeByFuel.totalAvailableRange.value : info.status.dte.value;
-			const batteryCharge = info.status.battery.batSoc;
-
-			// calculated properties
-			const closedLocked = isClosedLocked(info.status);
-			const alarmEVBattery = EVBatteryCharge < this.settings.EVbatteryAlarmLevel;
-			const alarmBattery = batteryCharge < this.settings.batteryAlarmLevel;
-			const distance = this.distance(info.location);
-			const locString = await geo.getCarLocString(info.location); // reverse ReverseGeocoding
-			const moving = this.isMoving(info.location);
-			const { newParkLocation } = this.isParked(info);
-
-			// update capabilities
-			this.setCapability('live_data', this.liveData);
-			this.setCapability('measure_battery.EV', EVBatteryCharge);
-			this.setCapability('measure_battery.12V', batteryCharge);
-			this.setCapability('alarm_battery', alarmBattery || alarmEVBattery);
-			this.setCapability('alarm_tire_pressure', alarmTirePressure);
-			this.setCapability('locked', locked);
-			this.setCapability('closed_locked', closedLocked);
-			this.setCapability('target_temperature', targetTemperature);
-			this.setCapability('defrost', defrost);
-			this.setCapability('climate_control', airCtrlOn);
-			this.setCapability('engine', engine);
-			this.setCapability('charging', charging);
-			this.setCapability('charger', charger.toString());
-			this.setCapability('odometer', odometer.value);
-			this.setCapability('range', range);
-			this.setCapability('speed', speed.value);
-			this.setCapability('location', locString);
-			this.setCapability('distance', distance);
-			this.setCapability('latitude', info.location.latitude);
-			this.setCapability('longitude', info.location.longitude);
-
-			// update flow triggers
-			const tokens = {};
-			if (moving) {
-				this.homey.flow.getDeviceTriggerCard('has_moved')
-					.trigger(this, tokens)
-					.catch(this.error);
-			}
-			// this.moving = moving;
-
-			if (newParkLocation) {
-				this.homey.flow.getDeviceTriggerCard('has_parked')
-					.trigger(this, tokens)
-					.catch(this.error);
-			}
-			// this.parked = parked;
-
-		} catch (error) {
-			this.error(error);
-		}
-	}
-
-	// helper functions
-	isMoving(location) {
-		const lastLocation = { latitude: this.getCapabilityValue('latitude'), longitude: this.getCapabilityValue('longitude') };
-		const moving = location.speed.value > 0
-			|| (Math.abs(location.latitude - lastLocation.latitude) > 0.0001
-			|| Math.abs(location.longitude - lastLocation.longitude) > 0.0001);
-		// console.log(`Moving: ${moving}@${location.speed.value} km/h`);
-		if (moving) this.lastMoved = Date.now();
-		return moving;
-	}
-
-	isParked(info) {
-		const parked = !info.status.engine; //  && (Date.now() - this.lastMoved > 30 * 1000); // 30s after engine shut off or sleepModeCheck
-		if (!this.parkLocation) this.parkLocation = info.location;
-		const newParkLocation = parked
-			&& (info.location.latitude !== this.parkLocation.latitude || info.location.longitude !== this.parkLocation.longitude);
-		if (newParkLocation) {
-			this.parkLocation = info.location;
-			this.carLastActive = Date.now(); // keep polling for some time
-		}
-		// console.log(`isParked: ${parked}. newParkLoc: ${newParkLocation}`);
-		return { parked, newParkLocation };
 	}
 
 	acOnOff(acOn, source) {

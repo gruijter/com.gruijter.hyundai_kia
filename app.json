@@ -1,6 +1,6 @@
 {
   "id": "com.gruijter.hyundai_kia",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#00aaff",
@@ -21,7 +21,9 @@
       "uvo",
       "bluelink",
       "ABRP",
-      "better route planner"
+      "better route planner",
+      "location",
+      "geofence"
     ]
   },
   "category": [
@@ -265,6 +267,19 @@
             "filter": "driver_id=uvo|bluelink"
           }
         ]
+      },
+      {
+        "id": "heading_home_true",
+        "title": {
+          "en": "The car is heading home"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+          }
+        ]
       }
     ],
     "conditions": [
@@ -360,6 +375,19 @@
         ]
       },
       {
+        "id": "heading_home",
+        "title": {
+          "en": "The car !{{is|isn't}} heading home"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+          }
+        ]
+      },
+      {
         "id": "moving",
         "title": {
           "en": "The car !{{is|is not}} moving"
@@ -442,7 +470,7 @@
       {
         "id": "force_poll",
         "title": {
-          "en": "Force live data poll"
+          "en": "Force live data poll (once)"
         },
         "args": [
           {
@@ -778,25 +806,6 @@
         {
           "type": "group",
           "label": {
-            "en": "A Better Route Planner (ABRP)"
-          },
-          "children": [
-            {
-              "id": "abrp_user_token",
-              "type": "password",
-              "label": {
-                "en": "ABRP user token"
-              },
-              "hint": {
-                "en": "Get a token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Homey > copy the token."
-              },
-              "value": ""
-            }
-          ]
-        },
-        {
-          "type": "group",
-          "label": {
             "en": "Home location settings"
           },
           "children": [
@@ -821,6 +830,47 @@
                 "en": "Home location is used to calculate the car's distance."
               },
               "value": 0
+            },
+            {
+              "id": "heading_home_confidence",
+              "type": "number",
+              "label": {
+                "en": "Heading home confidence"
+              },
+              "hint": {
+                "en": "A higher value will reduce false 'heading home' states. Default is 50."
+              },
+              "value": 50
+            },
+            {
+              "id": "heading_home_max_distance",
+              "type": "number",
+              "label": {
+                "en": "Heading home max distance (km)"
+              },
+              "hint": {
+                "en": "The maximum beeline distance for 'heading home' state. Default is 100 km."
+              },
+              "value": 100
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "A Better Route Planner (ABRP)"
+          },
+          "children": [
+            {
+              "id": "abrp_user_token",
+              "type": "password",
+              "label": {
+                "en": "ABRP user token"
+              },
+              "hint": {
+                "en": "Get a token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Homey > copy the token."
+              },
+              "value": ""
             }
           ]
         },
@@ -1130,25 +1180,6 @@
         {
           "type": "group",
           "label": {
-            "en": "A Better Route Planner (ABRP)"
-          },
-          "children": [
-            {
-              "id": "abrp_user_token",
-              "type": "password",
-              "label": {
-                "en": "ABRP user token"
-              },
-              "hint": {
-                "en": "Get a token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Homey > copy the token."
-              },
-              "value": ""
-            }
-          ]
-        },
-        {
-          "type": "group",
-          "label": {
             "en": "Home location settings"
           },
           "children": [
@@ -1173,6 +1204,47 @@
                 "en": "Home location is used to calculate the car's distance."
               },
               "value": 0
+            },
+            {
+              "id": "heading_home_confidence",
+              "type": "number",
+              "label": {
+                "en": "Heading home confidence"
+              },
+              "hint": {
+                "en": "A higher value will reduce false 'heading home' states. Default is 50."
+              },
+              "value": 50
+            },
+            {
+              "id": "heading_home_max_distance",
+              "type": "number",
+              "label": {
+                "en": "Heading home max distance (km)"
+              },
+              "hint": {
+                "en": "The maximum beeline distance for 'heading home' state. Default is 100 km."
+              },
+              "value": 100
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "A Better Route Planner (ABRP)"
+          },
+          "children": [
+            {
+              "id": "abrp_user_token",
+              "type": "password",
+              "label": {
+                "en": "ABRP user token"
+              },
+              "hint": {
+                "en": "Get a token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Homey > copy the token."
+              },
+              "value": ""
             }
           ]
         },
@@ -1435,6 +1507,36 @@
       },
       "uiComponent": "sensor",
       "uiQuickAction": true
+    },
+    "etth": {
+      "type": "number",
+      "title": {
+        "en": "ETTH"
+      },
+      "units": {
+        "en": "minutes"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "icon": "./assets/etth.svg"
+    },
+    "heading_home": {
+      "type": "boolean",
+      "title": {
+        "en": "Heading home"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Heading home"
+      },
+      "insightsTitleFalse": {
+        "en": "Not heading home"
+      },
+      "icon": "./assets/heading_home.svg",
+      "uiQuickAction": false
     },
     "latitude": {
       "type": "number",

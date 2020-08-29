@@ -28,5 +28,8 @@
   },
   "1.6.1": {
     "en": "Added short URL for remote force. Improved parked detection. Disable/Enable live data and control from flow (privacy mode)."
+  },
+  "1.7.0": {
+    "en": "Added Estimated Time To Home (ETTH) and Heading Home (repair needed). Updated icons."
   }
 }

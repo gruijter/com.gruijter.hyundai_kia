@@ -1,6 +1,6 @@
 {
   "id": "com.gruijter.hyundai_kia",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#00aaff",
@@ -21,7 +21,9 @@
       "uvo",
       "bluelink",
       "ABRP",
-      "better route planner"
+      "better route planner",
+      "location",
+      "geofence"
     ]
   },
   "category": [

@@ -193,25 +193,6 @@
 	{
 		"type": "group",
 		"label": {
-				"en": "A Better Route Planner (ABRP)"
-		},
-		"children": [
-				{
-					"id": "abrp_user_token",
-					"type": "password",
-					"label": {
-							"en": "ABRP user token"
-					},
-					"hint": {
-						"en": "Get a token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Homey > copy the token."
-					},
-					"value": ""
-				}
-			]
-	},
-	{
-		"type": "group",
-		"label": {
 				"en": "Home location settings"
 		},
 		"children": [
@@ -236,8 +217,49 @@
 								"en": "Home location is used to calculate the car's distance."
 						},
 						"value": 0
+				},
+				{
+					"id": "heading_home_confidence",
+					"type": "number",
+					"label": {
+							"en": "Heading home confidence"
+					},
+					"hint": {
+							"en": "A higher value will reduce false 'heading home' states. Default is 50."
+					},
+					"value": 50
+				},
+				{
+					"id": "heading_home_max_distance",
+					"type": "number",
+					"label": {
+							"en": "Heading home max distance (km)"
+					},
+					"hint": {
+							"en": "The maximum beeline distance for 'heading home' state. Default is 100 km."
+					},
+					"value": 100
 				}
 		]
+	},
+	{
+		"type": "group",
+		"label": {
+				"en": "A Better Route Planner (ABRP)"
+		},
+		"children": [
+				{
+					"id": "abrp_user_token",
+					"type": "password",
+					"label": {
+							"en": "ABRP user token"
+					},
+					"hint": {
+						"en": "Get a token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Homey > copy the token."
+					},
+					"value": ""
+				}
+			]
 	},
 	{
 		"type": "group",
