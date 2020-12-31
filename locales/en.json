@@ -1,15 +1,27 @@
 {
-		"settings": {
+	"pair": {
+		"start": "Enter your credentials",
+		"region": "Region",
+		"username": "Username",
+		"password": "Password",
+		"pin": "PIN",
+		"submit": "Submit",
+		"required": "You need to enter username, password and PIN",
+		"validating": "Validating credentials"
+	},
+	"settings": {
 		"tab1": {
 			"title": "Instructions",
 			"useTitle": "How to use",
-			"useInstructions": "You need to have a UVO (Kia) or Bluelink (Hyundai) account with PIN for your car(s). Add your car as a device in Homey, and fill in the username, password and PIN. After switching on the engine, use the Homey app to start retrieving live data from the car.",
-				"settingsTitle": "Settings",
-				"settingsInstructions": "In the app settings you can change the live update interval. You can also set 24/7 forced updates. WARNING: forced updates will drain your 12V battery.",
-				"CloudForceTitle": "Start live data via car Bluetooth",
-				"CloudForceInstructions": "For Android and iOS there are apps or automation scripts that you can use to automatically start getting live updates as soon as your phone connects to the car's Bleutooth. In this automation script you need to open a specific web-page (HTTP GET). The URL of this page can be found in the advanced device settings.",
-				"ABRPTitle": "A Better Route Planner",
-			"ABRPInstructions": "If you want to link live data with ABRP, enter the user token in the Homey device settings. You can get a user token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Homey > copy the token. "
+			"useInstructions": "You need to have a UVO (Kia) or Bluelink (Hyundai) account with PIN for your car(s). Add your car as a device in Homey, and fill in the username, password and PIN. You can now see the parked location of your car, and start controlling the car from Homey (e.g. start defroster or A/C).",
+			"settingsTitle": "Status updates from the car",
+			"settingsInstructions": "Homey will only receive a car status update (new location, engine state, doorlock state, etc.) after the car has just been parked, when charging just finished, or when when using the 'refresh car status' button. If the engine is on at that moment, Homey will keep getting status updates untill the engine is shut off. In the device settings you can change the interval by which the server is checked. You can also set 24/7 car status updates. WARNING: 24/7 updates will drain your 12V battery.",
+			"CloudForceTitle": "Start status updates via car Bluetooth",
+			"CloudForceInstructions": "For Android and iOS there are apps or automation scripts that you can use to automatically start getting live updates as soon as your phone connects to the car's Bluetooth. In this automation script you need to open a specific web-page (HTTP GET). The URL of this page can be found in the advanced device settings.",
+			"ABRPTitle": "A Better Route Planner (ABRP)",
+			"ABRPInstructions": "If you want to link live data with ABRP, enter the user token in the Homey device settings. You can get a user token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Homey > copy the token.",
+			"ETTHTitle": "Estimated Time To Home (ETTH)",
+			"ETTHInstructions": "Using Google Directions will enable more accurate Estimated Time To Home (ETTH) calculations, including actual traffic conditions. Get a key at developers.google.com\/maps. Leave empty to disable Google Directions."
 		},
 		"tab2": {
 			"title": "Logs",

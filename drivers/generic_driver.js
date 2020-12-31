@@ -1,5 +1,5 @@
 /*
-Copyright 2020, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2020 - 2021, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.hyundai_kia.
 
@@ -30,121 +30,30 @@ class CarDriver extends Homey.Driver {
 
 	async onDriverInit() {
 		this.log('onDriverInit');
-		this.registerFlowListeners();
-	}
-
-	registerFlowListeners() {
-		// action cards
-		const forcePoll = this.homey.flow.getActionCard('force_poll');
-		forcePoll.registerRunListener((args) => args.device.startLiveData(true, 'flow'));
-
-		const acOff = this.homey.flow.getActionCard('ac_off');
-		acOff.registerRunListener((args) => args.device.acOnOff(false, 'flow'));
-
-		const acOn = this.homey.flow.getActionCard('ac_on');
-		acOn.registerRunListener((args) => args.device.acOnOff(true, 'flow'));
-
-		const defrostOff = this.homey.flow.getActionCard('defrost_off');
-		defrostOff.registerRunListener((args) => args.device.defrostOnOff(false, 'flow'));
-
-		const defrostOn = this.homey.flow.getActionCard('defrost_on');
-		defrostOn.registerRunListener((args) => args.device.defrostOnOff(true, 'flow'));
-
-		const setTargetTemp = this.homey.flow.getActionCard('set_target_temp');
-		setTargetTemp.registerRunListener((args) => args.device.setTargetTemp(args.temp, 'flow'));
-
-		// condition cards
-		const alarmBattery = this.homey.flow.getConditionCard('alarm_battery');
-		alarmBattery.registerRunListener((args) => args.device.getCapabilityValue('alarm_battery'));
-
-		const alarmTirePressure = this.homey.flow.getConditionCard('alarm_tire_pressure');
-		alarmTirePressure.registerRunListener((args) => args.device.getCapabilityValue('alarm_tire_pressure'));
-
-		const charging = this.homey.flow.getConditionCard('charging');
-		charging.registerRunListener((args) => args.device.getCapabilityValue('charging'));
-
-		const climateControl = this.homey.flow.getConditionCard('climate_control');
-		climateControl.registerRunListener((args) => args.device.getCapabilityValue('climate_control'));
-
-		const closedLocked = this.homey.flow.getConditionCard('closed_locked');
-		closedLocked.registerRunListener((args) => args.device.getCapabilityValue('closed_locked'));
-
-		const defrost = this.homey.flow.getConditionCard('defrost');
-		defrost.registerRunListener((args) => args.device.getCapabilityValue('defrost'));
-
-		const engine = this.homey.flow.getConditionCard('engine');
-		engine.registerRunListener((args) => args.device.getCapabilityValue('engine'));
-
-		const moving = this.homey.flow.getConditionCard('moving');
-		moving.registerRunListener((args) => args.device.moving);
-
-		const parked = this.homey.flow.getConditionCard('parked');
-		parked.registerRunListener((args) => args.device.parked);
-
 	}
 
 	onPair(session) {
 		try {
-			const deviceUuid = 'homeyPair';
-			const regions = ['EU', 'CA', 'US'];
-			let region = null;
-			let {	username,	password, pin } = {};
-			let vehicles = [];
-
 			this.log('Pairing of new car started');
 
-			session.setHandler('login', async (data) => {
+			let settings;
+			let vehicles = [];
+
+			session.setHandler('validate', async (data) => {
 				this.log('validating credentials');
-				username = data.username;
-				password = data.password;
+				settings = data;
+				vehicles = [];
 
-				// auto check region
-				region = null;
-				const regionPromise = new Promise((resolve) => {
-					regions.forEach(async (reg) => {
-						// console.log(`checking ${reg}`);
-						try {
-							const options = {
-								username,
-								password,
-								region: reg,
-								deviceUuid,
-								autoLogin: true,
-							};
-							let client;
-							if (this.ds.driverId === 'bluelink') {
-								client = new Bluelink(options);
-							} else { client = new Uvo(options); }
-							client.on('ready', () => {
-								this.log('username/password OK!');
-								this.log(`region is ${reg}`);
-								region = reg;
-								return resolve(reg);
-							});
-						} catch (error) {
-							this.log(error);
-						}
-					});
-					setTimeoutPromise(15 * 1000, 'done waiting')	// login timeout
-						.then(() => resolve(null));
-				});
-				await regionPromise;
-				if (region) return true;
-				return false;
-			});
-
-			session.setHandler('pincode', async (pincode) => {
-				pin = pincode.join('');
-				if (pin.length !== 4) {
+				if (settings.pin.length !== 4) {
 					throw Error('Enter your 4 digit PIN');
 				}
 
 				const options = {
-					username,
-					password,
-					pin,
-					region,
-					deviceUuid,
+					username: settings.username,
+					password: settings.password,
+					pin: settings.pin,
+					region: settings.region,
+					// deviceUuid,
 					autoLogin: true,
 				};
 				let client;
@@ -152,16 +61,18 @@ class CarDriver extends Homey.Driver {
 					client = new Bluelink(options);
 				} else client = new Uvo(options);
 
-				const loginResult = await new Promise((resolve, reject) => {
+				const validated = await new Promise((resolve, reject) => {
+					let cancelTimeout = false;
 					client.on('ready', (veh) => {
-						if (!veh || !Array.isArray(veh)) {
+						cancelTimeout = true;
+						if (!veh || !Array.isArray(veh) || veh.length < 1) {
 							this.error('No vehicles in this account!');
 							reject(Error('No vehicles in this account!'));
 							return;
 						}
 						veh[0].odometer()
 							.then(() => {
-								this.log('PIN OK!');
+								this.log('CREDENTIALS OK!');
 								vehicles = veh;
 								resolve(true);
 							})
@@ -171,12 +82,16 @@ class CarDriver extends Homey.Driver {
 							});
 					});
 					setTimeoutPromise(15 * 1000, 'done waiting')	// login timeout
-						.then(() => resolve(false));
+						.then(() => {
+							if (cancelTimeout) return;
+							this.error('Login failed!');
+							reject(Error('Login failed'));
+						});
 				});
-				return loginResult;
+				return validated;
 			});
 
-			session.setHandler('list_devices', () => {
+			session.setHandler('list_devices', async () => {
 				this.log('listing of devices started');
 				const devices = vehicles.map((vehicle) => ({
 					name: vehicle.vehicleConfig.nickname,
@@ -184,10 +99,10 @@ class CarDriver extends Homey.Driver {
 						id: vehicle.vehicleConfig.vin,
 					},
 					settings: {
-						username,
-						password,
-						pin,
-						region,
+						username: settings.username,
+						password: settings.password,
+						pin: settings.pin,
+						region: settings.region,
 						// pollInterval,
 						nameOrg: vehicle.vehicleConfig.name,
 						idOrg: vehicle.vehicleConfig.id,
@@ -195,8 +110,8 @@ class CarDriver extends Homey.Driver {
 						regDate: vehicle.vehicleConfig.regDate.split(' ')[0],
 						brandIndicator: vehicle.vehicleConfig.brandIndicator,
 						generation: vehicle.vehicleConfig.generation,
-						lat: this.homey.geolocation.getLatitude(),
-						lon: this.homey.geolocation.getLongitude(),
+						lat: Math.round(this.homey.geolocation.getLatitude() * 100000000) / 100000000,
+						lon: Math.round(this.homey.geolocation.getLongitude() * 100000000) / 100000000,
 					},
 					capabilities: this.ds.deviceCapabilities,
 				}));

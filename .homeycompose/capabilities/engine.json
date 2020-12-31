@@ -1,7 +1,7 @@
 {
 	"type": "boolean",
 	"title": {
-		"en": "Engine"
+		"en": "Engine on"
 	},
 	"icon": "/assets/engine.svg",
 	"getable": true,
@@ -20,5 +20,5 @@
 		}
 	},
 	"uiComponent": "sensor",
-	"uiQuickAction": true
+	"uiQuickAction": false
 }

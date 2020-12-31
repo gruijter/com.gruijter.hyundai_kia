@@ -18,19 +18,25 @@
 		{
 			"id": "1",
 			"title": {
-				"en": "Fast"
+				"en": "On (Fast)"
 			}
 		},
 		{
 			"id": "2",
 			"title": {
-				"en": "Slow"
+				"en": "On (Slow)"
 			}
 		},
 		{
 			"id": "3",
 			"title": {
-				"en": "UNKNOWN"
+				"en": "Off (Fast)"
+			}
+		},
+		{
+			"id": "4",
+			"title": {
+				"en": "Off (Slow)"
 			}
 		}
 	]

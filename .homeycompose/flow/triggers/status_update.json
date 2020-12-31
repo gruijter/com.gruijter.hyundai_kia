@@ -1,0 +1,13 @@
+{
+    "id": "status_update",
+    "title": {
+        "en": "New car status"
+    },
+    "args": [
+        {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+        }
+    ]
+}

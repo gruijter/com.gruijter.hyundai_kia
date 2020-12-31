@@ -1,0 +1,9 @@
+{
+	"type": "string",
+	"title": {
+		"en": "Status refresh"
+	},
+	"getable": true,
+	"setable": false,
+	"icon": "./assets/last_refresh.svg"
+}

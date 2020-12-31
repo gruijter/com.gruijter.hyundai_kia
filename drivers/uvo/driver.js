@@ -1,5 +1,5 @@
 /*
-Copyright 2020, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2020 - 2021, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.hyundai_kia.
 
@@ -26,17 +26,17 @@ const driverSpecifics = {
 	deviceCapabilities: [
 		'target_temperature',
 
-		'live_data',
+		'refresh_status',
 		'locked',
 		'defrost',
 		'climate_control',
 
+		'last_refresh',
 		'engine',
 		'closed_locked',
 		'location',
 		'distance',
 		'etth',
-		'heading_home',
 		'speed',
 		'range',
 

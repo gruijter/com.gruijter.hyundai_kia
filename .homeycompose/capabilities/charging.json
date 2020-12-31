@@ -4,15 +4,15 @@
 		"en": "Charging"
 	},
 	"getable": true,
-	"setable": false,
+	"setable": true,
 	"insights": true,
 	"insightsTitleTrue": {
-		"en": "Charging"
+		"en": "Charging on"
 	},
 	"insightsTitleFalse": {
-		"en": "Not charging"
+		"en": "Charging off"
 	},
-	"uiComponent": "sensor",
+	"uiComponent": "toggle",
 	"icon": "./assets/charging.svg",
 	"uiQuickAction": false
 }

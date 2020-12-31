@@ -1,6 +1,7 @@
 {
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.hyundai_kia",
-  "version": "1.7.0",
+  "version": "2.0.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#00aaff",
@@ -269,9 +270,9 @@
         ]
       },
       {
-        "id": "heading_home_true",
+        "id": "status_update",
         "title": {
-          "en": "The car is heading home"
+          "en": "New car status"
         },
         "args": [
           {
@@ -375,19 +376,6 @@
         ]
       },
       {
-        "id": "heading_home",
-        "title": {
-          "en": "The car !{{is|isn't}} heading home"
-        },
-        "args": [
-          {
-            "type": "device",
-            "name": "device",
-            "filter": "driver_id=uvo|bluelink"
-          }
-        ]
-      },
-      {
         "id": "moving",
         "title": {
           "en": "The car !{{is|is not}} moving"
@@ -442,6 +430,32 @@
         ]
       },
       {
+        "id": "charging_off",
+        "title": {
+          "en": "Turn charging off"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+          }
+        ]
+      },
+      {
+        "id": "charging_on",
+        "title": {
+          "en": "Turn charging on"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+          }
+        ]
+      },
+      {
         "id": "defrost_off",
         "title": {
           "en": "Turn defrost off"
@@ -468,9 +482,9 @@
         ]
       },
       {
-        "id": "force_poll",
+        "id": "force_refresh",
         "title": {
-          "en": "Force live data poll (once)"
+          "en": "Force status refresh (once)"
         },
         "args": [
           {
@@ -540,10 +554,11 @@
       "class": "sensor",
       "capabilities": [
         "target_temperature",
-        "live_data",
+        "refresh_status",
         "locked",
         "defrost",
         "climate_control",
+        "last_refresh",
         "engine",
         "closed_locked",
         "location",
@@ -584,16 +599,7 @@
       },
       "pair": [
         {
-          "id": "login_credentials",
-          "template": "login_credentials"
-        },
-        {
-          "id": "pincode",
-          "template": "pincode",
-          "options": {
-            "title": "Enter PIN code",
-            "hint": "Press OK only once, and wait a few seconds!"
-          }
+          "id": "start"
         },
         {
           "id": "list_devices",
@@ -734,48 +740,69 @@
                   }
                 }
               ]
-            },
-            {
-              "id": "pollInterval",
-              "type": "number",
-              "label": {
-                "en": "Live update interval (minutes)"
-              },
-              "hint": {
-                "en": "A lower interval gives faster updates in Homey. Attention: Homey will only receive updates when you manually start 'live data' and the car engine is on! A low poll interval can block your regular app from communicating with the car!"
-              },
-              "min": 0.2,
-              "value": 1
-            },
-            {
-              "id": "pollIntervalForced",
-              "type": "number",
-              "label": {
-                "en": "Forced update interval (minutes)"
-              },
-              "hint": {
-                "en": "You can force live data updates without manual start by setting a time other then 0. CAUTION: This will drain your 12V battery fast!"
-              },
-              "min": 0,
-              "value": 0,
-              "step": 5
             }
           ]
         },
         {
           "type": "group",
           "label": {
-            "en": "Force live data via cloud (HTTP GET)"
+            "en": "Car status refresh settings"
+          },
+          "children": [
+            {
+              "id": "pollInterval",
+              "type": "number",
+              "label": {
+                "en": "Server update interval (minutes)"
+              },
+              "hint": {
+                "en": "Interval for checking the server for a status change.\nAttention: Homey will only receive status updates from the car when you park the car, or by doing a manual refresh!\nWARNING: A low poll interval can get you locked out of the server!"
+              },
+              "min": 5,
+              "value": 10
+            },
+            {
+              "id": "pollIntervalEngineOn",
+              "type": "number",
+              "label": {
+                "en": "Car On update interval (minutes)"
+              },
+              "hint": {
+                "en": "Interval for checking the car status while the engine is on.\nAttention: for Homey to know that the engine is on, a manual refresh or cloud refresh must be performed!\nWARNING: A low poll interval can get you locked out of the server!\nDisable this function by setting the time to 0."
+              },
+              "min": 0,
+              "value": 5,
+              "step": 1
+            },
+            {
+              "id": "pollIntervalForced",
+              "type": "number",
+              "label": {
+                "en": "24/7 Car update interval (minutes)"
+              },
+              "hint": {
+                "en": "Interval for checking the car status also when the engine is off.\nWARNING: This will drain your 12V battery fast!\nA low poll interval can get you locked out of the server\nDisable this function by setting the time to 0."
+              },
+              "min": 0,
+              "value": 0,
+              "step": 15
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Start status refresh via cloud (HTTP GET)"
           },
           "children": [
             {
               "id": "remote_force_secret",
               "type": "text",
               "label": {
-                "en": "Remote force secret"
+                "en": "Cloud refresh secret"
               },
               "hint": {
-                "en": "Enter a unique secret (numbers and normal characters only). Leave empty to disable remote force."
+                "en": "Enter any unique secret (numbers and normal characters only). Leave empty to disable cloud refresh."
               },
               "value": ""
             },
@@ -786,7 +813,7 @@
                 "en": "Create short URL"
               },
               "hint": {
-                "en": "The force live data URL is very long and difficult to type into your phone automation app. A short URL can be created for you using Bitly. Attention: Bitly gathers statistics when this link is used."
+                "en": "The cloud refresh URL is very long and difficult to type into your phone automation app. A short URL can be created for you using Bitly. Attention: Bitly gathers statistics when this link is used."
               },
               "value": true
             },
@@ -794,10 +821,29 @@
               "id": "remote_force_url",
               "type": "label",
               "label": {
-                "en": "Remote force URL"
+                "en": "Cloud refresh URL"
               },
               "hint": {
-                "en": "After entering a secret, you can force live data by calling this website (HTTP GET)."
+                "en": "After entering a secret, you can force a car refresh by calling this website (HTTP GET). This can be usefull when you want to automatically start updates when your phone connects to the car's bluetooth."
+              },
+              "value": ""
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "A Better Route Planner settings"
+          },
+          "children": [
+            {
+              "id": "abrp_user_token",
+              "type": "password",
+              "label": {
+                "en": "ABRP user token"
+              },
+              "hint": {
+                "en": "Get a token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Homey > copy the token."
               },
               "value": ""
             }
@@ -832,43 +878,13 @@
               "value": 0
             },
             {
-              "id": "heading_home_confidence",
-              "type": "number",
-              "label": {
-                "en": "Heading home confidence"
-              },
-              "hint": {
-                "en": "A higher value will reduce false 'heading home' states. Default is 50."
-              },
-              "value": 50
-            },
-            {
-              "id": "heading_home_max_distance",
-              "type": "number",
-              "label": {
-                "en": "Heading home max distance (km)"
-              },
-              "hint": {
-                "en": "The maximum beeline distance for 'heading home' state. Default is 100 km."
-              },
-              "value": 100
-            }
-          ]
-        },
-        {
-          "type": "group",
-          "label": {
-            "en": "A Better Route Planner (ABRP)"
-          },
-          "children": [
-            {
-              "id": "abrp_user_token",
+              "id": "gmaps_api_key",
               "type": "password",
               "label": {
-                "en": "ABRP user token"
+                "en": "Google Directions API key"
               },
               "hint": {
-                "en": "Get a token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Homey > copy the token."
+                "en": "Using Google Directions will enable Estimated Time To Home (ETTH) calculations, including real-time traffic.\nGet a key at https://developers.google.com/maps/documentation/directions/get-api-key.\nLeave empty to disable Google Directions."
               },
               "value": ""
             }
@@ -914,10 +930,11 @@
       "class": "sensor",
       "capabilities": [
         "target_temperature",
-        "live_data",
+        "refresh_status",
         "locked",
         "defrost",
         "climate_control",
+        "last_refresh",
         "engine",
         "closed_locked",
         "location",
@@ -958,16 +975,7 @@
       },
       "pair": [
         {
-          "id": "login_credentials",
-          "template": "login_credentials"
-        },
-        {
-          "id": "pincode",
-          "template": "pincode",
-          "options": {
-            "title": "Enter PIN code",
-            "hint": "Press OK only once, and wait a few seconds!"
-          }
+          "id": "start"
         },
         {
           "id": "list_devices",
@@ -1108,48 +1116,69 @@
                   }
                 }
               ]
-            },
-            {
-              "id": "pollInterval",
-              "type": "number",
-              "label": {
-                "en": "Live update interval (minutes)"
-              },
-              "hint": {
-                "en": "A lower interval gives faster updates in Homey. Attention: Homey will only receive updates when you manually start 'live data' and the car engine is on! A low poll interval can block your regular app from communicating with the car!"
-              },
-              "min": 0.2,
-              "value": 1
-            },
-            {
-              "id": "pollIntervalForced",
-              "type": "number",
-              "label": {
-                "en": "Forced update interval (minutes)"
-              },
-              "hint": {
-                "en": "You can force live data updates without manual start by setting a time other then 0. CAUTION: This will drain your 12V battery fast!"
-              },
-              "min": 0,
-              "value": 0,
-              "step": 5
             }
           ]
         },
         {
           "type": "group",
           "label": {
-            "en": "Force live data via cloud (HTTP GET)"
+            "en": "Car status refresh settings"
+          },
+          "children": [
+            {
+              "id": "pollInterval",
+              "type": "number",
+              "label": {
+                "en": "Server update interval (minutes)"
+              },
+              "hint": {
+                "en": "Interval for checking the server for a status change.\nAttention: Homey will only receive status updates from the car when you park the car, or by doing a manual refresh!\nWARNING: A low poll interval can get you locked out of the server!"
+              },
+              "min": 5,
+              "value": 10
+            },
+            {
+              "id": "pollIntervalEngineOn",
+              "type": "number",
+              "label": {
+                "en": "Car On update interval (minutes)"
+              },
+              "hint": {
+                "en": "Interval for checking the car status while the engine is on.\nAttention: for Homey to know that the engine is on, a manual refresh or cloud refresh must be performed!\nWARNING: A low poll interval can get you locked out of the server!\nDisable this function by setting the time to 0."
+              },
+              "min": 0,
+              "value": 5,
+              "step": 1
+            },
+            {
+              "id": "pollIntervalForced",
+              "type": "number",
+              "label": {
+                "en": "24/7 Car update interval (minutes)"
+              },
+              "hint": {
+                "en": "Interval for checking the car status also when the engine is off.\nWARNING: This will drain your 12V battery fast!\nA low poll interval can get you locked out of the server\nDisable this function by setting the time to 0."
+              },
+              "min": 0,
+              "value": 0,
+              "step": 15
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Start status refresh via cloud (HTTP GET)"
           },
           "children": [
             {
               "id": "remote_force_secret",
               "type": "text",
               "label": {
-                "en": "Remote force secret"
+                "en": "Cloud refresh secret"
               },
               "hint": {
-                "en": "Enter a unique secret (numbers and normal characters only). Leave empty to disable remote force."
+                "en": "Enter any unique secret (numbers and normal characters only). Leave empty to disable cloud refresh."
               },
               "value": ""
             },
@@ -1160,7 +1189,7 @@
                 "en": "Create short URL"
               },
               "hint": {
-                "en": "The force live data URL is very long and difficult to type into your phone automation app. A short URL can be created for you using Bitly. Attention: Bitly gathers statistics when this link is used."
+                "en": "The cloud refresh URL is very long and difficult to type into your phone automation app. A short URL can be created for you using Bitly. Attention: Bitly gathers statistics when this link is used."
               },
               "value": true
             },
@@ -1168,10 +1197,29 @@
               "id": "remote_force_url",
               "type": "label",
               "label": {
-                "en": "Remote force URL"
+                "en": "Cloud refresh URL"
               },
               "hint": {
-                "en": "After entering a secret, you can force live data by calling this website (HTTP GET)."
+                "en": "After entering a secret, you can force a car refresh by calling this website (HTTP GET). This can be usefull when you want to automatically start updates when your phone connects to the car's bluetooth."
+              },
+              "value": ""
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "A Better Route Planner settings"
+          },
+          "children": [
+            {
+              "id": "abrp_user_token",
+              "type": "password",
+              "label": {
+                "en": "ABRP user token"
+              },
+              "hint": {
+                "en": "Get a token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Homey > copy the token."
               },
               "value": ""
             }
@@ -1206,43 +1254,13 @@
               "value": 0
             },
             {
-              "id": "heading_home_confidence",
-              "type": "number",
-              "label": {
-                "en": "Heading home confidence"
-              },
-              "hint": {
-                "en": "A higher value will reduce false 'heading home' states. Default is 50."
-              },
-              "value": 50
-            },
-            {
-              "id": "heading_home_max_distance",
-              "type": "number",
-              "label": {
-                "en": "Heading home max distance (km)"
-              },
-              "hint": {
-                "en": "The maximum beeline distance for 'heading home' state. Default is 100 km."
-              },
-              "value": 100
-            }
-          ]
-        },
-        {
-          "type": "group",
-          "label": {
-            "en": "A Better Route Planner (ABRP)"
-          },
-          "children": [
-            {
-              "id": "abrp_user_token",
+              "id": "gmaps_api_key",
               "type": "password",
               "label": {
-                "en": "ABRP user token"
+                "en": "Google Directions API key"
               },
               "hint": {
-                "en": "Get a token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Homey > copy the token."
+                "en": "Using Google Directions will enable Estimated Time To Home (ETTH) calculations, including real-time traffic.\nGet a key at https://developers.google.com/maps/documentation/directions/get-api-key.\nLeave empty to disable Google Directions."
               },
               "value": ""
             }
@@ -1377,19 +1395,25 @@
         {
           "id": "1",
           "title": {
-            "en": "Fast"
+            "en": "On (Fast)"
           }
         },
         {
           "id": "2",
           "title": {
-            "en": "Slow"
+            "en": "On (Slow)"
           }
         },
         {
           "id": "3",
           "title": {
-            "en": "UNKNOWN"
+            "en": "Off (Fast)"
+          }
+        },
+        {
+          "id": "4",
+          "title": {
+            "en": "Off (Slow)"
           }
         }
       ]
@@ -1400,15 +1424,15 @@
         "en": "Charging"
       },
       "getable": true,
-      "setable": false,
+      "setable": true,
       "insights": true,
       "insightsTitleTrue": {
-        "en": "Charging"
+        "en": "Charging on"
       },
       "insightsTitleFalse": {
-        "en": "Not charging"
+        "en": "Charging off"
       },
-      "uiComponent": "sensor",
+      "uiComponent": "toggle",
       "icon": "./assets/charging.svg",
       "uiQuickAction": false
     },
@@ -1487,7 +1511,7 @@
     "engine": {
       "type": "boolean",
       "title": {
-        "en": "Engine"
+        "en": "Engine on"
       },
       "icon": "/assets/engine.svg",
       "getable": true,
@@ -1506,7 +1530,7 @@
         }
       },
       "uiComponent": "sensor",
-      "uiQuickAction": true
+      "uiQuickAction": false
     },
     "etth": {
       "type": "number",
@@ -1521,22 +1545,14 @@
       "insights": true,
       "icon": "./assets/etth.svg"
     },
-    "heading_home": {
-      "type": "boolean",
+    "last_refresh": {
+      "type": "string",
       "title": {
-        "en": "Heading home"
+        "en": "Status refresh"
       },
       "getable": true,
       "setable": false,
-      "insights": true,
-      "insightsTitleTrue": {
-        "en": "Heading home"
-      },
-      "insightsTitleFalse": {
-        "en": "Not heading home"
-      },
-      "icon": "./assets/heading_home.svg",
-      "uiQuickAction": false
+      "icon": "./assets/last_refresh.svg"
     },
     "latitude": {
       "type": "number",
@@ -1550,17 +1566,6 @@
       "setable": false,
       "insights": false,
       "uiComponent": null
-    },
-    "live_data": {
-      "type": "boolean",
-      "title": {
-        "en": "Live data"
-      },
-      "getable": true,
-      "setable": true,
-      "insights": false,
-      "uiComponent": "toggle",
-      "uiQuickAction": false
     },
     "location": {
       "type": "string",
@@ -1629,6 +1634,17 @@
       "insights": true,
       "uiComponent": "sensor",
       "icon": "./assets/range.svg"
+    },
+    "refresh_status": {
+      "type": "boolean",
+      "title": {
+        "en": "Refresh car status"
+      },
+      "getable": true,
+      "setable": true,
+      "insights": false,
+      "uiComponent": "toggle",
+      "uiQuickAction": false
     },
     "speed": {
       "type": "number",

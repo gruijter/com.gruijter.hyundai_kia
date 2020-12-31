@@ -1,5 +1,5 @@
 /*
-Copyright 2020, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2020 - 2021, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.hyundai_kia.
 
@@ -25,6 +25,7 @@ const Logger = require('./captureLogs.js');
 class carApp extends Homey.App {
 
 	onInit() {
+		process.env.LOG_LEVEL = 'info';
 		if (!this.logger) this.logger = new Logger({ name: 'log', length: 200, homey: this.homey });
 		this.log('Hyundai and Kia app is running...');
 
@@ -61,16 +62,13 @@ class carApp extends Homey.App {
 		return this.logger.logArray;
 	}
 
-	forceLive(query) {
+	remoteRefresh(query) {
 		const devices = this.getAllDevices();
-		devices.forEach((device) => device.forceLive(query.secret));
-		// const drivers = this.homey.drivers.getDrivers();
-		// Object.keys(drivers).forEach((driverId) => {
-		// 	const devices = drivers[driverId].getDevices();
-		// 	devices.forEach((device) => {
-		// 		device.forceLive(query.secret);
-		// 	});
-		// });
+		devices.forEach((device) => {
+			if (!device.settings.remote_force_secret || device.settings.remote_force_secret === '') return;
+			if (query.secret !== device.settings.remote_force_secret) return;
+			device.refreshStatus(true, 'cloud');
+		});
 	}
 
 	// special stuff
@@ -100,6 +98,59 @@ class carApp extends Homey.App {
 	}
 
 	registerFlowListeners() {
+
+		// action cards
+		const forcePoll = this.homey.flow.getActionCard('force_refresh');
+		forcePoll.registerRunListener((args) => args.device.refreshStatus(true, 'flow'));
+
+		const chargingOff = this.homey.flow.getActionCard('charging_off');
+		chargingOff.registerRunListener((args) => args.device.chargingOnOff(false, 'flow'));
+
+		const chargingOn = this.homey.flow.getActionCard('charging_on');
+		chargingOn.registerRunListener((args) => args.device.chargingOnOff(true, 'flow'));
+
+		const acOff = this.homey.flow.getActionCard('ac_off');
+		acOff.registerRunListener((args) => args.device.acOnOff(false, 'flow'));
+
+		const acOn = this.homey.flow.getActionCard('ac_on');
+		acOn.registerRunListener((args) => args.device.acOnOff(true, 'flow'));
+
+		const defrostOff = this.homey.flow.getActionCard('defrost_off');
+		defrostOff.registerRunListener((args) => args.device.defrostOnOff(false, 'flow'));
+
+		const defrostOn = this.homey.flow.getActionCard('defrost_on');
+		defrostOn.registerRunListener((args) => args.device.defrostOnOff(true, 'flow'));
+
+		const setTargetTemp = this.homey.flow.getActionCard('set_target_temp');
+		setTargetTemp.registerRunListener((args) => args.device.setTargetTemp(args.temp, 'flow'));
+
+		// condition cards
+		const alarmBattery = this.homey.flow.getConditionCard('alarm_battery');
+		alarmBattery.registerRunListener((args) => args.device.getCapabilityValue('alarm_battery'));
+
+		const alarmTirePressure = this.homey.flow.getConditionCard('alarm_tire_pressure');
+		alarmTirePressure.registerRunListener((args) => args.device.getCapabilityValue('alarm_tire_pressure'));
+
+		const charging = this.homey.flow.getConditionCard('charging');
+		charging.registerRunListener((args) => args.device.getCapabilityValue('charging'));
+
+		const climateControl = this.homey.flow.getConditionCard('climate_control');
+		climateControl.registerRunListener((args) => args.device.getCapabilityValue('climate_control'));
+
+		const closedLocked = this.homey.flow.getConditionCard('closed_locked');
+		closedLocked.registerRunListener((args) => args.device.getCapabilityValue('closed_locked'));
+
+		const defrost = this.homey.flow.getConditionCard('defrost');
+		defrost.registerRunListener((args) => args.device.getCapabilityValue('defrost'));
+
+		const engine = this.homey.flow.getConditionCard('engine');
+		engine.registerRunListener((args) => args.device.getCapabilityValue('engine'));
+
+		const moving = this.homey.flow.getConditionCard('moving');
+		moving.registerRunListener((args) => args.device.moving);
+
+		const parked = this.homey.flow.getConditionCard('parked');
+		parked.registerRunListener((args) => args.device.parked);
 
 		const homeyLinkOn = this.homey.flow.getActionCard('homey_link_on');
 		homeyLinkOn.registerRunListener((args) => {

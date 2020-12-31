@@ -1,5 +1,5 @@
 module.exports = {
-	// retriieve logs
+	// retrieve logs
 	async getLogs({ homey }) {
 		const result = await homey.app.getLogs();
 		return result;
@@ -9,9 +9,9 @@ module.exports = {
 		const result = await homey.app.deleteLogs();
 		return result;
 	},
-	// delete logs
+	// cloud refresh
 	async forceLive({ homey, query }) {
-		const result = await homey.app.forceLive(query);
+		const result = await homey.app.remoteRefresh(query);
 		return result;
 	},
 };

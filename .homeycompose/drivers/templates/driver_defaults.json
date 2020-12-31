@@ -3,11 +3,12 @@
 	"capabilities": [
 		"target_temperature",
 
-		"live_data",
+		"refresh_status",
 		"locked",
 		"defrost",
 		"climate_control",
 
+		"last_refresh",
 		"engine",
 		"closed_locked",
 		"location",
@@ -49,17 +50,7 @@
   },
 	"pair": [
 		{
-			"id": "login_credentials",
-			"template": "login_credentials"
-		},
-		{
-			"id": "pincode",
-			"template": "pincode",
-			"options": 
-				{
-					"title": "Enter PIN code",
-					"hint": "Press OK only once, and wait a few seconds!"
-				}
+			"id": "start"
 		},
 		{
 			"id": "list_devices",

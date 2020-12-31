@@ -1,0 +1,13 @@
+{
+    "id": "charging_off",
+    "title": {
+        "en": "Turn charging off"
+    },
+    "args": [
+        {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+        }
+    ]
+}

@@ -1,5 +1,5 @@
 /*
-Copyright 2020, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2020 - 2021, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.hyundai_kia.
 
@@ -93,10 +93,10 @@ const getCarLocString = async (location) => {
 			return locString;
 		}
 		// const countryCode = loc.address.country_code.toUpperCase();
-		const local = loc.address.suburb || loc.address.village || loc.address.town || loc.address.city
-			|| loc.address.county || loc.address.state_district || loc.address.state;
+		const local = loc.address.suburb || loc.address.village || loc.address.city_district || loc.address.town
+      || loc.address.city || loc.address.county || loc.address.state_district || loc.address.state;
 		// locString = `${countryCode}${loc.address.postcode} ${local}`;
-		locString = ` ${local}`;
+		locString = `${local}`;
 		return Promise.resolve(locString);
 	} catch (error) {
 		return Promise.reject(error);
@@ -106,7 +106,6 @@ const getCarLocString = async (location) => {
 module.exports.test = test;
 module.exports.reverseGeo = reverseGeo;
 module.exports.getCarLocString = getCarLocString;
-
 
 /*
 { place_id: 81479432,

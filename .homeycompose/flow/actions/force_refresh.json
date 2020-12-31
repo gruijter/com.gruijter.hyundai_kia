@@ -1,0 +1,13 @@
+{
+    "id": "force_refresh",
+    "title": {
+        "en": "Force status refresh (once)"
+    },
+    "args": [
+        {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+        }
+    ]
+}

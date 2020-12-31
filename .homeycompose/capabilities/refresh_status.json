@@ -1,0 +1,11 @@
+{
+	"type": "boolean",
+	"title": {
+		"en": "Refresh car status"
+	},
+	"getable": true,
+	"setable": true,
+	"insights": false,
+	"uiComponent": "toggle",
+	"uiQuickAction": false
+}
