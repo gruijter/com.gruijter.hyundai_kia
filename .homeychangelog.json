@@ -31,5 +31,8 @@
   },
   "1.7.0": {
     "en": "Added Estimated Time To Home (ETTH) and Heading Home (repair needed). Updated icons."
+  },
+  "2.0.0": {
+    "en": "App rewrite (repair needed). Added charge on/off. Added Google Directions ETTH. Added flowcards. Added parked address. Removed Heading Home. Improved reverse Geo. bluelinky@5.2.3 kuvork@5.4.4"
   }
 }
