@@ -46,7 +46,7 @@ const _makeHttpsRequest = (options) => new Promise((resolve, reject) => {
 const reverseGeo = async (lat, lon) => {
 	try {
 		const query = {
-			format: 'json', // [xml|json|jsonv2]
+			format: 'jsonv2', // [xml|json|jsonv2|geojson|geocodejson]
 			// osm_type: 'N',	// [N|W|R] node / way / relation, preferred over lat,lon
 			lat,	// The location to generate an address for
 			lon,	// The location to generate an address for
@@ -68,7 +68,7 @@ const reverseGeo = async (lat, lon) => {
 		};
 		const result = await _makeHttpsRequest(options, '');
 		if (result.statusCode !== 200 || result.headers['content-type'] !== 'application/json; charset=UTF-8') {
-			return this.error(`reverse geo service error: ${result.statusCode}`);
+			throw Error(`reverse geo service error: ${result.statusCode}`);
 		}
 		const jsonData = JSON.parse(result.body);
 		// console.log(util.inspect(jsonData, { depth: null, colors: true }));
@@ -86,18 +86,19 @@ const test = () => {
 
 const getCarLocString = async (location) => {
 	try {
-		let locString;
+		let local = '-?-';
+		let address = '-?-';
 		const loc = await reverseGeo(location.latitude, location.longitude);
 		if (!loc.address) {	// no reverse geolocation available
-			locString = '-?-';
-			return locString;
+			return Promise.resolve({ location, address });
 		}
 		// const countryCode = loc.address.country_code.toUpperCase();
-		const local = loc.address.suburb || loc.address.village || loc.address.city_district || loc.address.town
-      || loc.address.city || loc.address.county || loc.address.state_district || loc.address.state;
+		local = loc.address.city_district || loc.address.village || loc.address.town || loc.address.city
+			|| loc.address.municipality || loc.address.county || loc.address.state_district || loc.address.state || loc.address.region;
 		// locString = `${countryCode}${loc.address.postcode} ${local}`;
-		locString = `${local}`;
-		return Promise.resolve(locString);
+		// local = `${local}`;
+		address = loc.display_name;
+		return Promise.resolve({ local, address });
 	} catch (error) {
 		return Promise.reject(error);
 	}
@@ -108,6 +109,21 @@ module.exports.reverseGeo = reverseGeo;
 module.exports.getCarLocString = getCarLocString;
 
 /*
+addressdetails
+Address details in the xml and json formats return a list of names together with a designation label. Per default the following labels may appear:
+
+continent
+country, country_code
+region, state, state_district, county
+municipality, city, town, village
+city_district, district, borough, suburb, subdivision
+hamlet, croft, isolated_dwelling
+neighbourhood, allotments, quarter
+city_block, residental, farm, farmyard, industrial, commercial, retail
+road
+house_number, house_name
+emergency, historic, military, natural, landuse, place, railway, man_made, aerialway, boundary, amenity, aeroway, club, craft, leisure, office, mountain_pass, shop, tourism, bridge, tunnel, waterway
+
 { place_id: 81479432,
   licence: 'Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright',
   osm_type: 'way',

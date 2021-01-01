@@ -53,7 +53,7 @@ class CarDriver extends Homey.Driver {
 					password: settings.password,
 					pin: settings.pin,
 					region: settings.region,
-					// deviceUuid,
+					deviceUuid: 'HomeyPair',
 					autoLogin: true,
 				};
 				let client;

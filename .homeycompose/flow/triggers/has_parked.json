@@ -3,6 +3,28 @@
     "title": {
         "en": "The car has parked"
     },
+    "tokens": [
+        {
+            "name": "address",
+            "type": "string",
+            "title": {
+            "en": "Address"
+            },
+            "example": {
+            "en": "White House Meridian, 1600, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20500, United States"
+            }
+        },
+        {
+            "name": "map",
+            "type": "string",
+            "title": {
+            "en": "Map"
+            },
+            "example": {
+            "en": "https://www.google.com/maps?q=38.89734,-77.03655"
+            }
+        }
+    ],
     "args": [
         {
             "type": "device",

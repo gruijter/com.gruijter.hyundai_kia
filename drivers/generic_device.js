@@ -87,7 +87,7 @@ class CarDevice extends Homey.Device {
 				password: this.settings.password,
 				region: this.settings.region,
 				pin: this.settings.pin,
-				// deviceUuid: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15), // 'homey',
+				deviceUuid: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15), // 'homey',
 				autoLogin: false,
 			};
 			if (this.ds.deviceId === 'bluelink') {
@@ -104,7 +104,8 @@ class CarDevice extends Homey.Device {
 			if (this.vehicle) this.log(JSON.stringify(this.vehicle.vehicleConfig));
 
 			// setup ABRP client
-			this.abrpEnabled = this.settings && this.settings.abrp_user_token && this.settings.abrp_user_token.length > 5;
+			this.abrpEnabled = Homey.env && Homey.env.ABRP_API_KEY
+				&& this.settings && this.settings.abrp_user_token && this.settings.abrp_user_token.length > 5;
 			this.log(`ABRP enabled: ${!!this.abrpEnabled}`);
 			if (this.abrpEnabled) {
 				const abrpOptions = {
@@ -127,7 +128,7 @@ class CarDevice extends Homey.Device {
 			// create Force status refresh URL
 			const secret = this.settings.remote_force_secret ? this.settings.remote_force_secret.replace(/[^a-zA-Z0-9-_*!~]/g, '') : '';
 			await this.setSettings({ remote_force_secret: secret });
-			if (secret !== '') {
+			if (Homey.env && Homey.env.BITLY_API_KEY && secret !== '') {
 				// setup Bitly client
 				const bitly = new Bitly({ apiKey: Homey.env.BITLY_API_KEY });
 				const cloudID = await this.homey.cloud.getHomeyId();
@@ -498,7 +499,7 @@ class CarDevice extends Homey.Device {
 			const range = info.status.evStatus ? info.status.evStatus.drvDistance[0].rangeByFuel.totalAvailableRange.value : info.status.dte.value;
 
 			// calculated properties
-			const locString = geo.getCarLocString(info.location); // reverse ReverseGeocoding ASYNC!!!
+			const carLocString = geo.getCarLocString(info.location); // reverse ReverseGeocoding ASYNC!!!
 			const etth = this.etth(info);	// ASYNC in future!!!
 			const distance = Math.round(this.distance(info.location) * 10) / 10;
 			const moving = this.isMoving(info.location);
@@ -526,13 +527,17 @@ class CarDevice extends Homey.Device {
 			this.setCapability('latitude', info.location.latitude);
 			this.setCapability('longitude', info.location.longitude);
 			this.setCapability('distance', distance);
-			this.setCapability('location', await Promise.resolve(locString));
+
+			// update async capabilities
+			const { local, address } = await Promise.resolve(carLocString);
+			this.setCapability('location', local);
 			this.setCapability('etth', await Promise.resolve(etth));
-			this.setCapability('refresh_status', false);
+
 			const ds = new Date(this.lastRefresh);
 			const date = ds.toString().substring(4, 11);
 			const time = ds.toLocaleTimeString('nl-NL', { hour12: false, timeZone: this.homey.clock.getTimezone() }).substring(0, 5);
 			this.setCapability('last_refresh', `${date} ${time}`);
+			this.setCapability('refresh_status', false);
 
 			// update flow triggers
 			const tokens = {};
@@ -543,6 +548,8 @@ class CarDevice extends Homey.Device {
 			}
 
 			if (hasParked) {
+				tokens.address = address;
+				tokens.map = `https://www.google.com/maps?q=${info.location.latitude},${info.location.longitude}`;
 				this.homey.flow.getDeviceTriggerCard('has_parked')
 					.trigger(this, tokens)
 					.catch(this.error);
