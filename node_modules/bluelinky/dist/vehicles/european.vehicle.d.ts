@@ -1,5 +1,5 @@
 import { REGIONS } from '../constants';
-import { VehicleStatus, VehicleOdometer, VehicleLocation, VehicleClimateOptions, VehicleRegisterOptions, VehicleStatusOptions, RawVehicleStatus } from '../interfaces/common.interfaces';
+import { VehicleStatus, FullVehicleStatus, VehicleOdometer, VehicleLocation, VehicleClimateOptions, VehicleRegisterOptions, VehicleStatusOptions, RawVehicleStatus } from '../interfaces/common.interfaces';
 import { Vehicle } from './vehicle';
 import { EuropeanController } from '../controllers/european.controller';
 export default class EuropeanVehicle extends Vehicle {
@@ -12,6 +12,7 @@ export default class EuropeanVehicle extends Vehicle {
     stop(): Promise<string>;
     lock(): Promise<string>;
     unlock(): Promise<string>;
+    fullStatus(input: VehicleStatusOptions): Promise<FullVehicleStatus | null>;
     status(input: VehicleStatusOptions): Promise<VehicleStatus | RawVehicleStatus | null>;
     odometer(): Promise<VehicleOdometer | null>;
     location(): Promise<VehicleLocation>;

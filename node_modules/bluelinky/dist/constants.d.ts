@@ -3,9 +3,6 @@ export declare const ALL_ENDPOINTS: {
     CA: {
         login: string;
         logout: string;
-        myAccount: string;
-        nextService: string;
-        preferedDealer: string;
         vehicleList: string;
         vehicleInfo: string;
         status: string;

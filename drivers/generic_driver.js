@@ -63,6 +63,11 @@ class CarDriver extends Homey.Driver {
 
 				const validated = await new Promise((resolve, reject) => {
 					let cancelTimeout = false;
+					client.on('error', async (error) => {
+						cancelTimeout = true;
+						this.error(error);
+						reject(Error(error));
+					});
 					client.on('ready', (veh) => {
 						cancelTimeout = true;
 						if (!veh || !Array.isArray(veh) || veh.length < 1) {
@@ -84,8 +89,8 @@ class CarDriver extends Homey.Driver {
 					setTimeoutPromise(15 * 1000, 'done waiting')	// login timeout
 						.then(() => {
 							if (cancelTimeout) return;
-							this.error('Login failed!');
-							reject(Error('Login failed'));
+							this.error('Login timeout!');
+							reject(Error('Login timeout'));
 						});
 				});
 				return validated;

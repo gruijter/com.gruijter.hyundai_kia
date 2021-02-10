@@ -4,9 +4,6 @@ export declare const CLIENT_ORIGIN = "SPA";
 export declare const CA_ENDPOINTS: {
     login: string;
     logout: string;
-    myAccount: string;
-    nextService: string;
-    preferedDealer: string;
     vehicleList: string;
     vehicleInfo: string;
     status: string;

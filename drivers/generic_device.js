@@ -42,16 +42,16 @@ const isClosedLocked = (status) => {
 	return doorLock && !trunkOpen && !hoodOpen && Object.keys(doorOpen).reduce((closedAccu, door) => closedAccu || !doorOpen[door], true);
 };
 
-const stringToDate = (str) => {
-	// var str = "20140711090807";
-	const year = str.substring(0, 4);
-	const month = str.substring(4, 6);
-	const day = str.substring(6, 8);
-	const hour = str.substring(8, 10);
-	const minute = str.substring(10, 12);
-	const second = str.substring(12, 14);
-	return new Date(year, month - 1, day, hour, minute, second);
-};
+// const stringToDate = (str) => {
+// 	// var str = "20140711090807";
+// 	const year = str.substring(0, 4);
+// 	const month = str.substring(4, 6);
+// 	const day = str.substring(6, 8);
+// 	const hour = str.substring(8, 10);
+// 	const minute = str.substring(10, 12);
+// 	const second = str.substring(12, 14);
+// 	return new Date(year, month - 1, day, hour, minute, second);
+// };
 
 class CarDevice extends Homey.Device {
 
@@ -64,7 +64,7 @@ class CarDevice extends Homey.Device {
 			this.vehicle = null;
 			this.busy = false;
 			this.watchDogCounter = 6;
-			this.lastSleepModeCheck = Date.now();
+			this.restarting = false;
 			this.pollMode = 0; // 0: normal, 1: engineOn with refresh
 			this.lastMoved = 0;
 			this.history = [];
@@ -93,6 +93,13 @@ class CarDevice extends Homey.Device {
 			if (this.ds.deviceId === 'bluelink') {
 				this.client = new Bluelink(options);
 			} else this.client = new Uvo(options);
+
+			this.client.on('error', async (error) => {
+				this.error(error);
+				await setTimeoutPromise(15 * 1000, 'waiting is done');
+				this.watchDogCounter -= 1;
+				if (!this.vehicle) this.restartDevice();
+			});
 
 			this.client.on('ready', (vehicles) => {
 				// console.log(util.inspect(vehicles, true, 10, true));
@@ -248,7 +255,6 @@ class CarDevice extends Homey.Device {
 							if (this.watchDogCounter <= 0) {
 								// restart the app here
 								this.log('watchdog triggered, restarting device now');
-								this.flushQueue();
 								this.restartDevice();
 							}
 						}
@@ -287,80 +293,88 @@ class CarDevice extends Homey.Device {
 				&& (Date.now() - this.lastRefresh) > 1000 * 60 * 24 * (this.settings.pollIntervalForced / 5) * (batSoc / 100);
 				// max. 24hrs forced poll @5 min & 100% charge
 			const batSoCGood = status ? (status.battery.batSoc > this.settings.batteryAlarmLevel) : true;
-			let refresh = this.pollMode	// 1 = engineOn with refresh
+			const refresh = this.pollMode	// 1 = engineOn with refresh
 				|| (batSoCGood && (forceOnce || forcePollInterval || !status || !location || !odometer));
 
-			if (!refresh) {
-				// get info from server
-				status = await this.vehicle.status({
-					refresh: false,
-					parsed: false,
-				});
+			const advanced = typeof this.vehicle.fullStatus === 'function';
 
-				// const fullStatus = await this.vehicle.fullStatus({
-				// 	refresh: false,
-				// 	parsed: false,
-				// });
-				// console.log(fullStatus);
-				// status = fullStatus.vehicleStatus;
-				// this.lastStatus = status;
-				// location = {
-				// 	latitude: fullStatus.vehicleLocation.coord.lat,
-				// 	longitude: fullStatus.vehicleLocation.coord.lon,
-				// 	altitude: fullStatus.vehicleLocation.coord.alt,
-				// 	speed: fullStatus.vehicleLocation.speed,
-				// 	heading: fullStatus.vehicleLocation.head,
-				// };
-				// this.lastLocation = location;
-				// odometer = fullStatus.odometer;
-				// this.lastOdometer = odometer;
-
-				// check if server state changed
-				const timestampChange = status && (status.time !== this.lastStatus.time);
-				if (timestampChange && (Date.now() - this.lastSleepModeCheck) > 3 * 60 * 1000)	{	// ignore recent timestampChange
-					const statusTime = stringToDate(status.time);
-					// console.log(util.inspect(status, true, 10, true));
-					if (Math.abs((statusTime - this.fixStateTime) % 3600000) > 15 * 1000) {	// ignore charger state fix
-						this.lastSleepModeCheck = Date.now();
-						this.log('doing sleepModeCheck');
-						refresh = true;
+			if (!refresh) { // get info from server
+				if (advanced) { // get status, location, odo meter from server
+					const fullStatus = await this.vehicle.fullStatus({
+						refresh: false,
+						parsed: false,
+					});
+					// console.log(fullStatus);
+					status = fullStatus.vehicleStatus;
+					if (status.time !== this.lastStatus.time) {
+						this.log('Server info changed.', this.lastStatus.time, status.time);
+						// if (status.sleepModeCheck) console.log(this.getName(), 'sleepModeCheck is true. Car just parked?');
+						this.lastRefresh = Date.now();
+					}
+					this.lastStatus = status;
+					location = {
+						latitude: fullStatus.vehicleLocation.coord.lat,
+						longitude: fullStatus.vehicleLocation.coord.lon,
+						altitude: fullStatus.vehicleLocation.coord.alt,
+						speed: fullStatus.vehicleLocation.speed,
+						heading: fullStatus.vehicleLocation.head,
+					};
+					this.lastLocation = location;
+					odometer = fullStatus.odometer;
+					this.lastOdometer = odometer;
+				} else { // get status from server
+					status = await this.vehicle.status({
+						refresh: false,
+						parsed: false,
+					});
+					// check if server state changed
+					if (status.time !== this.lastStatus.time) {
+						this.log('Server info changed.');
+						// get location from car
+						location = await this.vehicle.location();
+						this.lastLocation = location;
+						// get odo meter from car
+						odometer = await this.vehicle.odometer();
+						this.lastOdometer = odometer;
+						this.lastRefresh = Date.now();
 					}
 				}
 				this.lastStatus = status;
 			}
 
-			if (refresh) {
+			if (refresh) { // get status, location, odo meter from car
 				this.log('Status refresh from car');
-				// get status from car
-				status = await this.vehicle.status({
-					refresh: true,
-					parsed: false,
-				});
-				this.lastStatus = status;
-				// get location from car
-				location = await this.vehicle.location();
-				this.lastLocation = location;
-				// get odo meter from car
-				odometer = await this.vehicle.odometer();
-				this.lastOdometer = odometer;
-
-				// const fullStatus = await this.vehicle.fullStatus({
-				// 	refresh: true,
-				// 	parsed: false,
-				// });
-				// console.log(fullStatus);
-				// status = fullStatus.vehicleStatus;
-				// this.lastStatus = status;
-				// location = {
-				// 	latitude: fullStatus.vehicleLocation.coord.lat,
-				// 	longitude: fullStatus.vehicleLocation.coord.lon,
-				// 	altitude: fullStatus.vehicleLocation.coord.alt,
-				// 	speed: fullStatus.vehicleLocation.speed,
-				// 	heading: fullStatus.vehicleLocation.head,
-				// };
-				// this.lastLocation = location;
-				// odometer = fullStatus.odometer;
-				// this.lastOdometer = odometer;
+				if (advanced) {
+					const fullStatus = await this.vehicle.fullStatus({
+						refresh: true,
+						parsed: false,
+					});
+					status = fullStatus.vehicleStatus;
+					this.lastStatus = status;
+					location = {
+						latitude: fullStatus.vehicleLocation.coord.lat,
+						longitude: fullStatus.vehicleLocation.coord.lon,
+						altitude: fullStatus.vehicleLocation.coord.alt,
+						speed: fullStatus.vehicleLocation.speed,
+						heading: fullStatus.vehicleLocation.head,
+					};
+					this.lastLocation = location;
+					odometer = fullStatus.odometer;
+					this.lastOdometer = odometer;
+				} else {
+					// get status from car
+					status = await this.vehicle.status({
+						refresh: true,
+						parsed: false,
+					});
+					this.lastStatus = status;
+					// get location from car
+					location = await this.vehicle.location();
+					this.lastLocation = location;
+					// get odo meter from car
+					odometer = await this.vehicle.odometer();
+					this.lastOdometer = odometer;
+				}
 
 				// log data on app init
 				if (!this.lastRefresh) {
@@ -419,7 +433,6 @@ class CarDevice extends Homey.Device {
 				if (this.watchDogCounter <= 0) {
 					// restart the app here
 					this.log('watchdog triggered, restarting device now');
-					this.flushQueue();
 					this.restartDevice();
 					return;
 				}
@@ -436,7 +449,11 @@ class CarDevice extends Homey.Device {
 
 	async restartDevice(delay) {
 		// this.destroyListeners();
+		if (this.restarting) return;
+		this.restarting = true;
 		this.stopPolling();
+		this.flushQueue();
+		this.log('Device will restart in a few minutes');
 		this.setUnavailable('Device is restarting. Wait a few minutes!');
 		await setTimeoutPromise(delay || 1000 * 60 * 5).then(() => this.onInitDevice());
 	}
@@ -595,7 +612,7 @@ class CarDevice extends Homey.Device {
 	// Estimated Time to Home.
 	async etth(info) {
 		try {
-			if (!info || !info.status.engine) return this.getCapabilityValue('etth');
+			if (!info || (Date.now() - this.lastRefresh) >= 3 * 60 * 1000) return this.getCapabilityValue('etth');
 
 			// estimate TTH based on avgSpd
 			const distance = this.distance(info.location);
@@ -742,7 +759,7 @@ class CarDevice extends Homey.Device {
 		return Promise.resolve(true);
 	}
 
-	refreshStatus(refresh, source) {
+	async refreshStatus(refresh, source) {
 		if (refresh) {
 			this.log(`Forcing status refresh via ${source}`);
 			if (source === 'app' || source === 'cloud') this.carLastActive = Date.now();

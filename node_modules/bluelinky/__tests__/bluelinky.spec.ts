@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import got from 'got';
-import BlueLinky from '../lib/index';
+import BlueLinky from '../src/index';
 jest.mock('got');
 
 const gotMock = got as any;
