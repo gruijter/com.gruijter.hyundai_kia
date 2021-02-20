@@ -34,5 +34,11 @@
   },
   "2.0.0": {
     "en": "App rewrite (repair needed). Added charge on/off. Added Google Directions ETTH. Added flowcards. Added parked address. Removed Heading Home. Improved reverse Geo. bluelinky@5.2.3 kuvork@5.4.4"
+  },
+  "2.0.1": {
+    "en": "Fix ETTH when just parked. Improved car parked detection. Improved error handling. bluelinky@6.0.0 kuvork@6.0.0-alpha4"
+  },
+  "2.0.2": {
+    "en": "Fix crash when no batSoc (Kia Soul)"
   }
 }

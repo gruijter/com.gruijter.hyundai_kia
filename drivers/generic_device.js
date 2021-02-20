@@ -292,7 +292,7 @@ class CarDevice extends Homey.Device {
 				&& (this.settings.pollIntervalForced * 60 * 1000) < (Date.now() - this.lastRefresh)
 				&& (Date.now() - this.lastRefresh) > 1000 * 60 * 24 * (this.settings.pollIntervalForced / 5) * (batSoc / 100);
 				// max. 24hrs forced poll @5 min & 100% charge
-			const batSoCGood = status ? (status.battery.batSoc > this.settings.batteryAlarmLevel) : true;
+			const batSoCGood = status && status.battery ? (status.battery.batSoc > this.settings.batteryAlarmLevel) : true;
 			const refresh = this.pollMode	// 1 = engineOn with refresh
 				|| (batSoCGood && (forceOnce || forcePollInterval || !status || !location || !odometer));
 
@@ -506,7 +506,7 @@ class CarDevice extends Homey.Device {
 			} = info.status;
 			const targetTemperature = convert.getTempFromCode(info.status.airTemp.value);
 			const alarmTirePressure = !!info.status.tirePressureLamp.tirePressureLampAll;
-			const batteryCharge = info.status.battery.batSoc;
+			const batteryCharge = info.status.battery ? info.status.battery.batSoc : undefined;
 
 			// set defaults for non-EV vehicles
 			const charging = info.status.evStatus ? info.status.evStatus.batteryCharge : false;
