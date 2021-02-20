@@ -38,7 +38,7 @@
   "2.0.1": {
     "en": "Fix ETTH when just parked. Improved car parked detection. Improved error handling. bluelinky@6.0.0 kuvork@6.0.0-alpha4"
   },
-  "2.0.2": {
+  "2.0.3": {
     "en": "Fix crash when no batSoc (Kia Soul)"
   }
 }

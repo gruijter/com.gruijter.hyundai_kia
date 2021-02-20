@@ -290,7 +290,7 @@ class CarDevice extends Homey.Device {
 			const batSoc = this.getCapabilityValue('measure_battery.12V');
 			const forcePollInterval = this.settings.pollIntervalForced
 				&& (this.settings.pollIntervalForced * 60 * 1000) < (Date.now() - this.lastRefresh)
-				&& (Date.now() - this.lastRefresh) > 1000 * 60 * 24 * (this.settings.pollIntervalForced / 5) * (batSoc / 100);
+				&& (Date.now() - this.lastRefresh) > 1000 * 60 * 24 * (this.settings.pollIntervalForced / 5) * ((batSoc || 50) / 100);
 				// max. 24hrs forced poll @5 min & 100% charge
 			const batSoCGood = status && status.battery ? (status.battery.batSoc > this.settings.batteryAlarmLevel) : true;
 			const refresh = this.pollMode	// 1 = engineOn with refresh
@@ -527,7 +527,7 @@ class CarDevice extends Homey.Device {
 
 			// update capabilities
 			this.setCapability('measure_battery.EV', EVBatteryCharge);
-			this.setCapability('measure_battery.12V', batteryCharge);
+			this.setCapability('measure_battery.12V', batteryCharge || 0);
 			this.setCapability('alarm_battery', alarmBattery || alarmEVBattery);
 			this.setCapability('alarm_tire_pressure', alarmTirePressure);
 			this.setCapability('locked', locked);
