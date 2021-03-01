@@ -87,7 +87,8 @@ class CarDevice extends Homey.Device {
 				password: this.settings.password,
 				region: this.settings.region,
 				pin: this.settings.pin,
-				vin: this.settings.vin,
+				// vin: this.settings.vin,
+				brand: this.ds.deviceId === 'bluelink' ? 'H' : 'K',
 				deviceUuid: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15), // 'homey',
 				autoLogin: false,
 			};

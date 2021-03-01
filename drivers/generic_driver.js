@@ -52,7 +52,7 @@ class CarDriver extends Homey.Driver {
 					username: settings.username,
 					password: settings.password,
 					pin: settings.pin,
-					vin: 'KN',
+					brand: 'K',	// use Kia as default
 					region: settings.region,
 					deviceUuid: 'HomeyPair',
 					autoLogin: true,
@@ -62,7 +62,7 @@ class CarDriver extends Homey.Driver {
 				// 	client = new Bluelink(options);
 				// } else client = new Uvo(options);
 
-				if (this.ds.driverId === 'bluelink') options.vin = '';
+				if (this.ds.driverId === 'bluelink') options.brand = 'H';
 				const client = new Uvo(options);
 
 				const validated = await new Promise((resolve, reject) => {

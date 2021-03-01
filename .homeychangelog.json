@@ -46,5 +46,8 @@
   },
   "2.1.0": {
     "en": "Quick fix not able to login for Kia. Hyundai is WIP. Bluelinky removed. kuvork@6.2.0-alpha.1"
+  },
+  "2.1.1": {
+    "en": "Quick fix not able to login for Kia and Hyundai. kuvork@6.2.0-alpha.5"
   }
 }
