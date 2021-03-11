@@ -49,5 +49,8 @@
   },
   "2.1.1": {
     "en": "Quick fix not able to login for Kia and Hyundai. kuvork@6.2.0-alpha.5"
+  },
+  "2.1.2": {
+    "en": "Improved server info after app start. kuvork@6.2.2"
   }
 }

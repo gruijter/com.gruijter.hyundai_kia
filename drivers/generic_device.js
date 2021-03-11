@@ -153,6 +153,8 @@ class CarDevice extends Homey.Device {
 			if (!this.allListeners) this.registerListeners();
 
 			// start polling
+			this.enQueue({ command: 'doPoll', args: false });
+			await setTimeoutPromise(15 * 1000, 'waiting is done');
 			this.enQueue({ command: 'doPoll', args: true });
 			this.startPolling(this.settings.pollInterval);
 
@@ -213,7 +215,7 @@ class CarDevice extends Homey.Device {
 					throw Error('pausing queue; not logged in');
 				}
 				const itemWait = {
-					doPoll: 1,
+					doPoll: 5,
 					start: 65,
 					stop: 5,
 					lock: 5,
@@ -287,6 +289,7 @@ class CarDevice extends Homey.Device {
 	async doPoll(forceOnce) {
 		// console.log(forceOnce);
 		try {
+			const firstPoll = !this.lastStatus;
 			let status = this.lastStatus;
 			let location = this.lastLocation;
 			let odometer = this.lastOdometer;
@@ -298,9 +301,9 @@ class CarDevice extends Homey.Device {
 				// max. 24hrs forced poll @5 min & 100% charge
 			const batSoCGood = status && status.battery ? (status.battery.batSoc > this.settings.batteryAlarmLevel) : true;
 			const refresh = this.pollMode	// 1 = engineOn with refresh
-				|| (batSoCGood && (forceOnce || forcePollInterval || !status || !location || !odometer));
+				|| (batSoCGood && (forceOnce || forcePollInterval)); // || !status || !location || !odometer));
 
-			const advanced = typeof this.vehicle.fullStatus === 'function';
+			const advanced = typeof this.vehicle.fullStatus === 'function'; // works for EU vehicles only
 
 			if (!refresh) { // get info from server
 				if (advanced) { // get status, location, odo meter from server
@@ -310,7 +313,7 @@ class CarDevice extends Homey.Device {
 					});
 					// console.log(fullStatus);
 					status = fullStatus.vehicleStatus;
-					if (status.time !== this.lastStatus.time) {
+					if (this.lastStatus && status.time !== this.lastStatus.time) {
 						this.log('Server info changed.', this.lastStatus.time, status.time);
 						// if (status.sleepModeCheck) console.log(this.getName(), 'sleepModeCheck is true. Car just parked?');
 						this.lastRefresh = Date.now();
@@ -380,13 +383,14 @@ class CarDevice extends Homey.Device {
 					this.lastOdometer = odometer;
 				}
 
-				// log data on app init
-				if (!this.lastRefresh) {
-					this.log(JSON.stringify(status)); // util.inspect(status, true, 10, true));
-					this.log(JSON.stringify(location)); // util.inspect(location, true, 10, true));
-					this.log(JSON.stringify(odometer)); // util.inspect(odometer, true, 10, true));
-				}
 				this.lastRefresh = Date.now();
+			}
+
+			// log data on app init
+			if (firstPoll) {
+				this.log(JSON.stringify(status)); // util.inspect(status, true, 10, true));
+				this.log(JSON.stringify(location)); // util.inspect(location, true, 10, true));
+				this.log(JSON.stringify(odometer)); // util.inspect(odometer, true, 10, true));
 			}
 
 			// fix charger state after refresh

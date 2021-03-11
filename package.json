@@ -1,6 +1,6 @@
 {
   "name": "com.gruijter.hyundai_kia",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "private": false,
   "license": "GPL-3.0-or-later",
   "main": "app.js",
@@ -12,6 +12,6 @@
   "dependencies": {
     "fixture-stdout": "^0.2.1",
     "geopoint": "^1.0.1",
-    "kuvork": "^6.2.0-alpha.5"
+    "kuvork": "^6.2.2"
   }
 }
