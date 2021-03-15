@@ -3,6 +3,9 @@
     "title": {
         "en": "The battery alarm is !{{on|off}}"
     },
+    "titleFormatted": {
+        "en": "The battery alarm is !{{on|off}}"
+    },
     "args": [
         {
             "type": "device",

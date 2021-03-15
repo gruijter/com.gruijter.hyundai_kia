@@ -3,6 +3,9 @@
     "title": {
         "en": "The tire pressure alarm turned on"
     },
+    "titleFormatted": {
+        "en": "The tire pressure alarm turned on"
+    },
     "args": [
         {
             "type": "device",

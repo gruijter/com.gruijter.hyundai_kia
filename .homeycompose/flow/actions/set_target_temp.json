@@ -3,6 +3,9 @@
     "title": {
         "en": "Set target temperature"
     },
+    "titleFormatted": {
+        "en": "Set target temperature [[temp]]"
+    },
     "args": [
         {
             "type": "device",

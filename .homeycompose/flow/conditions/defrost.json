@@ -3,6 +3,9 @@
     "title": {
         "en": "Defrosting is !{{on|off}}"
     },
+    "titleFormatted": {
+        "en": "Defrosting is !{{on|off}}"
+    },
     "args": [
         {
             "type": "device",

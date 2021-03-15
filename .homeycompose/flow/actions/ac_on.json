@@ -3,6 +3,9 @@
     "title": {
         "en": "Turn A/C on"
     },
+    "titleFormatted": {
+        "en": "Turn A/C on"
+    },
     "args": [
         {
             "type": "device",

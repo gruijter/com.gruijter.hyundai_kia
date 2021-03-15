@@ -3,6 +3,9 @@
     "title": {
         "en": "The battery alarm turned off"
     },
+    "titleFormatted": {
+        "en": "The battery alarm turned off"
+    },
     "args": [
         {
             "type": "device",

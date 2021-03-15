@@ -3,6 +3,9 @@
     "title": {
         "en": "The car !{{is|is not}} parked"
     },
+    "titleFormatted": {
+        "en": "The car !{{is|is not}} parked"
+    },
     "args": [
         {
             "type": "device",

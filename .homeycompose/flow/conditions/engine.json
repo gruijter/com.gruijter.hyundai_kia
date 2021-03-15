@@ -3,6 +3,9 @@
     "title": {
         "en": "The engine is !{{on|off}}"
     },
+    "titleFormatted": {
+        "en": "The engine is !{{on|off}}"
+    },
     "args": [
         {
             "type": "device",

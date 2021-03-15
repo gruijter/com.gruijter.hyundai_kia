@@ -3,6 +3,9 @@
     "title": {
         "en": "The A/C turned on"
     },
+    "titleFormatted": {
+        "en": "The A/C turned on"
+    },
     "args": [
         {
             "type": "device",

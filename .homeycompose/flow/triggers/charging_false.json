@@ -3,6 +3,9 @@
     "title": {
         "en": "The charger turned off"
     },
+    "titleFormatted": {
+        "en": "The charger turned off"
+    },
     "args": [
         {
             "type": "device",

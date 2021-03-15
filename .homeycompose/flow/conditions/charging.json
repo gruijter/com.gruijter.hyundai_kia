@@ -3,6 +3,9 @@
     "title": {
         "en": "The charger is !{{on|off}}"
     },
+    "titleFormatted": {
+        "en": "The charger is !{{on|off}}"
+    },
     "args": [
         {
             "type": "device",

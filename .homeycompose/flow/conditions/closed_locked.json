@@ -3,6 +3,9 @@
     "title": {
         "en": "The car !{{is|is not}} closed and locked"
     },
+    "titleFormatted": {
+        "en": "The car !{{is|is not}} closed and locked"
+    },
     "args": [
         {
             "type": "device",

@@ -3,6 +3,9 @@
     "title": {
         "en": "The engine turned on"
     },
+    "titleFormatted": {
+        "en": "The engine turned on"
+    },
     "args": [
         {
             "type": "device",

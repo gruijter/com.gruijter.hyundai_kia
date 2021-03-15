@@ -3,6 +3,9 @@
     "title": {
         "en": "New car status"
     },
+    "titleFormatted": {
+        "en": "New car status"
+    },
     "args": [
         {
             "type": "device",

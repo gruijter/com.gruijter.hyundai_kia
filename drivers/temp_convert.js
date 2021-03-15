@@ -72,7 +72,7 @@ exports.getTempFromCode = (code) => {
 		case '00H':
 			return null;
 		case '01H':
-			return 14.5;
+			return 15.0;
 		case '02H':
 			return 15.0;
 		case '03H':

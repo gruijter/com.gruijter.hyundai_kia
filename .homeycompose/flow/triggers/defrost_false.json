@@ -3,6 +3,9 @@
     "title": {
         "en": "Defrosting turned off"
     },
+    "titleFormatted": {
+        "en": "Defrosting turned off"
+    },
     "args": [
         {
             "type": "device",

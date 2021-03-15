@@ -3,6 +3,9 @@
     "title": {
         "en": "Turn defrost on"
     },
+    "titleFormatted": {
+        "en": "Turn defrost on"
+    },
     "args": [
         {
             "type": "device",

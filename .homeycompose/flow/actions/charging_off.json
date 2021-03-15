@@ -3,6 +3,9 @@
     "title": {
         "en": "Turn charging off"
     },
+    "titleFormatted": {
+        "en": "Turn charging off"
+    },
     "args": [
         {
             "type": "device",

@@ -319,15 +319,17 @@ class CarDevice extends Homey.Device {
 						this.lastRefresh = Date.now();
 					}
 					this.lastStatus = status;
-					location = {
-						latitude: fullStatus.vehicleLocation.coord.lat,
-						longitude: fullStatus.vehicleLocation.coord.lon,
-						altitude: fullStatus.vehicleLocation.coord.alt,
-						speed: fullStatus.vehicleLocation.speed,
-						heading: fullStatus.vehicleLocation.head,
-					};
+					if (fullStatus.vehicleLocation) {
+						location = {
+							latitude: fullStatus.vehicleLocation.coord.lat,
+							longitude: fullStatus.vehicleLocation.coord.lon,
+							altitude: fullStatus.vehicleLocation.coord.alt,
+							speed: fullStatus.vehicleLocation.speed,
+							heading: fullStatus.vehicleLocation.head,
+						};
+					}
 					this.lastLocation = location;
-					odometer = fullStatus.odometer;
+					odometer = fullStatus.odometer || odometer;
 					this.lastOdometer = odometer;
 				} else { // get status from server
 					status = await this.vehicle.status({
@@ -358,15 +360,17 @@ class CarDevice extends Homey.Device {
 					});
 					status = fullStatus.vehicleStatus;
 					this.lastStatus = status;
-					location = {
-						latitude: fullStatus.vehicleLocation.coord.lat,
-						longitude: fullStatus.vehicleLocation.coord.lon,
-						altitude: fullStatus.vehicleLocation.coord.alt,
-						speed: fullStatus.vehicleLocation.speed,
-						heading: fullStatus.vehicleLocation.head,
-					};
+					if (fullStatus.vehicleLocation) {
+						location = {
+							latitude: fullStatus.vehicleLocation.coord.lat,
+							longitude: fullStatus.vehicleLocation.coord.lon,
+							altitude: fullStatus.vehicleLocation.coord.alt,
+							speed: fullStatus.vehicleLocation.speed,
+							heading: fullStatus.vehicleLocation.head,
+						};
+					} else location = await this.vehicle.location();
 					this.lastLocation = location;
-					odometer = fullStatus.odometer;
+					odometer = fullStatus.odometer ? fullStatus.odometer : await this.vehicle.odometer();
 					this.lastOdometer = odometer;
 				} else {
 					// get status from car
@@ -824,6 +828,30 @@ class CarDevice extends Homey.Device {
 module.exports = CarDevice;
 
 /*
+Kia Ceed ICE:
+{
+	"airCtrlOn":false,
+	"engine":false,
+	"doorLock":true,"doorOpen":{"frontLeft":0,"frontRight":0,"backLeft":0,"backRight":0},
+	"trunkOpen":false,
+	"airTemp":{"value":"01H","unit":0,"hvacTempType":1},
+	"defrost":false,
+	"lowFuelLight":false,
+	"acc":false,
+	"hoodOpen":false,
+	"steerWheelHeat":0,
+	"sideBackWindowHeat":0,
+	"dte":{"value":405,"unit":1},
+	"tirePressureLamp":{"tirePressureLampAll":0,"tirePressureLampFL":0,"tirePressureLampFR":0,"tirePressureLampRL":0,"tirePressureLampRR":0},
+	"battery":{"batSoc":81,"batState":0},
+	"time":"20210313185232"
+}
+2021-03-13 21:30:01 [log] [ManagerDrivers] [uvo] [0] {"latitude":51.589264,"longitude":5.340939,"altitude":0,"speed":{"value":0,"unit":0},"heading":0}
+2021-03-13 21:30:01 [log] [ManagerDrivers] [uvo] [0] {"value":11440.5,"unit":1}
+2021-03-13 21:30:01 [log] [ManagerDrivers] [uvo] [0] Error: out_of_range
+    at Remote Process
+ target_temperature 14.5
+
 // unparsed (door open, power on, start, after refresh on car):
 status : {
 	"airCtrlOn": true,

@@ -3,6 +3,9 @@
     "title": {
         "en": "Enable Homey control and live data"
     },
+    "titleFormatted": {
+      "en": "Enable Homey control and live data for [[device]]"
+    },
     "args": [
         {
           "type": "autocomplete",

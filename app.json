@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.hyundai_kia",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#00aaff",
@@ -92,6 +92,9 @@
         "title": {
           "en": "The battery alarm turned off"
         },
+        "titleFormatted": {
+          "en": "The battery alarm turned off"
+        },
         "args": [
           {
             "type": "device",
@@ -103,6 +106,9 @@
       {
         "id": "alarm_battery_true",
         "title": {
+          "en": "The battery alarm turned on"
+        },
+        "titleFormatted": {
           "en": "The battery alarm turned on"
         },
         "args": [
@@ -118,6 +124,9 @@
         "title": {
           "en": "The tire pressure alarm turned off"
         },
+        "titleFormatted": {
+          "en": "The tire pressure alarm turned off"
+        },
         "args": [
           {
             "type": "device",
@@ -129,6 +138,9 @@
       {
         "id": "alarm_tire_pressure_true",
         "title": {
+          "en": "The tire pressure alarm turned on"
+        },
+        "titleFormatted": {
           "en": "The tire pressure alarm turned on"
         },
         "args": [
@@ -144,6 +156,9 @@
         "title": {
           "en": "The charger turned off"
         },
+        "titleFormatted": {
+          "en": "The charger turned off"
+        },
         "args": [
           {
             "type": "device",
@@ -155,6 +170,9 @@
       {
         "id": "charging_true",
         "title": {
+          "en": "The charger turned on"
+        },
+        "titleFormatted": {
           "en": "The charger turned on"
         },
         "args": [
@@ -170,6 +188,9 @@
         "title": {
           "en": "The A/C turned off"
         },
+        "titleFormatted": {
+          "en": "The A/C turned off"
+        },
         "args": [
           {
             "type": "device",
@@ -181,6 +202,9 @@
       {
         "id": "climate_control_true",
         "title": {
+          "en": "The A/C turned on"
+        },
+        "titleFormatted": {
           "en": "The A/C turned on"
         },
         "args": [
@@ -196,6 +220,9 @@
         "title": {
           "en": "Defrosting turned off"
         },
+        "titleFormatted": {
+          "en": "Defrosting turned off"
+        },
         "args": [
           {
             "type": "device",
@@ -207,6 +234,9 @@
       {
         "id": "defrost_true",
         "title": {
+          "en": "Defrosting turned on"
+        },
+        "titleFormatted": {
           "en": "Defrosting turned on"
         },
         "args": [
@@ -222,6 +252,9 @@
         "title": {
           "en": "The engine turned off"
         },
+        "titleFormatted": {
+          "en": "The engine turned off"
+        },
         "args": [
           {
             "type": "device",
@@ -233,6 +266,9 @@
       {
         "id": "engine_true",
         "title": {
+          "en": "The engine turned on"
+        },
+        "titleFormatted": {
           "en": "The engine turned on"
         },
         "args": [
@@ -248,6 +284,9 @@
         "title": {
           "en": "The car has moved"
         },
+        "titleFormatted": {
+          "en": "The car has moved"
+        },
         "args": [
           {
             "type": "device",
@@ -259,6 +298,9 @@
       {
         "id": "has_parked",
         "title": {
+          "en": "The car has parked"
+        },
+        "titleFormatted": {
           "en": "The car has parked"
         },
         "tokens": [
@@ -296,6 +338,9 @@
         "title": {
           "en": "New car status"
         },
+        "titleFormatted": {
+          "en": "New car status"
+        },
         "args": [
           {
             "type": "device",
@@ -311,6 +356,9 @@
         "title": {
           "en": "The battery alarm is !{{on|off}}"
         },
+        "titleFormatted": {
+          "en": "The battery alarm is !{{on|off}}"
+        },
         "args": [
           {
             "type": "device",
@@ -322,6 +370,9 @@
       {
         "id": "alarm_tire_pressure",
         "title": {
+          "en": "The tire pressure alarm is !{{on|off}}"
+        },
+        "titleFormatted": {
           "en": "The tire pressure alarm is !{{on|off}}"
         },
         "args": [
@@ -337,6 +388,9 @@
         "title": {
           "en": "The charger is !{{on|off}}"
         },
+        "titleFormatted": {
+          "en": "The charger is !{{on|off}}"
+        },
         "args": [
           {
             "type": "device",
@@ -348,6 +402,9 @@
       {
         "id": "climate_control",
         "title": {
+          "en": "The A/C is !{{on|off}}"
+        },
+        "titleFormatted": {
           "en": "The A/C is !{{on|off}}"
         },
         "args": [
@@ -363,6 +420,9 @@
         "title": {
           "en": "The car !{{is|is not}} closed and locked"
         },
+        "titleFormatted": {
+          "en": "The car !{{is|is not}} closed and locked"
+        },
         "args": [
           {
             "type": "device",
@@ -374,6 +434,9 @@
       {
         "id": "defrost",
         "title": {
+          "en": "Defrosting is !{{on|off}}"
+        },
+        "titleFormatted": {
           "en": "Defrosting is !{{on|off}}"
         },
         "args": [
@@ -389,6 +452,9 @@
         "title": {
           "en": "The engine is !{{on|off}}"
         },
+        "titleFormatted": {
+          "en": "The engine is !{{on|off}}"
+        },
         "args": [
           {
             "type": "device",
@@ -402,6 +468,9 @@
         "title": {
           "en": "The car !{{is|is not}} moving"
         },
+        "titleFormatted": {
+          "en": "The car !{{is|is not}} moving"
+        },
         "args": [
           {
             "type": "device",
@@ -413,6 +482,9 @@
       {
         "id": "parked",
         "title": {
+          "en": "The car !{{is|is not}} parked"
+        },
+        "titleFormatted": {
           "en": "The car !{{is|is not}} parked"
         },
         "args": [
@@ -430,6 +502,9 @@
         "title": {
           "en": "Turn A/C off"
         },
+        "titleFormatted": {
+          "en": "Turn A/C off"
+        },
         "args": [
           {
             "type": "device",
@@ -441,6 +516,9 @@
       {
         "id": "ac_on",
         "title": {
+          "en": "Turn A/C on"
+        },
+        "titleFormatted": {
           "en": "Turn A/C on"
         },
         "args": [
@@ -456,6 +534,9 @@
         "title": {
           "en": "Turn charging off"
         },
+        "titleFormatted": {
+          "en": "Turn charging off"
+        },
         "args": [
           {
             "type": "device",
@@ -467,6 +548,9 @@
       {
         "id": "charging_on",
         "title": {
+          "en": "Turn charging on"
+        },
+        "titleFormatted": {
           "en": "Turn charging on"
         },
         "args": [
@@ -482,6 +566,9 @@
         "title": {
           "en": "Turn defrost off"
         },
+        "titleFormatted": {
+          "en": "Turn defrost off"
+        },
         "args": [
           {
             "type": "device",
@@ -493,6 +580,9 @@
       {
         "id": "defrost_on",
         "title": {
+          "en": "Turn defrost on"
+        },
+        "titleFormatted": {
           "en": "Turn defrost on"
         },
         "args": [
@@ -508,6 +598,9 @@
         "title": {
           "en": "Force status refresh (once)"
         },
+        "titleFormatted": {
+          "en": "Force status refresh (once)"
+        },
         "args": [
           {
             "type": "device",
@@ -520,6 +613,9 @@
         "id": "homey_link_off",
         "title": {
           "en": "Disable Homey control and live data"
+        },
+        "titleFormatted": {
+          "en": "Disable Homey control and live data for [[device]]"
         },
         "args": [
           {
@@ -536,6 +632,9 @@
         "title": {
           "en": "Enable Homey control and live data"
         },
+        "titleFormatted": {
+          "en": "Enable Homey control and live data for [[device]]"
+        },
         "args": [
           {
             "type": "autocomplete",
@@ -550,6 +649,9 @@
         "id": "set_target_temp",
         "title": {
           "en": "Set target temperature"
+        },
+        "titleFormatted": {
+          "en": "Set target temperature [[temp]]"
         },
         "args": [
           {

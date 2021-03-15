@@ -3,6 +3,9 @@
     "title": {
         "en": "Force status refresh (once)"
     },
+    "titleFormatted": {
+        "en": "Force status refresh (once)"
+    },
     "args": [
         {
             "type": "device",

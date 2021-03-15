@@ -3,6 +3,9 @@
     "title": {
         "en": "Disable Homey control and live data"
     },
+    "titleFormatted": {
+      "en": "Disable Homey control and live data for [[device]]"
+    },
     "args": [
         {
           "type": "autocomplete",

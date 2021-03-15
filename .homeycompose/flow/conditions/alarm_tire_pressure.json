@@ -3,6 +3,9 @@
     "title": {
         "en": "The tire pressure alarm is !{{on|off}}"
     },
+    "titleFormatted": {
+        "en": "The tire pressure alarm is !{{on|off}}"
+    },
     "args": [
         {
             "type": "device",

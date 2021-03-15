@@ -3,6 +3,9 @@
     "title": {
         "en": "The A/C is !{{on|off}}"
     },
+    "titleFormatted": {
+        "en": "The A/C is !{{on|off}}"
+    },
     "args": [
         {
             "type": "device",

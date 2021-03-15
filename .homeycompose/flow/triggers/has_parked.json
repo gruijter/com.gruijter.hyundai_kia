@@ -3,6 +3,9 @@
     "title": {
         "en": "The car has parked"
     },
+    "titleFormatted": {
+        "en": "The car has parked"
+    },
     "tokens": [
         {
             "name": "address",

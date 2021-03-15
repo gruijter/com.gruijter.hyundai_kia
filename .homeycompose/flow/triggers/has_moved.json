@@ -3,6 +3,9 @@
     "title": {
         "en": "The car has moved"
     },
+    "titleFormatted": {
+        "en": "The car has moved"
+    },
     "args": [
         {
             "type": "device",

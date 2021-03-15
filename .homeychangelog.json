@@ -52,5 +52,8 @@
   },
   "2.1.2": {
     "en": "Improved server info after app start. kuvork@6.2.2"
+  },
+  "2.2.0": {
+    "en": "Added support for Kia Ceed ICE."
   }
 }
