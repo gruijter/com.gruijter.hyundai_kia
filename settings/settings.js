@@ -24,11 +24,11 @@ function updateLogs() {
 							if (line.includes('[err]')) return;
 						}
 						const logLine = line
-							.replace(' [CarApp]', '')
-							.replace(' [ManagerDrivers]', '');
-							// .replace('  [uvo]', '');
+							// .replace(' [carApp]', '')
+							.replace(' [ManagerDrivers]', '')
+							.replace(/\[Device:(.*?)\]/, '[dev]')
+							.replace(/\[Driver:(.*?)\]/, '[$1]');
 						lines += `${logLine}<br />`;
-
 					});
 				displayLogs(lines);
 			} else {

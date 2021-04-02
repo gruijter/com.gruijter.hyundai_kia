@@ -3,6 +3,9 @@
 	"capabilities": [
 		"target_temperature",
 
+		"charge_target_slow",
+		"charge_target_fast",
+
 		"refresh_status",
 		"locked",
 		"defrost",

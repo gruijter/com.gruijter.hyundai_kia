@@ -124,6 +124,9 @@ class carApp extends Homey.App {
 		const setTargetTemp = this.homey.flow.getActionCard('set_target_temp');
 		setTargetTemp.registerRunListener((args) => args.device.setTargetTemp(args.temp, 'flow'));
 
+		const setChargeTargets = this.homey.flow.getActionCard('set_charge_targets');
+		setChargeTargets.registerRunListener((args) => args.device.setChargeTargets(args, 'flow'));
+
 		// condition cards
 		const alarmBattery = this.homey.flow.getConditionCard('alarm_battery');
 		alarmBattery.registerRunListener((args) => args.device.getCapabilityValue('alarm_battery'));

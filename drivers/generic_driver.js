@@ -20,11 +20,19 @@ along with com.gruijter.hyundai_kia. If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const Homey = require('homey');
-// const Bluelink = require('bluelinky');
-const Uvo = require('kuvork');
+const Client = require('bluelinky');
 const util = require('util');
 
 const setTimeoutPromise = util.promisify(setTimeout);
+
+const capabilitiesEV = ['target_temperature', 'charge_target_slow',	'charge_target_fast', 'refresh_status',
+	'locked', 'defrost', 'climate_control',	'last_refresh',	'engine', 'closed_locked', 'location', 'distance',
+	'etth', 'speed', 'range', 'charger', 'charging', 'odometer', 'alarm_tire_pressure', 'alarm_battery', 'measure_battery.EV',
+	'measure_battery.12V', 'latitude', 'longitude'];
+
+const capabilitiesNonEV = ['target_temperature', 'refresh_status', 'locked', 'defrost', 'climate_control', 'last_refresh',
+	'engine', 'closed_locked', 'location', 'distance', 'etth', 'speed', 'range', 'odometer', 'alarm_tire_pressure', 'alarm_battery',
+	'measure_battery.12V', 'latitude', 'longitude'];
 
 class CarDriver extends Homey.Driver {
 
@@ -52,25 +60,21 @@ class CarDriver extends Homey.Driver {
 					username: settings.username,
 					password: settings.password,
 					pin: settings.pin,
-					brand: 'K',	// use Kia as default
+					brand: 'kia',	// use Kia as default
 					region: settings.region,
 					deviceUuid: 'HomeyPair',
 					autoLogin: true,
 				};
-				// let client;
-				// if (this.ds.driverId === 'bluelink') {
-				// 	client = new Bluelink(options);
-				// } else client = new Uvo(options);
 
-				if (this.ds.driverId === 'bluelink') options.brand = 'H';
-				const client = new Uvo(options);
+				if (this.ds.driverId === 'bluelink') options.brand = 'hyundai';
+				const client = new Client(options);
 
 				const validated = await new Promise((resolve, reject) => {
 					let cancelTimeout = false;
 					client.on('error', async (error) => {
 						cancelTimeout = true;
 						this.error(error);
-						reject(Error(error));
+						reject(Error(`Login failed ${error}`));
 					});
 					client.on('ready', (veh) => {
 						cancelTimeout = true;
@@ -102,29 +106,39 @@ class CarDriver extends Homey.Driver {
 
 			session.setHandler('list_devices', async () => {
 				this.log('listing of devices started');
-				const devices = vehicles.map((vehicle) => ({
-					name: vehicle.vehicleConfig.nickname,
-					data: {
-						id: vehicle.vehicleConfig.vin,
-					},
-					settings: {
-						username: settings.username,
-						password: settings.password,
-						pin: settings.pin,
-						region: settings.region,
-						// pollInterval,
-						nameOrg: vehicle.vehicleConfig.name,
-						idOrg: vehicle.vehicleConfig.id,
-						vin: vehicle.vehicleConfig.vin,
-						regDate: vehicle.vehicleConfig.regDate.split(' ')[0],
-						brandIndicator: vehicle.vehicleConfig.brandIndicator,
-						generation: vehicle.vehicleConfig.generation,
-						lat: Math.round(this.homey.geolocation.getLatitude() * 100000000) / 100000000,
-						lon: Math.round(this.homey.geolocation.getLongitude() * 100000000) / 100000000,
-					},
-					capabilities: this.ds.deviceCapabilities,
-				}));
-				return devices;
+				const devices = vehicles.map(async (vehicle) => {
+					const status = await vehicle.status({ refresh: false, parsed: false });
+					const isEV = !!status.evStatus;
+					const isICE = !!status.dte;
+					let engine = 'HEV/ICE';
+					if (isEV && !isICE) engine = 'Full EV';
+					if (isEV && isICE) engine = 'PHEV';
+					return {
+						name: vehicle.vehicleConfig.nickname,
+						data: {
+							id: vehicle.vehicleConfig.vin,
+						},
+						settings: {
+							username: settings.username,
+							password: settings.password,
+							pin: settings.pin,
+							region: settings.region,
+							// pollInterval,
+							nameOrg: vehicle.vehicleConfig.name,
+							idOrg: vehicle.vehicleConfig.id,
+							vin: vehicle.vehicleConfig.vin,
+							regDate: vehicle.vehicleConfig.regDate.split(' ')[0],
+							brandIndicator: vehicle.vehicleConfig.brandIndicator,
+							generation: vehicle.vehicleConfig.generation,
+							engine,
+							level: '2.3.0',
+							lat: Math.round(this.homey.geolocation.getLatitude() * 100000000) / 100000000,
+							lon: Math.round(this.homey.geolocation.getLongitude() * 100000000) / 100000000,
+						},
+						capabilities: isEV ? capabilitiesEV : capabilitiesNonEV,
+					};
+				});
+				return Promise.all(devices);
 			});
 
 		} catch (error) {

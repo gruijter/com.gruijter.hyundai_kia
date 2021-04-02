@@ -1,0 +1,48 @@
+{
+  "type": "enum",
+  "title": {
+    "en": "Charge Target Fast"
+  },
+  "values": [
+    {
+      "id": "100",
+      "title": {
+        "en": "100%"
+      }
+    },
+    {
+      "id": "90",
+      "title": {
+        "en": "90%"
+      }
+    },
+    {
+      "id": "80",
+      "title": {
+        "en": "80%"
+      }
+    },
+    {
+      "id": "70",
+      "title": {
+        "en": "70%"
+      }
+    },
+    {
+      "id": "60",
+      "title": {
+        "en": "60%"
+      }
+    },
+    {
+      "id": "50",
+      "title": {
+        "en": "50%"
+      }
+    }
+  ],
+  "value": "100",
+  "getable": true,
+  "setable": true,
+  "uiComponent": "picker"
+}

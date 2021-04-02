@@ -1,6 +1,6 @@
 {
   "id": "com.gruijter.hyundai_kia",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#00aaff",
@@ -14,6 +14,7 @@
     "en": [
       "smart car",
       "EV",
+      "PHEV",
       "Electric Vehicle",
       "hyundai",
       "kia",
@@ -21,7 +22,7 @@
       "uvo",
       "bluelink",
       "ABRP",
-      "better route planner",
+      "route planner",
       "location",
       "geofence"
     ]

@@ -1,4 +1,5 @@
 
+v2.3.0  02.04.2021 Added charge limits. Remove EV-capabilities for ICE cars. Improved pairing error feedback. Improved car parked detection. Fixed HTTPS timeout. Log changes Homey V6. Kuvork removed. Bluelinky@7.0.1
 v2.2.0  15.02.2021 Added support for Kia Ceed ICE.
 v2.1.2  11.03.2021 Improved server info after app start. kuvork@6.2.2
 v2.1.1  01.03.2021 Quick fix not able to login for Kia and Hyundai. kuvork@6.2.0-alpha.5

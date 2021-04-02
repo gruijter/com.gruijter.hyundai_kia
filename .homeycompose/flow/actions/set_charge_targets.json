@@ -1,0 +1,106 @@
+{
+    "id": "set_charge_targets",
+    "title": {
+        "en": "Set charge targets"
+    },
+    "titleFormatted": {
+        "en": "Set charge targets slow:[[slow]] fast:[[fast]]"
+    },
+    "args": [
+        {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+        },
+        {
+            "type": "dropdown",
+            "name": "slow",
+            "title": {
+                "en": "Slow (%)"
+            },
+            "values": [
+                {
+                  "id": "100",
+                  "title": {
+                    "en": "100%"
+                  }
+                },
+                {
+                  "id": "90",
+                  "title": {
+                    "en": "90%"
+                  }
+                },
+                {
+                  "id": "80",
+                  "title": {
+                    "en": "80%"
+                  }
+                },
+                {
+                  "id": "70",
+                  "title": {
+                    "en": "70%"
+                  }
+                },
+                {
+                  "id": "60",
+                  "title": {
+                    "en": "60%"
+                  }
+                },
+                {
+                  "id": "50",
+                  "title": {
+                    "en": "50%"
+                  }
+                }
+            ]
+        },
+        {
+            "type": "dropdown",
+            "name": "fast",
+            "title": {
+                "en": "Fast (%)"
+            },
+            "values": [
+                {
+                  "id": "100",
+                  "title": {
+                    "en": "100%"
+                  }
+                },
+                {
+                  "id": "90",
+                  "title": {
+                    "en": "90%"
+                  }
+                },
+                {
+                  "id": "80",
+                  "title": {
+                    "en": "80%"
+                  }
+                },
+                {
+                  "id": "70",
+                  "title": {
+                    "en": "70%"
+                  }
+                },
+                {
+                  "id": "60",
+                  "title": {
+                    "en": "60%"
+                  }
+                },
+                {
+                  "id": "50",
+                  "title": {
+                    "en": "50%"
+                  }
+                }
+            ]
+        }
+    ]
+}

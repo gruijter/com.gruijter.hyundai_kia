@@ -20,8 +20,7 @@ along with com.gruijter.hyundai_kia. If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const Homey = require('homey');
-// const Bluelink = require('bluelinky');
-const Uvo = require('kuvork');
+const Client = require('bluelinky');
 const GeoPoint = require('geopoint');
 const util = require('util');
 const ABRP = require('../abrp_telemetry');
@@ -34,10 +33,7 @@ const setTimeoutPromise = util.promisify(setTimeout);
 
 const isClosedLocked = (status) => {
 	const {
-		doorLock,
-		trunkOpen,
-		hoodOpen,
-		doorOpen,
+		doorLock, trunkOpen, hoodOpen, doorOpen,
 	} = status;
 	return doorLock && !trunkOpen && !hoodOpen && Object.keys(doorOpen).reduce((closedAccu, door) => closedAccu || !doorOpen[door], true);
 };
@@ -66,13 +62,16 @@ class CarDevice extends Homey.Device {
 			this.watchDogCounter = 6;
 			this.restarting = false;
 			this.pollMode = 0; // 0: normal, 1: engineOn with refresh
+			this.isEV = this.hasCapability('charger');
+			this.lastChargeTargets = {
+				slow: this.getCapabilityValue('charge_target_slow') || '80',
+				fast: this.getCapabilityValue('charge_target_fast') || '80',
+			};
 			this.lastMoved = 0;
-			this.history = [];
 			this.lastOdometer = this.getCapabilityValue('odometer');
 			this.lastLocation = { latitude: this.getCapabilityValue('latitude'), longitude: this.getCapabilityValue('longitude') };
 			this.parkLocation = this.getStoreValue('parkLocation');
 			if (!this.parkLocation) this.parkLocation = this.lastLocation;
-			// this.gmapsHistory = [];
 			// this.unsetWarning();
 
 			// queue properties
@@ -88,15 +87,12 @@ class CarDevice extends Homey.Device {
 				region: this.settings.region,
 				pin: this.settings.pin,
 				// vin: this.settings.vin,
-				brand: this.ds.deviceId === 'bluelink' ? 'H' : 'K',
+				brand: this.ds.deviceId === 'bluelink' ? 'hyundai' : 'kia',
 				deviceUuid: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15), // 'homey',
 				autoLogin: false,
 			};
-			// if (this.ds.deviceId === 'bluelink') {
-			// 	this.client = new Bluelink(options);
-			// } else this.client = new Uvo(options);
 
-			this.client = new Uvo(options);
+			this.client = new Client(options);
 
 			this.client.on('error', async (error) => {
 				this.error(error);
@@ -109,10 +105,11 @@ class CarDevice extends Homey.Device {
 				// console.log(util.inspect(vehicles, true, 10, true));
 				[this.vehicle] = vehicles.filter((veh) => veh.vehicleConfig.vin === this.settings.vin);
 			});
-			// wait for client login
-			// await setTimeoutPromise(15 * 1000, 'waiting is done');
 			await this.client.login();
 			if (this.vehicle) this.log(JSON.stringify(this.vehicle.vehicleConfig));
+
+			// migrate capabilities from old v2.2.0
+			if (this.settings.level !== '2.3.0') await this.migrate();
 
 			// setup ABRP client
 			this.abrpEnabled = Homey.env && Homey.env.ABRP_API_KEY
@@ -152,6 +149,14 @@ class CarDevice extends Homey.Device {
 			// init listeners
 			if (!this.allListeners) this.registerListeners();
 
+			// testing stuff
+
+			// const tripInfo = await this.vehicle.tripInfo({ year: 2021, month: 3, day: 27 });
+			// console.log(util.inspect(tripInfo, true, 10, true));
+
+			// const monthlyReport = await this.vehicle.monthlyReport({ year: 2021, month: 3 });
+			// console.log(monthlyReport);
+
 			// start polling
 			this.enQueue({ command: 'doPoll', args: false });
 			await setTimeoutPromise(15 * 1000, 'waiting is done');
@@ -161,6 +166,39 @@ class CarDevice extends Homey.Device {
 		} catch (error) {
 			this.error(error);
 		}
+	}
+
+	// migrate stuff from old version 2.2.0
+	async migrate() {
+		this.log('checking capability migration');
+		const status = await this.vehicle.status({ refresh: false, parsed: false });
+		this.isEV = !!status.evStatus;
+		const isICE = !!status.dte;
+		let engine = 'HEV/ICE';
+		if (this.isEV && !isICE) engine = 'Full EV';
+		if (this.isEV && isICE) engine = 'PHEV';
+		// set engine type in settings
+		if (this.getSettings().engine !== engine) {
+			this.log(`setting engine type to ${engine}`);
+			this.setSettings({ engine });
+		}
+		// add new capabilities for EV
+		if (this.isEV && !this.getCapabilities().includes('charge_target_fast')) {
+			this.log('Adding charge target capabilities to', this.getName());
+			await this.addCapability('charge_target_slow');
+			await this.addCapability('charge_target_fast');
+		}
+		// remove capabilities for nonEV
+		if (!this.isEV && this.getCapabilities().includes('charger')) {
+			this.log('Removing EV capabilities from', this.getName());
+			await this.removeCapability('measure_battery.EV');
+			await this.removeCapability('charging');
+			await this.removeCapability('charger');
+			await this.removeCapability('charge_target_slow');
+			await this.removeCapability('charge_target_fast');
+		}
+		// set migrate level
+		this.setSettings({ level: '2.3.0' });
 	}
 
 	// stuff for queue handling here
@@ -220,7 +258,8 @@ class CarDevice extends Homey.Device {
 					stop: 5,
 					lock: 5,
 					unlock: 5,
-					startCharge: 20,
+					setChargeTargets: 25,
+					startCharge: 25,
 					stopCharge: 5,
 				};
 				this.lastCommand = item.command;
@@ -293,6 +332,7 @@ class CarDevice extends Homey.Device {
 			let status = this.lastStatus;
 			let location = this.lastLocation;
 			let odometer = this.lastOdometer;
+			const chargeTargets = this.lastChargeTargets;
 
 			const batSoc = this.getCapabilityValue('measure_battery.12V');
 			const forcePollInterval = this.settings.pollIntervalForced
@@ -390,24 +430,23 @@ class CarDevice extends Homey.Device {
 				this.lastRefresh = Date.now();
 			}
 
-			// log data on app init
-			if (firstPoll) {
-				this.log(JSON.stringify(status)); // util.inspect(status, true, 10, true));
-				this.log(JSON.stringify(location)); // util.inspect(location, true, 10, true));
-				this.log(JSON.stringify(odometer)); // util.inspect(odometer, true, 10, true));
+			const info = {
+				status, location, odometer, chargeTargets,
+			};
+
+			// refresh chargeTargets only on firstPoll, just parked or just charging
+			if (this.isEV) {
+				const hasParked = this.isParking(info);
+				const startCharge = !this.getCapabilityValue('charging') && (info.status.evStatus ? info.status.evStatus.batteryCharge : false);
+				if (firstPoll || hasParked || startCharge) {
+					this.log('refreshing charge targets');
+					const targetInfo = await this.vehicle.getChargeTargets();
+					const slow = (targetInfo.find((i) => i.type === 1).targetLevel || this.lastChargeTargets.slow).toString();
+					const fast = (targetInfo.find((i) => i.type === 0).targetLevel || this.lastChargeTargets.fast).toString();
+					info.chargeTargets = { slow, fast };
+					this.lastChargeTargets = info.chargeTargets;
+				}
 			}
-
-			// fix charger state after refresh
-			if (refresh && status && status.evStatus && status.evStatus.batteryPlugin && !status.evStatus.batteryCharge) {
-				this.chargingOnOff(false, 'state fix');
-				this.fixStateTime = Date.now();
-			}
-
-			// update ABRP
-			if (refresh) this.abrpTelemetry({ status, location, odometer });
-
-			// update capabilities and flows
-			this.handleInfo({ status, location, odometer });
 
 			// check if car is active
 			const justUnplugged = status && status.evStatus && !status.evStatus.batteryPlugin && this.getCapabilityValue('charger') !== '0';
@@ -417,6 +456,21 @@ class CarDevice extends Homey.Device {
 			const carActive = engineOn || climateOn || justUnplugged || justUnlocked;
 			if (carActive) this.carLastActive = Date.now();
 			const carJustActive = ((Date.now() - this.carLastActive) < 3 * 60 * 1000); // human activity or cloud refresh triggered recently
+
+			// log data on app init
+			if (firstPoll) this.log(JSON.stringify(info));
+
+			// update ABRP
+			if (this.isEV && refresh) this.abrpTelemetry(info);
+
+			// update capabilities and flows
+			this.handleInfo(info);
+
+			// fix charger state after refresh
+			if (this.isEV && refresh && status && status.evStatus && status.evStatus.batteryPlugin && !status.evStatus.batteryCharge) {
+				this.chargingOnOff(false, 'state fix');
+				this.fixStateTime = Date.now();
+			}
 
 			// variable polling interval based on active state
 			if (this.settings.pollIntervalEngineOn && !this.pollMode && carJustActive) {
@@ -496,7 +550,7 @@ class CarDevice extends Homey.Device {
 
 	setCapability(capability, value) {
 		if (this.hasCapability(capability)) {
-			// only update changed capabilities
+			// only update changed values
 			if (value !== this.getCapabilityValue(capability)) {
 				this.setCapabilityValue(capability, value)
 					.catch((error) => {
@@ -510,11 +564,9 @@ class CarDevice extends Homey.Device {
 		try {
 			const { speed } = info.location;
 			const { odometer } = info;
+			const { chargeTargets } = info;
 			const {
-				engine,
-				doorLock: locked,
-				airCtrlOn,
-				defrost,
+				engine,	doorLock: locked, airCtrlOn, defrost,
 			} = info.status;
 			const targetTemperature = convert.getTempFromCode(info.status.airTemp.value);
 			const alarmTirePressure = !!info.status.tirePressureLamp.tirePressureLampAll;
@@ -534,11 +586,10 @@ class CarDevice extends Homey.Device {
 			const moving = this.isMoving(info.location);
 			const hasParked = this.isParking(info);
 			const closedLocked = isClosedLocked(info.status);
-			const alarmEVBattery = EVBatteryCharge < this.settings.EVbatteryAlarmLevel;
+			const alarmEVBattery = this.isEV && (EVBatteryCharge < this.settings.EVbatteryAlarmLevel);
 			const alarmBattery = batteryCharge < this.settings.batteryAlarmLevel;
 
 			// update capabilities
-			this.setCapability('measure_battery.EV', EVBatteryCharge);
 			this.setCapability('measure_battery.12V', batteryCharge || 0);
 			this.setCapability('alarm_battery', alarmBattery || alarmEVBattery);
 			this.setCapability('alarm_tire_pressure', alarmTirePressure);
@@ -548,14 +599,21 @@ class CarDevice extends Homey.Device {
 			this.setCapability('defrost', defrost);
 			this.setCapability('climate_control', airCtrlOn);
 			this.setCapability('engine', engine);
-			this.setCapability('charging', charging);
-			this.setCapability('charger', charger.toString());
 			this.setCapability('odometer', odometer.value);
 			this.setCapability('range', range);
 			this.setCapability('speed', speed.value);
 			this.setCapability('latitude', info.location.latitude);
 			this.setCapability('longitude', info.location.longitude);
 			this.setCapability('distance', distance);
+
+			// update EV specific capabilities
+			if (this.isEV) {
+				this.setCapability('measure_battery.EV', EVBatteryCharge);
+				this.setCapability('charge_target_slow', chargeTargets.slow);
+				this.setCapability('charge_target_fast', chargeTargets.fast);
+				this.setCapability('charging', charging);
+				this.setCapability('charger', charger.toString());
+			}
 
 			// update async capabilities
 			const { local, address } = await Promise.resolve(carLocString);
@@ -610,8 +668,8 @@ class CarDevice extends Homey.Device {
 		const parked = !info.status.engine; //  && (Date.now() - this.lastMoved > 30 * 1000); // 30s after engine shut off or sleepModeCheck
 		if (!parked) return false;	// car is driving
 
-		const newLocation = Math.abs(info.location.latitude - this.parkLocation.latitude) > 0.0002
-			|| Math.abs(info.location.longitude - this.parkLocation.longitude) > 0.0002;
+		const newLocation = Math.abs(info.location.latitude - this.parkLocation.latitude) > 0.0003
+			|| Math.abs(info.location.longitude - this.parkLocation.longitude) > 0.0003;
 		const parking = parked && newLocation;
 		if (parking) {
 			this.parkLocation = info.location;
@@ -731,7 +789,7 @@ class CarDevice extends Homey.Device {
 	}
 
 	async chargingOnOff(charge, source) {
-		// if (this.getCapabilityValue('charger') === '0') return Promise.reject(Error('Control not possible; no charger connected'));
+		if (!this.isEV) return Promise.reject(Error('Control not possible; not an EV'));
 		let command;
 		if (charge) {
 			this.log(`charging on via ${source}`);
@@ -768,6 +826,19 @@ class CarDevice extends Homey.Device {
 		};
 		const command = 'start';
 		this.enQueue({ command, args });
+		return Promise.resolve(true);
+	}
+
+	setChargeTargets(targets = { fast: 100, slow: 80 }, source) {
+		if (!this.isEV) return Promise.reject(Error('Control not possible; not an EV'));
+		this.log(`Charge target is set by ${source} to slow:${targets.slow} fast:${targets.fast}`);
+		const args = { fast: Number(targets.fast), slow: Number(targets.slow) };
+		const command = 'setChargeTargets';
+		this.enQueue({ command, args });
+		this.lastChargeTargets = {
+			slow: args.slow.toString(),
+			fast: args.fast.toString(),
+		};
 		return Promise.resolve(true);
 	}
 
@@ -816,6 +887,12 @@ class CarDevice extends Homey.Device {
 			this.registerCapabilityListener('target_temperature', async (temp) => this.setTargetTemp(temp, 'app'));
 			this.registerCapabilityListener('refresh_status', (refresh) => this.refreshStatus(refresh, 'app'));
 			this.registerCapabilityListener('charging', (charge) => this.chargingOnOff(charge, 'app'));
+			this.registerMultipleCapabilityListener(['charge_target_slow', 'charge_target_fast'], async (values) => {
+				const slow = Number(values.charge_target_slow) || Number(this.getCapabilityValue('charge_target_slow'));
+				const fast = Number(values.charge_target_fast) || Number(this.getCapabilityValue('charge_target_fast'));
+				const targets = { slow, fast };
+				this.setChargeTargets(targets, 'app');
+			}, 10000);
 
 			return Promise.resolve(this.listeners);
 		} catch (error) {

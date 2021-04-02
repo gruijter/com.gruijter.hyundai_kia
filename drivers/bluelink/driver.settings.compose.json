@@ -61,6 +61,17 @@
 								"en": "Generation"
 						},
 						"value": ""
+				},
+				{
+					"id": "engine",
+					"type": "label",
+					"label": {
+							"en": "Engine"
+					},
+					"hint": {
+						"en": "Full EV (Electric Vehicle), PHEV (Plugin Hybrid Electric Vehicle), or HEV/ICE (Hybrid Electric Vehicle/Internal Combustion Engine)"
+					},
+					"value": ""
 				}
 		]
 	},
@@ -224,7 +235,7 @@
 						"en": "ABRP user token"
 				},
 				"hint": {
-					"en": "Get a token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Homey > copy the token."
+					"en": "ABRP interface only works for EV/PHEV vehicles. Get a token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Homey > copy the token."
 				},
 				"value": ""
 			}
@@ -265,7 +276,7 @@
 							"en": "Google Directions API key"
 					},
 					"hint": {
-						"en": "Using Google Directions will enable Estimated Time To Home (ETTH) calculations, including real-time traffic.\nGet a key at https://developers.google.com/maps/documentation/directions/get-api-key.\nLeave empty to disable Google Directions."
+						"en": "Using Google Directions will improve Estimated Time To Home (ETTH) calculations, including real-time traffic.\nGet a key at https://developers.google.com/maps/documentation/directions/get-api-key.\nLeave empty to disable Google Directions."
 					},
 					"value": ""
 				}

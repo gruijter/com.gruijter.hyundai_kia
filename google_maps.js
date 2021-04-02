@@ -88,7 +88,9 @@ class Maps {
 
 	_makeHttpsRequest(options, postData, timeout) {
 		return new Promise((resolve, reject) => {
-			const req = https.request(options, (res) => {
+			const opts = options;
+			opts.timeout = timeout || this.timeout;
+			const req = https.request(opts, (res) => {
 				let resBody = '';
 				res.on('data', (chunk) => {
 					resBody += chunk;
@@ -102,12 +104,12 @@ class Maps {
 				});
 			});
 			req.on('error', (e) => {
-				req.abort();
+				req.destroy();
 				this.lastResponse = e;	// e.g. ECONNREFUSED on wrong soap port or wrong IP // ECONNRESET on wrong IP
 				return reject(e);
 			});
-			req.setTimeout(timeout || this.timeout, () => {
-				req.abort();
+			req.on('timeout', () => {
+				req.destroy();
 			});
 			// req.write(postData);
 			req.end(postData);

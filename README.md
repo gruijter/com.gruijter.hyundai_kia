@@ -15,11 +15,8 @@ Homey has access to the car's location, speed, range, door state and charge stat
 * Genesis Bluelink
 
 ## Status:
-* EV Battery charge %
 * 12V Battery charge %
 * Engine on/off
-* Charging on/off
-* Charger type connected (slow/fast)
 * Doors closed and locked
 * Defrost on/off
 * A/C on/off
@@ -31,6 +28,12 @@ Homey has access to the car's location, speed, range, door state and charge stat
 * GPS location
 * Distance from home
 * Estimated Time To Home (ETTH)
+
+## Extra status for EV vehicles:
+* EV Battery charge %
+* Charge targets
+* Charging on/off
+* Charger type connected (slow/fast)
 
 <img src="https://aws1.discourse-cdn.com/business4/uploads/athom/original/3X/f/7/f74e05e35b24e99846155d191844b67c8d72e0c4.jpeg" alt="State" width="250">
 
@@ -44,8 +47,9 @@ Homey has access to the car's location, speed, range, door state and charge stat
 * Doors lock/unlock
 * A/C on/off
 * Defrost on/off
-* Charger on/off
 * Target temperature
+* Target Charge
+* Charger on/off
 
 <img src="https://aws1.discourse-cdn.com/business4/uploads/athom/original/3X/7/8/78f40377769dcbed6db05e3471af9369fbfd6a37.jpeg" alt="Control" width="250">
 
