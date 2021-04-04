@@ -49,6 +49,45 @@ const _makeHttpsRequest = (options = {}) => new Promise((resolve, reject) => {
 	req.end();
 });
 
+const search = async (params) => {
+	try {
+		const errTxt = 'Parameter needs to be a string or an object with street, city, county, state, country, postalcode';
+		if (typeof params === 'object') {
+			if (!Object.keys(params).some((key) => ['street', 'city', 'county', 'state', 'country', 'postalcode'].includes(key))) throw Error(errTxt);
+		} else if (typeof params !== 'string') throw Error(errTxt);
+		const query = {
+			format: 'jsonv2', // [xml|json|jsonv2|geojson|geocodejson]
+			addressdetails: 1,
+			extratags: 1,
+			namedetails: 1,
+			limit: 1,
+			email: 'gruijter@hotmail.com', // <valid email address> only used to contact you in the event of a problem, see Usage Policy
+		};
+		if (typeof params === 'string') query.q = params;
+		if (typeof params === 'object') Object.assign(query, params);
+		const headers = {
+			'Content-Length': 0,
+		};
+		const options = {
+			hostname: 'nominatim.openstreetmap.org',
+			path: `/search?${qs.stringify(query)}`,
+			headers,
+			'User-Agent': 'Homey Hyundai_Kia',
+			method: 'GET',
+		};
+		const result = await _makeHttpsRequest(options, '');
+		if (result.statusCode !== 200 || result.headers['content-type'] !== 'application/json; charset=UTF-8') {
+			throw Error(`geo search service error: ${result.statusCode}`);
+		}
+		const jsonData = JSON.parse(result.body);
+		if (jsonData.length < 1) throw Error('location not found');
+		// console.log(util.inspect(jsonData, { depth: null, colors: true }));
+		return Promise.resolve(jsonData[0]);
+	} catch (error) {
+		return Promise.reject(error);
+	}
+};
+
 const reverseGeo = async (lat, lon) => {
 	try {
 		const query = {
@@ -80,13 +119,15 @@ const reverseGeo = async (lat, lon) => {
 		// console.log(util.inspect(jsonData, { depth: null, colors: true }));
 		return Promise.resolve(jsonData);
 	} catch (error) {
-		return Promise.resolve(error);
+		return Promise.reject(error);
 	}
 };
 
 const test = () => {
 	const testLocs = [[51.50667, -0.08713], [52.46760, 13.52803], [41.88980, 12.49124], [38.89734, -77.03655]];
 	const resArray = testLocs.map((loc) => reverseGeo(loc[0], loc[1]));
+	const testAddress = 'Amsterdam nemo';
+	resArray.push(search(testAddress));
 	return Promise.all(resArray);
 };
 
@@ -111,6 +152,7 @@ const getCarLocString = async (location) => {
 };
 
 module.exports.test = test;
+module.exports.search = search;
 module.exports.reverseGeo = reverseGeo;
 module.exports.getCarLocString = getCarLocString;
 

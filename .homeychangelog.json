@@ -58,5 +58,8 @@
   },
   "2.3.0": {
     "en": "Added charge limits. Remove EV-capabilities for ICE cars. Improved pairing error feedback. Improved car parked detection. Fixed HTTPS timeout. Log changes Homey V6. Kuvork removed. Bluelinky@7.0.1"
+  },
+  "2.4.0": {
+    "en": "Added send Navigation destination to car. Fixed car parked detection. Other minor fixes. Readme updated."
   }
 }

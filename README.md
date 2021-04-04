@@ -50,6 +50,7 @@ Homey has access to the car's location, speed, range, door state and charge stat
 * Target temperature
 * Target Charge
 * Charger on/off
+* Send destination to car's navigation
 
 <img src="https://aws1.discourse-cdn.com/business4/uploads/athom/original/3X/7/8/78f40377769dcbed6db05e3471af9369fbfd6a37.jpeg" alt="Control" width="250">
 
@@ -76,3 +77,12 @@ The Estimated Time To Home - ETTH - is a very (very) rough estimate. Enabling Go
 A Better Route Planner helps you to plan your trip. For its calculations ABRP can use real energy consumption data. By entering your ABRP user token in the device settings, Homey will get the live data for you from the car and acts as a bridge to upload it live to ABRP. Note that if you don’t want to upload any data to ABRP, just don’t enter your car user token in Homey
 
 <img src="https://aws1.discourse-cdn.com/business4/uploads/athom/original/3X/a/f/afef2806940fa7428a7e16bc71bef5c4ff157934.jpeg" alt="settings" width="250">
+
+## Send a destination to the car's navigation
+Via a flow you can send a new destination to the navigation system. You can use a tag or free text, or [lat,lon] format, e.g.
+* Amsterdam Stopera Parking
+* Downingstreet 10, london
+* 38.8976805,-77.0387185
+
+<img src="https://aws1.discourse-cdn.com/business4/uploads/athom/original/3X/6/3/63adf9e516c042d698c7886d2dab3c8322af0774.jpeg" alt="settings" width="250">
+

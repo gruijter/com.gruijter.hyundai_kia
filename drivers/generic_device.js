@@ -26,7 +26,7 @@ const util = require('util');
 const ABRP = require('../abrp_telemetry');
 const Bitly = require('../bitly');
 const Maps = require('../google_maps.js');
-const geo = require('../reverseGeo');
+const geo = require('../nomatim');
 const convert = require('./temp_convert');
 
 const setTimeoutPromise = util.promisify(setTimeout);
@@ -150,7 +150,11 @@ class CarDevice extends Homey.Device {
 			if (!this.allListeners) this.registerListeners();
 
 			// testing stuff
-
+			// if (this.abrpEnabled) {
+			// 	const plan = await this.abrp.getLatestPlan()
+			// 		.catch(this.error);
+			// 	console.log(plan);
+			// }
 			// const tripInfo = await this.vehicle.tripInfo({ year: 2021, month: 3, day: 27 });
 			// console.log(util.inspect(tripInfo, true, 10, true));
 
@@ -261,6 +265,7 @@ class CarDevice extends Homey.Device {
 					setChargeTargets: 25,
 					startCharge: 25,
 					stopCharge: 5,
+					setNavigation: 65,
 				};
 				this.lastCommand = item.command;
 				let methodClass = this.vehicle;
@@ -635,6 +640,10 @@ class CarDevice extends Homey.Device {
 			}
 
 			if (hasParked) {
+				this.parkLocation = info.location;
+				this.setStoreValue('parkLocation', this.parkLocation);
+				this.log(`new park location: ${local}`);
+				// this.carLastActive = Date.now(); // keep polling for some time
 				tokens.address = address;
 				tokens.map = `https://www.google.com/maps?q=${info.location.latitude},${info.location.longitude}`;
 				this.homey.flow.getDeviceTriggerCard('has_parked')
@@ -671,11 +680,6 @@ class CarDevice extends Homey.Device {
 		const newLocation = Math.abs(info.location.latitude - this.parkLocation.latitude) > 0.0003
 			|| Math.abs(info.location.longitude - this.parkLocation.longitude) > 0.0003;
 		const parking = parked && newLocation;
-		if (parking) {
-			this.parkLocation = info.location;
-			this.setStoreValue('parkLocation', this.parkLocation);
-			// this.carLastActive = Date.now(); // keep polling for some time
-		}
 		return parking;
 	}
 
@@ -842,6 +846,36 @@ class CarDevice extends Homey.Device {
 		return Promise.resolve(true);
 	}
 
+	async setDestination(destination, source) {	// free text, latitude/longitude object or nomatim search object
+		this.log(`Destination set by ${source} to ${JSON.stringify(destination)}`);
+		let searchParam = destination;
+		// check if destination is location object format
+		if (destination && destination.latitude && destination.longitude) {
+			searchParam = `${destination.latitude},${destination.longitude}`;
+		}
+		const dest = await geo.search(searchParam)
+			.catch((error) => this.error(error.messsage || error));
+		if (!dest) throw Error('failed to find location');
+		const args = [
+			{
+				phone: dest.extratags.phone || '',
+				waypointID: 0,
+				lang: 1,
+				src: 'HOMEY',
+				coord: {
+					lat: Number(dest.lat), lon: Number(dest.lon), type: 0,
+				},
+				addr: dest.display_name,
+				zip: dest.address.postcode || '',
+				placeid: dest.display_name,
+				name: dest.namedetails.name || dest.display_name,
+			},
+		];
+		const command = 'setNavigation';
+		this.enQueue({ command, args });
+		return Promise.resolve(true);
+	}
+
 	async refreshStatus(refresh, source) {
 		if (refresh) {
 			this.log(`Forcing status refresh via ${source}`);
@@ -896,7 +930,7 @@ class CarDevice extends Homey.Device {
 
 			return Promise.resolve(this.listeners);
 		} catch (error) {
-			return Promise.resolve(error);
+			return Promise.reject(error);
 		}
 	}
 
