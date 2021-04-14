@@ -61,5 +61,8 @@
   },
   "2.4.0": {
     "en": "Added send Navigation destination to car. Fixed car parked detection. Other minor fixes. Readme updated."
+  },
+  "2.4.1": {
+    "en": "bluelinky@7.1.0 (fixes login issues new Kia/Hyundai accounts)."
   }
 }
