@@ -64,5 +64,8 @@
   },
   "2.4.1": {
     "en": "bluelinky@7.1.0 (fixes login issues new Kia/Hyundai accounts)."
+  },
+  "2.4.2": {
+    "en": "bluelinky@7.2.0 (fixes login issues special characters and old UVO/Bluelink accounts)."
   }
 }
