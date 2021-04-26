@@ -67,5 +67,8 @@
   },
   "2.4.2": {
     "en": "bluelinky@7.2.0 (fixes login issues special characters and old UVO/Bluelink accounts)."
+  },
+  "2.4.3": {
+    "en": "Fix isParked flowcard. Improved watchdog. Improved app icon."
   }
 }

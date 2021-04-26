@@ -72,6 +72,7 @@ class CarDevice extends Homey.Device {
 			this.lastLocation = { latitude: this.getCapabilityValue('latitude'), longitude: this.getCapabilityValue('longitude') };
 			this.parkLocation = this.getStoreValue('parkLocation');
 			if (!this.parkLocation) this.parkLocation = this.lastLocation;
+			// this.setAvailable();
 			// this.unsetWarning();
 
 			// queue properties
@@ -155,7 +156,7 @@ class CarDevice extends Homey.Device {
 			// 		.catch(this.error);
 			// 	console.log(plan);
 			// }
-			// const tripInfo = await this.vehicle.tripInfo({ year: 2021, month: 3, day: 27 });
+			// const tripInfo = await this.vehicle.tripInfo({ year: 2021, month: 1, day: 23 });
 			// console.log(util.inspect(tripInfo, true, 10, true));
 
 			// const monthlyReport = await this.vehicle.monthlyReport({ year: 2021, month: 3 });
@@ -169,6 +170,7 @@ class CarDevice extends Homey.Device {
 
 		} catch (error) {
 			this.error(error);
+			this.restartDevice(10 * 60 * 1000);
 		}
 	}
 
@@ -524,9 +526,10 @@ class CarDevice extends Homey.Device {
 		this.restarting = true;
 		this.stopPolling();
 		this.flushQueue();
-		this.log('Device will restart in a few minutes');
+		const dly = delay || 1000 * 60 * 5;
+		this.log(`Device will restart in ${dly / 1000} seconds`);
 		this.setUnavailable('Device is restarting. Wait a few minutes!');
-		await setTimeoutPromise(delay || 1000 * 60 * 5).then(() => this.onInitDevice());
+		await setTimeoutPromise(dly).then(() => this.onInitDevice());
 	}
 
 	// this method is called when the Device is added

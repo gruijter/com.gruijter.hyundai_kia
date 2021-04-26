@@ -156,7 +156,7 @@ class carApp extends Homey.App {
 		moving.registerRunListener((args) => args.device.moving);
 
 		const parked = this.homey.flow.getConditionCard('parked');
-		parked.registerRunListener((args) => args.device.parked);
+		parked.registerRunListener((args) => !args.device.getCapabilityValue('engine'));
 
 		const homeyLinkOn = this.homey.flow.getActionCard('homey_link_on');
 		homeyLinkOn.registerRunListener((args) => {
