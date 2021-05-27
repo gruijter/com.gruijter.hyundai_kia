@@ -73,5 +73,8 @@
   },
   "2.4.4": {
     "en": "Quickfix timestamp login issues. bluelinky@7.2.1 + hack"
+  },
+  "2.4.5": {
+    "en": "bluelinky@7.2.2 (timestamps updated)"
   }
 }
