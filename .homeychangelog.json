@@ -70,5 +70,8 @@
   },
   "2.4.3": {
     "en": "Fix isParked flowcard. Improved watchdog. Improved app icon."
+  },
+  "2.4.4": {
+    "en": "Quickfix timestamp login issues. bluelinky@7.2.1 + hack"
   }
 }
