@@ -1,4 +1,5 @@
 
+v2.4.6  05.06.2021 bluelinky timestamps updated
 v2.4.5  27.05.2021 bluelinky@7.2.2 (timestamps updated)
 v2.4.4  27.05.2021 Quickfix timestamp login issues. bluelinky@7.2.1 + hack
 v2.4.3  26.04.2021 Fix isParked flowcard. Improved watchdog. Improved app icon.
