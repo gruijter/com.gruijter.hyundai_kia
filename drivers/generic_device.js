@@ -90,12 +90,26 @@ class CarDevice extends Homey.Device {
 				// vin: this.settings.vin,
 				brand: this.ds.deviceId === 'bluelink' ? 'hyundai' : 'kia',
 				deviceUuid: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15), // 'homey',
-				autoLogin: false,
+				autoLogin: true,
 			};
 
 			this.client = new Client(options);
 
 			this.client.on('error', async (error) => {
+				// retCode: 'F', resCode: '5091', resMsg: 'Exceeds number of requests
+				if (error.message && error.message.includes('"resCode":"5091"')) {
+					this.log('Daily quotum reached! Pausing app for 60 minutes.');
+					this.setUnavailable('Daily quotum reached!. Waiting 60 minutes.');
+					await setTimeoutPromise(60 * 60 * 1000, 'waiting is done');
+					this.setAvailable();
+					this.watchDogCounter -= 1;
+					return;
+				}
+				if (error.message && error.message.includes('"resCode":"4004"')) {
+					this.log('Command failed (duplicate request)');
+					this.watchDogCounter -= 1;
+					return;
+				}
 				this.error(error);
 				await setTimeoutPromise(15 * 1000, 'waiting is done');
 				this.watchDogCounter -= 1;
@@ -104,10 +118,12 @@ class CarDevice extends Homey.Device {
 
 			this.client.on('ready', (vehicles) => {
 				// console.log(util.inspect(vehicles, true, 10, true));
-				[this.vehicle] = vehicles.filter((veh) => veh.vehicleConfig.vin === this.settings.vin);
+				const [vehicle] = vehicles.filter((veh) => veh.vehicleConfig.vin === this.settings.vin);
+				if (this.vehicle === null) this.log(JSON.stringify(vehicle.vehicleConfig));
+				this.vehicle = vehicle;
 			});
-			await this.client.login();
-			if (this.vehicle) this.log(JSON.stringify(this.vehicle.vehicleConfig));
+
+			// await this.client.login();
 
 			// migrate capabilities from old v2.2.0
 			if (this.settings.level !== '2.3.0') await this.migrate();
@@ -163,6 +179,7 @@ class CarDevice extends Homey.Device {
 			// console.log(monthlyReport);
 
 			// start polling
+			await setTimeoutPromise(15 * 1000, 'waiting is done');
 			this.enQueue({ command: 'doPoll', args: false });
 			await setTimeoutPromise(15 * 1000, 'waiting is done');
 			this.enQueue({ command: 'doPoll', args: true });
@@ -220,7 +237,7 @@ class CarDevice extends Homey.Device {
 		this.queue[this.tail] = item;
 		this.tail += 1;
 		if (!this.queueRunning) {
-			await this.client.login();
+			// await this.client.login(); // not needed with autoLogin: true
 			this.queueRunning = true;
 			this.runQueue();
 		}
@@ -281,16 +298,9 @@ class CarDevice extends Homey.Device {
 					})
 					.catch(async (error) => {
 						const msg = error.body || error.message || error;
-						// retCode: 'F', resCode: '5091', resMsg: 'Exceeds number of requests
-						if (msg && msg.resCode === '5091') {
-							this.log(`${item.command} failed. Too many requests! Pausing app for 15 minutes.`);
-							this.setUnavailable('Too many server requests!. Waiting 15 minutes.');
-							await setTimeoutPromise(15 * 60 * 1000, 'waiting is done');
-							this.setAvailable();
-						}
 						// retry once on retCode: 'F', resCode: '4004', resMsg: 'Duplicate request - Duplicate request'
 						let retryWorked = false;
-						if (msg && msg.resCode === '4004') {
+						if (msg && msg.inludes('"resCode":"4004"')) {
 							this.log(`${item.command} failed. Retrying in 30 seconds`);
 							await setTimeoutPromise(30 * 1000, 'waiting is done');
 							retryWorked = await methodClass[item.command](item.args)

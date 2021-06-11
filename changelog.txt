@@ -1,4 +1,5 @@
 
+v2.5.0  11.06.2021 bluelinky@7.3.0 (auto timestamps updates). Login caching for reduced API calls. Default update intervals increased. Improved error logging.
 v2.4.6  05.06.2021 bluelinky timestamps updated
 v2.4.5  27.05.2021 bluelinky@7.2.2 (timestamps updated)
 v2.4.4  27.05.2021 Quickfix timestamp login issues. bluelinky@7.2.1 + hack

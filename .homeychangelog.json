@@ -76,5 +76,11 @@
   },
   "2.4.5": {
     "en": "bluelinky@7.2.2 (timestamps updated)"
+  },
+  "2.4.6": {
+    "en": "bluelinky timestamps updated"
+  },
+  "2.5.0": {
+    "en": "bluelinky@7.3.0 (auto timestamps updates). Login caching for reduced API calls. Default update intervals increased. Improved error logging."
   }
 }

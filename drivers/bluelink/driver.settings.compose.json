@@ -151,7 +151,7 @@
 						"en": "Interval for checking the server for a status change.\nAttention: Homey will only receive status updates from the car when you park the car, or by doing a manual refresh!\nWARNING: A low poll interval can get you locked out of the server!"
 				},
 				"min": 5,
-				"value": 10
+				"value": 15
 			},
 			{
 				"id": "pollIntervalEngineOn",
@@ -163,7 +163,7 @@
 						"en": "Interval for checking the car status while the engine is on.\nAttention: for Homey to know that the engine is on, a manual refresh or cloud refresh must be performed!\nWARNING: A low poll interval can get you locked out of the server!\nDisable this function by setting the time to 0."
 				},
 				"min": 0,
-				"value": 5,
+				"value": 10,
 				"step": 1
 			},
 			{

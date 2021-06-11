@@ -1,6 +1,6 @@
 {
   "name": "com.gruijter.hyundai_kia",
-  "version": "2.4.5",
+  "version": "2.4.6",
   "private": false,
   "license": "GPL-3.0-or-later",
   "main": "app.js",
@@ -10,7 +10,7 @@
   },
   "devDependencies": {},
   "dependencies": {
-    "bluelinky": "^7.2.2",
+    "bluelinky": "^7.3.0",
     "fixture-stdout": "^0.2.1",
     "geopoint": "^1.0.1"
   }
