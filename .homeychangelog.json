@@ -82,5 +82,8 @@
   },
   "2.5.0": {
     "en": "bluelinky@7.3.0 (auto timestamps updates). Login caching for reduced API calls. Default update intervals increased. Improved error logging."
+  },
+  "2.5.1": {
+    "en": "Improved handling of quotum error. Improved watchdog."
   }
 }

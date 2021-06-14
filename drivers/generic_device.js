@@ -90,7 +90,7 @@ class CarDevice extends Homey.Device {
 				// vin: this.settings.vin,
 				brand: this.ds.deviceId === 'bluelink' ? 'hyundai' : 'kia',
 				deviceUuid: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15), // 'homey',
-				autoLogin: true,
+				autoLogin: false,
 			};
 
 			this.client = new Client(options);
@@ -99,10 +99,11 @@ class CarDevice extends Homey.Device {
 				// retCode: 'F', resCode: '5091', resMsg: 'Exceeds number of requests
 				if (error.message && error.message.includes('"resCode":"5091"')) {
 					this.log('Daily quotum reached! Pausing app for 60 minutes.');
+					this.stopPolling();
 					this.setUnavailable('Daily quotum reached!. Waiting 60 minutes.');
 					await setTimeoutPromise(60 * 60 * 1000, 'waiting is done');
 					this.setAvailable();
-					this.watchDogCounter -= 1;
+					this.restartDevice(250);
 					return;
 				}
 				if (error.message && error.message.includes('"resCode":"4004"')) {
@@ -123,10 +124,10 @@ class CarDevice extends Homey.Device {
 				this.vehicle = vehicle;
 			});
 
-			// await this.client.login();
+			await this.client.login();
 
 			// migrate capabilities from old v2.2.0
-			if (this.settings.level !== '2.3.0') await this.migrate();
+			// if (this.settings.level !== '2.3.0') await this.migrate();
 
 			// setup ABRP client
 			this.abrpEnabled = Homey.env && Homey.env.ABRP_API_KEY
@@ -179,7 +180,7 @@ class CarDevice extends Homey.Device {
 			// console.log(monthlyReport);
 
 			// start polling
-			await setTimeoutPromise(15 * 1000, 'waiting is done');
+			// await setTimeoutPromise(15 * 1000, 'waiting is done');
 			this.enQueue({ command: 'doPoll', args: false });
 			await setTimeoutPromise(15 * 1000, 'waiting is done');
 			this.enQueue({ command: 'doPoll', args: true });
@@ -192,37 +193,37 @@ class CarDevice extends Homey.Device {
 	}
 
 	// migrate stuff from old version 2.2.0
-	async migrate() {
-		this.log('checking capability migration');
-		const status = await this.vehicle.status({ refresh: false, parsed: false });
-		this.isEV = !!status.evStatus;
-		const isICE = !!status.dte;
-		let engine = 'HEV/ICE';
-		if (this.isEV && !isICE) engine = 'Full EV';
-		if (this.isEV && isICE) engine = 'PHEV';
-		// set engine type in settings
-		if (this.getSettings().engine !== engine) {
-			this.log(`setting engine type to ${engine}`);
-			this.setSettings({ engine });
-		}
-		// add new capabilities for EV
-		if (this.isEV && !this.getCapabilities().includes('charge_target_fast')) {
-			this.log('Adding charge target capabilities to', this.getName());
-			await this.addCapability('charge_target_slow');
-			await this.addCapability('charge_target_fast');
-		}
-		// remove capabilities for nonEV
-		if (!this.isEV && this.getCapabilities().includes('charger')) {
-			this.log('Removing EV capabilities from', this.getName());
-			await this.removeCapability('measure_battery.EV');
-			await this.removeCapability('charging');
-			await this.removeCapability('charger');
-			await this.removeCapability('charge_target_slow');
-			await this.removeCapability('charge_target_fast');
-		}
-		// set migrate level
-		this.setSettings({ level: '2.3.0' });
-	}
+	// async migrate() {
+	// 	this.log('checking capability migration');
+	// 	const status = await this.vehicle.status({ refresh: false, parsed: false });
+	// 	this.isEV = !!status.evStatus;
+	// 	const isICE = !!status.dte;
+	// 	let engine = 'HEV/ICE';
+	// 	if (this.isEV && !isICE) engine = 'Full EV';
+	// 	if (this.isEV && isICE) engine = 'PHEV';
+	// 	// set engine type in settings
+	// 	if (this.getSettings().engine !== engine) {
+	// 		this.log(`setting engine type to ${engine}`);
+	// 		this.setSettings({ engine });
+	// 	}
+	// 	// add new capabilities for EV
+	// 	if (this.isEV && !this.getCapabilities().includes('charge_target_fast')) {
+	// 		this.log('Adding charge target capabilities to', this.getName());
+	// 		await this.addCapability('charge_target_slow');
+	// 		await this.addCapability('charge_target_fast');
+	// 	}
+	// 	// remove capabilities for nonEV
+	// 	if (!this.isEV && this.getCapabilities().includes('charger')) {
+	// 		this.log('Removing EV capabilities from', this.getName());
+	// 		await this.removeCapability('measure_battery.EV');
+	// 		await this.removeCapability('charging');
+	// 		await this.removeCapability('charger');
+	// 		await this.removeCapability('charge_target_slow');
+	// 		await this.removeCapability('charge_target_fast');
+	// 	}
+	// 	// set migrate level
+	// 	this.setSettings({ level: '2.3.0' });
+	// }
 
 	// stuff for queue handling here
 	async enQueue(item) {
@@ -272,8 +273,8 @@ class CarDevice extends Homey.Device {
 			const item = this.deQueue();
 			if (item) {
 				if (!this.vehicle || !this.vehicle.vehicleConfig) {
-					this.watchDogCounter -= 1;
-					throw Error('pausing queue; not logged in');
+					this.watchDogCounter -= 2;
+					throw Error('Ignoring queued command; not logged in');
 				}
 				const itemWait = {
 					doPoll: 5,
@@ -300,7 +301,7 @@ class CarDevice extends Homey.Device {
 						const msg = error.body || error.message || error;
 						// retry once on retCode: 'F', resCode: '4004', resMsg: 'Duplicate request - Duplicate request'
 						let retryWorked = false;
-						if (msg && msg.inludes('"resCode":"4004"')) {
+						if (msg && msg.includes('"resCode":"4004"')) {
 							this.log(`${item.command} failed. Retrying in 30 seconds`);
 							await setTimeoutPromise(30 * 1000, 'waiting is done');
 							retryWorked = await methodClass[item.command](item.args)
@@ -314,11 +315,6 @@ class CarDevice extends Homey.Device {
 						if (!retryWorked) {
 							this.error(`${item.command} failed`, msg);
 							this.watchDogCounter -= 1;
-							if (this.watchDogCounter <= 0) {
-								// restart the app here
-								this.log('watchdog triggered, restarting device now');
-								this.restartDevice();
-							}
 						}
 						this.busy = false;
 					});
@@ -511,14 +507,14 @@ class CarDevice extends Homey.Device {
 		this.stopPolling();
 		// this.enQueue({ command: 'doPoll', args: true });
 		this.intervalIdDevicePoll = setInterval(() => {
+			if (this.watchDogCounter <= 0) {
+				// restart the app here
+				this.log('watchdog triggered, restarting device now');
+				this.restartDevice();
+				return;
+			}
 			if (this.busy) {
 				this.watchDogCounter -= 1;
-				if (this.watchDogCounter <= 0) {
-					// restart the app here
-					this.log('watchdog triggered, restarting device now');
-					this.restartDevice();
-					return;
-				}
 				this.log('skipping a poll');
 				return;
 			}
