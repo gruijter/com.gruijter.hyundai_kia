@@ -85,5 +85,8 @@
   },
   "2.5.1": {
     "en": "Improved handling of quotum error. Improved watchdog."
+  },
+  "2.5.2": {
+    "en": "bluelinky@7.3.0. Fix google ETTH when parked."
   }
 }
