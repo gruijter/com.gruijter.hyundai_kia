@@ -1,4 +1,5 @@
 
+v2.5.2  14.07.2021 bluelinky@7.3.0. Fix google ETTH when parked.
 v2.5.1  14.06.2021 Improved handling of quotum error. Improved watchdog.
 v2.5.0  11.06.2021 bluelinky@7.3.0 (auto timestamps updates). Login caching for reduced API calls. Default update intervals increased. Improved error logging.
 v2.4.6  05.06.2021 bluelinky timestamps updated

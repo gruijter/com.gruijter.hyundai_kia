@@ -173,10 +173,10 @@ class CarDevice extends Homey.Device {
 			// 		.catch(this.error);
 			// 	console.log(plan);
 			// }
-			// const tripInfo = await this.vehicle.tripInfo({ year: 2021, month: 1, day: 23 });
+			// const tripInfo = await this.vehicle.tripInfo({ year: 2021, month: 7, day: 13 });
 			// console.log(util.inspect(tripInfo, true, 10, true));
 
-			// const monthlyReport = await this.vehicle.monthlyReport({ year: 2021, month: 3 });
+			// const monthlyReport = await this.vehicle.monthlyReport({ year: 2021, month: 6 });
 			// console.log(monthlyReport);
 
 			// start polling
@@ -695,15 +695,18 @@ class CarDevice extends Homey.Device {
 	// Estimated Time to Home.
 	async etth(info) {
 		try {
-			if (!info || (Date.now() - this.lastRefresh) >= 3 * 60 * 1000) return this.getCapabilityValue('etth');
+			// if (!info || (Date.now() - this.lastRefresh) >= 3 * 60 * 1000) return this.getCapabilityValue('etth');
+			if (!info || !info.status) return Promise.resolve(this.getCapabilityValue('etth'));
+			if (!info.status.engine && !this.isParking(info)) return Promise.resolve(this.getCapabilityValue('etth'));
+			const distance = this.distance(info.location);
+			if (distance < 0.15) return Promise.resolve(0);
 
 			// estimate TTH based on avgSpd
-			const distance = this.distance(info.location);
 			const avgSpd = 40;
-			let etth = (distance > 0.15) ? (60 * (distance / avgSpd)) : 0;	// in minutes
+			let etth = 60 * (distance / avgSpd);	// in minutes
 
 			// estimate TTH based on Google directions
-			if (this.gmapsEnabled && info.status.engine && distance > 0.15) {
+			if (this.gmapsEnabled) {
 				const origin = `${info.location.latitude},${info.location.longitude}`;
 				const destination = `${this.settings.lat},${this.settings.lon}`;
 				const directions = await this.maps.directions({ origin, destination })
@@ -716,7 +719,6 @@ class CarDevice extends Homey.Device {
 					// console.log(util.inspect(directions, true, 10, true));
 				}
 			}
-
 			return Promise.resolve(Math.round(etth));
 		} catch (error) {
 			this.error(error);

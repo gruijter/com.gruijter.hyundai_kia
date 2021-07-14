@@ -10,7 +10,7 @@
   },
   "devDependencies": {},
   "dependencies": {
-    "bluelinky": "^7.3.0",
+    "bluelinky": "^7.4.0",
     "fixture-stdout": "^0.2.1",
     "geopoint": "^1.0.1"
   }
