@@ -88,5 +88,8 @@
   },
   "2.5.2": {
     "en": "bluelinky@7.3.0. Fix google ETTH when parked."
+  },
+  "2.6.0": {
+    "en": "bluelinky@7.4.1. Improved defrost control. Add official app language select (EU only)."
   }
 }

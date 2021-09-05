@@ -123,6 +123,7 @@ class CarDriver extends Homey.Driver {
 							password: settings.password,
 							pin: settings.pin,
 							region: settings.region,
+							language: 'en',
 							// pollInterval,
 							nameOrg: vehicle.vehicleConfig.name,
 							idOrg: vehicle.vehicleConfig.id,

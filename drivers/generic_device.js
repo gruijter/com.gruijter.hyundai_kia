@@ -86,6 +86,7 @@ class CarDevice extends Homey.Device {
 				username: this.settings.username,
 				password: this.settings.password,
 				region: this.settings.region,
+				language: this.settings.language || 'en', // ['cs', 'da', 'nl', 'en', 'fi', 'fr', 'de', 'it', 'pl', 'hu', 'no', 'sk', 'es', 'sv']
 				pin: this.settings.pin,
 				// vin: this.settings.vin,
 				brand: this.ds.deviceId === 'bluelink' ? 'hyundai' : 'kia',
@@ -765,14 +766,16 @@ class CarDevice extends Homey.Device {
 			this.log(`A/C on via ${source}`); // app or flow
 			command = 'start';
 			args = {
+				// igniOnDuration: 10,
 				temperature: this.getCapabilityValue('target_temperature') || 22,
 			};
 		} else {
 			this.log(`A/C off via ${source}`); // app or flow
 			command = 'stop';
 			args = {
-				temperature: this.getCapabilityValue('target_temperature') || 22,
+				// temperature: this.getCapabilityValue('target_temperature') || 22,
 			};
+			this.setCapability('defrost', false);	// set defrost state to off
 		}
 		this.enQueue({ command, args });
 		return Promise.resolve(true);
@@ -786,8 +789,13 @@ class CarDevice extends Homey.Device {
 			this.log(`defrost on via ${source}`);
 			command = 'start';
 			args = {
+				// igniOnDuration: 10, // doesn't seem to do anything
 				defrost: true,
 				windscreenHeating: true,
+				// unknown if this does anything
+				heating1: 1,
+				steerWheelHeat: 1,
+				sideBackWindowHeat: 1,
 				temperature: this.getCapabilityValue('target_temperature') || 22,
 			};
 		} else {
@@ -796,8 +804,13 @@ class CarDevice extends Homey.Device {
 			args = {
 				defrost: false,
 				windscreenHeating: false,
-				temperature: this.getCapabilityValue('target_temperature') || 22,
+				// unknown if this does anything
+				heating1: 0,
+				steerWheelHeat: 0,
+				sideBackWindowHeat: 0,
 			};
+			this.enQueue({ command, args });	// have to do it twice to get defrost reported as off
+			this.setCapability('climate_control', false);	// set AC state to off
 		}
 		this.enQueue({ command, args });
 		return Promise.resolve(true);
@@ -973,6 +986,60 @@ Kia Ceed ICE:
 2021-03-13 21:30:01 [log] [ManagerDrivers] [uvo] [0] Error: out_of_range
     at Remote Process
  target_temperature 14.5
+
+// after head unit firmware upgrade
+{
+  status: {
+    airCtrlOn: false,
+    engine: false,
+    doorLock: true,
+    doorOpen: { frontLeft: 0, frontRight: 0, backLeft: 0, backRight: 0 },
+    trunkOpen: false,
+    airTemp: { value: '02H', unit: 0, hvacTempType: 1 },
+    defrost: false,
+    acc: false,
+    evStatus: {
+      batteryCharge: false,
+      batteryStatus: 67,
+      batteryPlugin: 0,
+      remainTime2: [Object],
+      drvDistance: [Array],
+      reservChargeInfos: [Object]
+    },
+    ign3: true,
+    hoodOpen: false,
+    transCond: true,
+    steerWheelHeat: 0,
+    sideBackWindowHeat: 0,
+    tirePressureLamp: {
+      tirePressureLampAll: 0,
+      tirePressureLampFL: 0,
+      tirePressureLampFR: 0,
+      tirePressureLampRL: 0,
+      tirePressureLampRR: 0
+    },
+    battery: { batSoc: 85, batState: 0 },
+    sleepModeCheck: false,
+    time: '20210825091610',
+    remoteWaitingTimeAlert: {
+      remoteControlAvailable: 1,
+      remoteControlWaitingTime: 168,
+      elapsedTime: '18:24:47'
+    },
+    systemCutOffAlert: 0,
+    tailLampStatus: 0,
+    hazardStatus: 0
+  },
+  location: {
+    latitude: 52.092719,
+    longitude: 5.001078,
+    altitude: 0,
+    speed: { value: 0, unit: 1 },
+    heading: 0
+  },
+  odometer: { value: 16549, unit: 1 },
+  chargeTargets: { slow: '80', fast: '100' }
+}
 
 // unparsed (door open, power on, start, after refresh on car):
 status : {
