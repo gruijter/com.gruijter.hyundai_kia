@@ -91,5 +91,8 @@
   },
   "2.6.0": {
     "en": "bluelinky@7.4.1. Improved defrost control. Add official app language select (EU only)."
+  },
+  "2.6.1": {
+    "en": "bluelinky@7.5.0. Fix getChargeTargets for PHEV/HEV cars."
   }
 }

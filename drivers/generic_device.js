@@ -449,7 +449,7 @@ class CarDevice extends Homey.Device {
 			};
 
 			// refresh chargeTargets only on firstPoll, just parked or just charging
-			if (this.isEV) {
+			if (this.settings.engine === 'Full EV') {
 				const hasParked = this.isParking(info);
 				const startCharge = !this.getCapabilityValue('charging') && (info.status.evStatus ? info.status.evStatus.batteryCharge : false);
 				if (firstPoll || hasParked || startCharge) {

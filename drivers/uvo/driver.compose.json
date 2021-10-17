@@ -1,6 +1,15 @@
 {
-	"name": {
-		"en": "UVO (Kia)"
-	},
-	"$extends": ["driver_defaults"]
+  "name": {
+    "en": "UVO (Kia)"
+  },
+  "$extends": [
+    "driver_defaults"
+  ],
+  "class": "sensor",
+  "connectivity": [
+    "cloud"
+  ],
+  "platforms": [
+    "local"
+  ]
 }

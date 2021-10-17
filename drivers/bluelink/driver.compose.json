@@ -1,6 +1,15 @@
 {
-	"name": {
-		"en": "Bluelink (Hyundai)"
-	},
-	"$extends": ["driver_defaults"]
+  "name": {
+    "en": "Bluelink (Hyundai)"
+  },
+  "$extends": [
+    "driver_defaults"
+  ],
+  "class": "sensor",
+  "connectivity": [
+    "cloud"
+  ],
+  "platforms": [
+    "local"
+  ]
 }
