@@ -94,5 +94,8 @@
   },
   "2.6.1": {
     "en": "bluelinky@7.5.0. Fix getChargeTargets for PHEV/HEV cars."
+  },
+  "2.6.2": {
+    "en": "Fix getChargeTargets for PHEV/HEV cars."
   }
 }
