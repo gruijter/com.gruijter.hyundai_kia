@@ -455,6 +455,7 @@ class CarDevice extends Homey.Device {
 				if (firstPoll || hasParked || startCharge) {
 					this.log('refreshing charge targets');
 					const targetInfo = await this.vehicle.getChargeTargets();
+					if (!targetInfo) return;
 					const slow = (targetInfo.find((i) => i.type === 1).targetLevel || this.lastChargeTargets.slow).toString();
 					const fast = (targetInfo.find((i) => i.type === 0).targetLevel || this.lastChargeTargets.fast).toString();
 					info.chargeTargets = { slow, fast };
