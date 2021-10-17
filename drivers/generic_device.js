@@ -127,8 +127,8 @@ class CarDevice extends Homey.Device {
 
 			await this.client.login();
 
-			// migrate capabilities from old v2.2.0
-			// if (this.settings.level !== '2.3.0') await this.migrate();
+			// migrate capabilities from old versions
+			if (this.settings.level !== '2.7.0') await this.migrate();
 
 			// setup ABRP client
 			this.abrpEnabled = Homey.env && Homey.env.ABRP_API_KEY
@@ -193,38 +193,29 @@ class CarDevice extends Homey.Device {
 		}
 	}
 
-	// migrate stuff from old version 2.2.0
-	// async migrate() {
-	// 	this.log('checking capability migration');
-	// 	const status = await this.vehicle.status({ refresh: false, parsed: false });
-	// 	this.isEV = !!status.evStatus;
-	// 	const isICE = !!status.dte;
-	// 	let engine = 'HEV/ICE';
-	// 	if (this.isEV && !isICE) engine = 'Full EV';
-	// 	if (this.isEV && isICE) engine = 'PHEV';
-	// 	// set engine type in settings
-	// 	if (this.getSettings().engine !== engine) {
-	// 		this.log(`setting engine type to ${engine}`);
-	// 		this.setSettings({ engine });
-	// 	}
-	// 	// add new capabilities for EV
-	// 	if (this.isEV && !this.getCapabilities().includes('charge_target_fast')) {
-	// 		this.log('Adding charge target capabilities to', this.getName());
-	// 		await this.addCapability('charge_target_slow');
-	// 		await this.addCapability('charge_target_fast');
-	// 	}
-	// 	// remove capabilities for nonEV
-	// 	if (!this.isEV && this.getCapabilities().includes('charger')) {
-	// 		this.log('Removing EV capabilities from', this.getName());
-	// 		await this.removeCapability('measure_battery.EV');
-	// 		await this.removeCapability('charging');
-	// 		await this.removeCapability('charger');
-	// 		await this.removeCapability('charge_target_slow');
-	// 		await this.removeCapability('charge_target_fast');
-	// 	}
-	// 	// set migrate level
-	// 	this.setSettings({ level: '2.3.0' });
-	// }
+	// migrate stuff from old version < 2.7.0
+	async migrate() {
+		this.log('checking capability migration');
+		const status = await this.vehicle.status({ refresh: false, parsed: false });
+		const isEV = !!status.evStatus;
+		const isICE = !!status.dte || !!status.fuelLevel;
+		let engine = 'HEV/ICE';
+		if (isEV && !isICE) engine = 'Full EV';
+		if (isEV && isICE) engine = 'PHEV';
+		// set engine type in settings
+		if (this.getSettings().engine !== engine) {
+			this.log(`setting engine type to ${engine}`);
+			this.setSettings({ engine });
+		}
+		// remove capabilities for PHEV
+		if (engine === 'PHEV' && this.getCapabilities().includes('charge_target_slow')) {
+			this.log('Removing EV capabilities from', this.getName());
+			await this.removeCapability('charge_target_slow');
+			await this.removeCapability('charge_target_fast');
+		}
+		// set migrate level
+		this.setSettings({ level: '2.7.0' });
+	}
 
 	// stuff for queue handling here
 	async enQueue(item) {
@@ -447,6 +438,8 @@ class CarDevice extends Homey.Device {
 			const info = {
 				status, location, odometer, chargeTargets,
 			};
+			// console.dir(this.getName());
+			// console.dir(info, { depth: null, colors: true, showHidden: true });
 
 			// refresh chargeTargets only on firstPoll, just parked or just charging
 			if (this.settings.engine === 'Full EV') {
@@ -455,11 +448,12 @@ class CarDevice extends Homey.Device {
 				if (firstPoll || hasParked || startCharge) {
 					this.log('refreshing charge targets');
 					const targetInfo = await this.vehicle.getChargeTargets();
-					if (!targetInfo) return;
-					const slow = (targetInfo.find((i) => i.type === 1).targetLevel || this.lastChargeTargets.slow).toString();
-					const fast = (targetInfo.find((i) => i.type === 0).targetLevel || this.lastChargeTargets.fast).toString();
-					info.chargeTargets = { slow, fast };
-					this.lastChargeTargets = info.chargeTargets;
+					if (targetInfo) {
+						const slow = (targetInfo.find((i) => i.type === 1).targetLevel || this.lastChargeTargets.slow).toString();
+						const fast = (targetInfo.find((i) => i.type === 0).targetLevel || this.lastChargeTargets.fast).toString();
+						info.chargeTargets = { slow, fast };
+						this.lastChargeTargets = info.chargeTargets;
+					}
 				}
 			}
 
@@ -616,7 +610,7 @@ class CarDevice extends Homey.Device {
 			this.setCapability('climate_control', airCtrlOn);
 			this.setCapability('engine', engine);
 			this.setCapability('odometer', odometer.value);
-			this.setCapability('range', range);
+			if (range > 0) this.setCapability('range', range);	// Sorento weird server response
 			this.setCapability('speed', speed.value);
 			this.setCapability('latitude', info.location.latitude);
 			this.setCapability('longitude', info.location.longitude);
@@ -1995,5 +1989,134 @@ status : {
 }
 
 { value: 171, unit: 1 }
+
+Kia Sorento PHEV:
+{
+  status: {
+    airCtrlOn: false,
+    engine: false,
+    doorLock: true,
+    doorOpen: { frontLeft: 0, frontRight: 0, backLeft: 0, backRight: 0 },
+    trunkOpen: false,
+    airTemp: { value: '00H', unit: 0, hvacTempType: 1 },
+    defrost: false,
+    lowFuelLight: false,
+    acc: false,
+    evStatus: {
+      batteryCharge: false,
+      batteryStatus: 43,
+      batteryPlugin: 0,
+      remainTime2: {
+        etc2: { value: 0, unit: 1 },
+        etc3: { value: 175, unit: 1 },
+        atc: { value: 44, unit: 1 }
+      },
+      drvDistance: [
+        {
+          rangeByFuel: {
+            gasModeRange: { value: -12, unit: 1 },
+            evModeRange: { value: 12, unit: 1 },
+            totalAvailableRange: { value: 0, unit: 1 }
+          },
+          type: 2
+        },
+        [length]: 1
+      ],
+      reservChargeInfos: {
+        reservChargeInfo: {
+          reservChargeInfoDetail: {
+            reservInfo: {
+              day: [ 9, [length]: 1 ],
+              time: { time: '1270', timeSection: 0 }
+            },
+            reservChargeSet: false
+          }
+        },
+        offpeakPowerInfo: {
+          offPeakPowerTime1: {
+            starttime: { time: '1200', timeSection: 0 },
+            endtime: { time: '1200', timeSection: 0 }
+          },
+          offPeakPowerFlag: 0
+        },
+        reserveChargeInfo2: {
+          reservChargeInfoDetail: {
+            reservInfo: {
+              day: [ 9, [length]: 1 ],
+              time: { time: '1270', timeSection: 0 }
+            },
+            reservChargeSet: false
+          }
+        },
+        reservFlag: 0,
+        ect: {
+          start: { day: 0, time: { time: '0000', timeSection: 0 } },
+          end: { day: 0, time: { time: '0000', timeSection: 0 } }
+        }
+      }
+    },
+    ign3: true,
+    hoodOpen: false,
+    transCond: true,
+    steerWheelHeat: 0,
+    sideBackWindowHeat: 0,
+    tirePressureLamp: { tirePressureLampAll: 0 },
+    seatHeaterVentState: {
+      frSeatHeatState: 2,
+      flSeatHeatState: 2,
+      rlSeatHeatState: 2,
+      rrSeatHeatState: 2
+    },
+    battery: {
+      batSoc: 85,
+      batState: 0,
+      sjbDeliveryMode: 1,
+      batSignalReferenceValue: { batWarning: 65 },
+      powerAutoCutMode: 2
+    },
+    lampWireStatus: {
+      stopLamp: { stopLampStatus: false, leftLamp: false, rightLamp: false },
+      headLamp: {
+        headLampStatus: false,
+        leftLowLamp: false,
+        rightLowLamp: false,
+        leftHighLamp: false,
+        rightHighLamp: false,
+        leftBifuncLamp: false,
+        rightBifuncLamp: false
+      },
+      turnSignalLamp: {
+        turnSignalLampStatus: false,
+        leftFrontLamp: false,
+        rightFrontLamp: false,
+        leftRearLamp: false,
+        rightRearLamp: false
+      }
+    },
+    windowOpen: { frontLeft: 0, frontRight: 0, backLeft: 0, backRight: 0 },
+    smartKeyBatteryWarning: false,
+    fuelLevel: 76,
+    washerFluidStatus: false,
+    breakOilStatus: false,
+    sleepModeCheck: false,
+    time: '20211017175226',
+    remoteWaitingTimeAlert: {
+      remoteControlAvailable: 1,
+      remoteControlWaitingTime: 168,
+      elapsedTime: '03:53:33'
+    },
+    systemCutOffAlert: 0,
+    tailLampStatus: 0,
+    hazardStatus: 0
+  },
+  location: {
+    latitude: xx.xxx,
+    longitude: yy.yyy,
+    altitude: 0,
+    speed: { value: 0, unit: 0 },
+    heading: 32
+  },
+  odometer: { value: 743.5, unit: 1 },
+}
 
 */

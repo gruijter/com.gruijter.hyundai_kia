@@ -30,9 +30,19 @@ const capabilitiesEV = ['target_temperature', 'charge_target_slow',	'charge_targ
 	'etth', 'speed', 'range', 'charger', 'charging', 'odometer', 'alarm_tire_pressure', 'alarm_battery', 'measure_battery.EV',
 	'measure_battery.12V', 'latitude', 'longitude'];
 
+const capabilitiesPHEV = ['target_temperature', 'refresh_status', 'locked', 'defrost', 'climate_control',	'last_refresh',
+	'engine', 'closed_locked', 'location', 'distance', 'etth', 'speed', 'range', 'charger', 'charging', 'odometer', 'alarm_tire_pressure',
+	'alarm_battery', 'measure_battery.EV', 'measure_battery.12V', 'latitude', 'longitude'];
+
 const capabilitiesNonEV = ['target_temperature', 'refresh_status', 'locked', 'defrost', 'climate_control', 'last_refresh',
 	'engine', 'closed_locked', 'location', 'distance', 'etth', 'speed', 'range', 'odometer', 'alarm_tire_pressure', 'alarm_battery',
 	'measure_battery.12V', 'latitude', 'longitude'];
+
+const capabilitiesMap = {
+	'Full EV': capabilitiesEV,
+	PHEV: capabilitiesPHEV,
+	'HEV/ICE': capabilitiesNonEV,
+};
 
 class CarDriver extends Homey.Driver {
 
@@ -109,7 +119,7 @@ class CarDriver extends Homey.Driver {
 				const devices = vehicles.map(async (vehicle) => {
 					const status = await vehicle.status({ refresh: false, parsed: false });
 					const isEV = !!status.evStatus;
-					const isICE = !!status.dte;
+					const isICE = !!status.dte || !!status.fuelLevel;
 					let engine = 'HEV/ICE';
 					if (isEV && !isICE) engine = 'Full EV';
 					if (isEV && isICE) engine = 'PHEV';
@@ -136,7 +146,7 @@ class CarDriver extends Homey.Driver {
 							lat: Math.round(this.homey.geolocation.getLatitude() * 100000000) / 100000000,
 							lon: Math.round(this.homey.geolocation.getLongitude() * 100000000) / 100000000,
 						},
-						capabilities: isEV ? capabilitiesEV : capabilitiesNonEV,
+						capabilities: capabilitiesMap[engine],
 					};
 				});
 				return Promise.all(devices);
