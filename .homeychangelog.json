@@ -100,5 +100,8 @@
   },
   "2.7.0": {
     "en": "Added support for Kia Sorento PHEV. Removed chargeTargets for PHEV."
+  },
+  "2.7.1": {
+    "en": "bluelinky@7.6.0 (fixes login issues with new Kia accounts)."
   }
 }
