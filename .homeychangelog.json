@@ -103,5 +103,8 @@
   },
   "2.7.1": {
     "en": "bluelinky@7.6.0 (fixes login issues with new Kia accounts)."
+  },
+  "2.7.2": {
+    "en": "bluelinky@7.6.0 (fixes login issues with new Hyundai accounts)."
   }
 }
