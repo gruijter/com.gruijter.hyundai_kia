@@ -106,5 +106,8 @@
   },
   "2.7.2": {
     "en": "bluelinky@7.6.0 (fixes login issues with new Hyundai accounts)."
+  },
+  "2.7.3": {
+    "en": "bluelinky@7.6.2"
   }
 }

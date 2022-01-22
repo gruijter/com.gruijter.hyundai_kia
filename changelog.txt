@@ -1,3 +1,4 @@
+v2.7.3  22.01.2022 bluelinky@7.6.2
 v2.7.2  05.10.2021 bluelinky@7.6.1 (fixes login issues with new Hyundai accounts).
 v2.7.1  31.10.2021 bluelinky@7.6.0 (fixes login issues with new Kia accounts).
 v2.7.0  17.10.2021 Added support for Kia Sorento PHEV. Removed chargeTargets for PHEV.

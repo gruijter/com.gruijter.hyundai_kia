@@ -5,3 +5,7 @@ testing.js
 test_abrp.js
 log.txt
 
+
+
+# Added by Homey CLI
+/.homeybuild/
