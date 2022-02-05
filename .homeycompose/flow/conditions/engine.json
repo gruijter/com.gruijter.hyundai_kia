@@ -1,10 +1,12 @@
 {
     "id": "engine",
     "title": {
-        "en": "The engine is !{{on|off}}"
+        "en": "The engine is !{{on|off}}",
+        "sv": "Motorn är !{{på|av}}"
     },
     "titleFormatted": {
-        "en": "The engine is !{{on|off}}"
+        "en": "The engine is !{{on|off}}",
+        "sv": "Motorn är !{{på|av}}"
     },
     "args": [
         {

@@ -1,0 +1,34 @@
+{
+	"pair": {
+		"start": "Ange dina referenser",
+		"region": "Område",
+		"username": "Användarnamn",
+		"password": "Lösenord",
+		"pin": "PIN",
+		"submit": "Submit",
+		"required": "Du måste ange användarnamn, lösenord och PIN-kod",
+		"validating": "Validerar autentiseringsuppgifter"
+	},
+	"settings": {
+		"tab1": {
+			"title": "Instruktioner",
+			"useTitle": "Hur man använder",
+			"useInstructions": "Du måste ha ett UVO (Kia) eller Bluelink (Hyundai) konto med PIN för dina bilar. Lägg till din bil som en enhet i Homey och fyll i användarnamn, lösenord och PIN-kod. Du kan nu se den parkerade platsen för din bil och börja styra bilen från Homey (t.ex. starta defroster eller A/C).",
+			"settingsTitle": "Statusuppdateringar från bilen",
+			"settingsInstructions": "Homey kommer bara att få en uppdatering av bilstatus (ny plats, motorstatus, dörrlåsläge, etc.) efter att bilen precis har parkerats, när laddningen precis avslutats eller när du använder knappen 'uppdatera bilstatus'. Om motorn är på i det ögonblicket kommer Homey att fortsätta få statusuppdateringar tills motorn stängs av. I enhetsinställningarna kan du ändra intervallet med vilket servern kontrolleras. Du kan också ställa in 24/7 bilstatusuppdateringar. VARNING: 24/7 uppdateringar kommer att tömma ditt 12V-batteri.",
+			"CloudForceTitle": "Starta statusuppdateringar via bil Bluetooth",
+			"CloudForceInstructions": "För Android och iOS finns appar eller automatiseringsskript som du kan använda för att automatiskt börja få liveuppdateringar så fort din telefon ansluter till bilens Bluetooth. I detta automatiseringsskript måste du öppna en specifik webbsida (HTTP GET). Webbadressen till denna sida finns i de avancerade enhetsinställningarna.",
+			"ABRPTitle": "A Better Route Planner (ABRP)",
+			"ABRPInstructions": "Om du vill länka livedata med ABRP anger du användartoken i Homey-enhetsinställningarna. Du kan få en användartoken från ABRP-appen. Inställningar > Detaljerad > Bilmodell > Bilinställningar > Link Homey > kopiera token.",
+			"ETTHTitle": "Beräknad tid till hemmet (ETTH)",
+			"ETTHInstructions": "Genom att använda Google Directions möjliggörs mer exakta beräkningar av beräknad tid till hemmet (ETTH), inklusive faktiska trafikförhållanden. Få en nyckel på developers.google.com\/maps. Lämna tomt för att inaktivera Google vägbeskrivningar."
+		},
+		"tab2": {
+			"title": "Loggar",
+			"logs": "Loggar",
+			"deletelogs": "Ta bort loggar",
+			"deleteWarning": "Ta bort alla loggar?",
+			"deleted": "Loggar raderade!"
+		}
+	}
+}

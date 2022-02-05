@@ -2,10 +2,12 @@
 	"type": "string",
 	"title": {
 		"en": "Location",
-		"nl": "Locatie"
+		"nl": "Locatie",
+		"sv": "Plats"
 	},
 	"desc": {
-		"en": "Location of the car"
+		"en": "Location of the car",
+		"sv": "Bilens placering"
 	},
 	"getable": true,
 	"setable": false,

@@ -1,10 +1,12 @@
 {
     "id": "charging_on",
     "title": {
-        "en": "Turn charging on"
+        "en": "Turn charging on",
+        "sv": "Slå på laddningen"
     },
     "titleFormatted": {
-        "en": "Turn charging on"
+        "en": "Turn charging on",
+        "sv": "Slå på laddningen"
     },
     "args": [
         {

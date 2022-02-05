@@ -1,10 +1,12 @@
 {
 	"type": "number",
 	"title": {
-		"en": "Odometer"
+		"en": "Odometer",
+		"sv": "Vägmätare"
 	},
 	"units": {
-		"en": "km"
+		"en": "km",
+		"sv": "km"
 	},
 	"getable": true,
 	"setable": false,

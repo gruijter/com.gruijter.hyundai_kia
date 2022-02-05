@@ -1,17 +1,20 @@
 {
     "id": "homey_link_on",
     "title": {
-        "en": "Enable Homey control and live data"
+      "en": "Enable Homey control and live data",
+      "sv": "Aktivera Homey-kontroll och livedata"
     },
     "titleFormatted": {
-      "en": "Enable Homey control and live data for [[device]]"
+      "en": "Enable Homey control and live data for [[device]]",
+      "sv": "Aktivera hemlig kontroll och livedata för [[enhet]]"
     },
     "args": [
         {
           "type": "autocomplete",
           "name": "device",
           "placeholder": {
-            "en": "Select which car"
+            "en": "Select which car",
+            "sv": "Välj vilken bil"
           }
         }
       ]

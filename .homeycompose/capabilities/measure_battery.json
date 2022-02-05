@@ -1,10 +1,12 @@
 {
 	"type": "number",
 	"title": {
-		"en": "Battery"
+		"en": "Battery",
+		"sv": "Batteri"
 	},
 	"units": {
-		"en": "%"
+		"en": "%",
+		"sv": "%"
 	},
 	"getable": true,
 	"setable": false,

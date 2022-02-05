@@ -1,10 +1,12 @@
 {
     "id": "defrost_true",
     "title": {
-        "en": "Defrosting turned on"
+        "en": "Defrosting turned on",
+        "sv": "Avfrostning påslagen"
     },
     "titleFormatted": {
-        "en": "Defrosting turned on"
+        "en": "Defrosting turned on",
+        "sv": "Avfrostning påslagen"
     },
     "args": [
         {

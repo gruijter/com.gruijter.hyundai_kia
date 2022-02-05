@@ -1,10 +1,12 @@
 {
     "id": "climate_control_false",
     "title": {
-        "en": "The A/C turned off"
+        "en": "The A/C turned off",
+        "sv": "A/C stängdes av"
     },
     "titleFormatted": {
-        "en": "The A/C turned off"
+        "en": "The A/C turned off",
+        "sv": "A/C stängdes av"
     },
     "args": [
         {

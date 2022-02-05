@@ -1,10 +1,12 @@
 {
     "id": "alarm_battery_true",
     "title": {
-        "en": "The battery alarm turned on"
+        "en": "The battery alarm turned on",
+        "sv": "Batterilarmet slogs på"
     },
     "titleFormatted": {
-        "en": "The battery alarm turned on"
+        "en": "The battery alarm turned on",
+        "sv": "Batterilarmet slogs på"
     },
     "args": [
         {

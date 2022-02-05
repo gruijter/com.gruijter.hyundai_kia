@@ -1,10 +1,12 @@
 {
     "id": "defrost_on",
     "title": {
-        "en": "Turn defrost on"
+        "en": "Turn defrost on",
+        "sv": "Slå på avfrostning"
     },
     "titleFormatted": {
-        "en": "Turn defrost on"
+        "en": "Turn defrost on",
+        "sv": "Slå på avfrostning"
     },
     "args": [
         {

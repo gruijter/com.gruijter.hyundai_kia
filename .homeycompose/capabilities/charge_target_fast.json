@@ -1,7 +1,8 @@
 {
   "type": "enum",
   "title": {
-    "en": "Charge Target Fast"
+    "en": "Charge Target Fast",
+    "sv": "Ladda snabbt"
   },
   "values": [
     {

@@ -34,12 +34,14 @@
 	"capabilitiesOptions": {
 		"measure_battery.EV": {
 			"title": {
-				"en": "EV Battery"
+				"en": "EV Battery",
+				"sv": "EV Batteri"
 			}
 		},
 		"measure_battery.12V": {
 			"title": {
-				"en": "12V Battery"
+				"en": "12V Battery",
+				"sv": "12V Batteri"
 			}
 		}
 	},

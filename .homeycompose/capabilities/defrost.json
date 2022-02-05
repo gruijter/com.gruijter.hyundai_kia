@@ -1,16 +1,19 @@
 {
 	"type": "boolean",
 	"title": {
-		"en": "Defrost"
+		"en": "Defrost",
+		"sv": "Avfrostning"
 	},
 	"getable": true,
 	"setable": true,
 	"insights": true,
 	"insightsTitleTrue": {
-		"en": "Defrost on"
+		"en": "Defrost on",
+		"sv": "Avfrostning på"
 	},
 	"insightsTitleFalse": {
-		"en": "Defrost off"
+		"en": "Defrost off",
+		"sv": "Avfrostning av"
 	},
 	"uiComponent": "toggle",
 	"uiQuickAction": false

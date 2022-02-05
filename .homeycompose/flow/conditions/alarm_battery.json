@@ -1,10 +1,12 @@
 {
     "id": "alarm_battery",
     "title": {
-        "en": "The battery alarm is !{{on|off}}"
+        "en": "The battery alarm is !{{on|off}}",
+        "sv": "Batterilarmet är !{{på|av}}"
     },
     "titleFormatted": {
-        "en": "The battery alarm is !{{on|off}}"
+        "en": "The battery alarm is !{{on|off}}",
+        "sv": "Batterilarmet är !{{på|av}}"
     },
     "args": [
         {

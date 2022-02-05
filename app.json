@@ -6,10 +6,12 @@
   "sdk": 3,
   "brandColor": "#003468",
   "name": {
-    "en": "Kia and Hyundai"
+    "en": "Kia and Hyundai",
+    "sv": "Kia och Hyundai"
   },
   "description": {
-    "en": "Connect your Hyundai or Kia smart car."
+    "en": "Connect your Hyundai or Kia smart car.",
+    "sv": "Anslut din Hyundai eller Kia smarta bil. "
   },
   "tags": {
     "en": [
@@ -94,10 +96,12 @@
       {
         "id": "alarm_battery_false",
         "title": {
-          "en": "The battery alarm turned off"
+          "en": "The battery alarm turned off",
+          "sv": "Batterilarmet stängdes av"
         },
         "titleFormatted": {
-          "en": "The battery alarm turned off"
+          "en": "The battery alarm turned off",
+          "sv": "Batterilarmet stängdes av"
         },
         "args": [
           {
@@ -110,10 +114,12 @@
       {
         "id": "alarm_battery_true",
         "title": {
-          "en": "The battery alarm turned on"
+          "en": "The battery alarm turned on",
+          "sv": "Batterilarmet slogs på"
         },
         "titleFormatted": {
-          "en": "The battery alarm turned on"
+          "en": "The battery alarm turned on",
+          "sv": "Batterilarmet slogs på"
         },
         "args": [
           {
@@ -126,10 +132,12 @@
       {
         "id": "alarm_tire_pressure_false",
         "title": {
-          "en": "The tire pressure alarm turned off"
+          "en": "The tire pressure alarm turned off",
+          "sv": "Däcktryckslarmet stängdes av"
         },
         "titleFormatted": {
-          "en": "The tire pressure alarm turned off"
+          "en": "The tire pressure alarm turned off",
+          "sv": "Däcktryckslarmet stängdes av"
         },
         "args": [
           {
@@ -142,10 +150,12 @@
       {
         "id": "alarm_tire_pressure_true",
         "title": {
-          "en": "The tire pressure alarm turned on"
+          "en": "The tire pressure alarm turned on",
+          "sv": "Däcktryckslarmet slog på"
         },
         "titleFormatted": {
-          "en": "The tire pressure alarm turned on"
+          "en": "The tire pressure alarm turned on",
+          "sv": "Däcktryckslarmet slog på"
         },
         "args": [
           {
@@ -158,10 +168,12 @@
       {
         "id": "charging_false",
         "title": {
-          "en": "The charger turned off"
+          "en": "The charger turned off",
+          "sv": "Laddaren stängdes av"
         },
         "titleFormatted": {
-          "en": "The charger turned off"
+          "en": "The charger turned off",
+          "sv": "Laddaren stängdes av"
         },
         "args": [
           {
@@ -174,10 +186,12 @@
       {
         "id": "charging_true",
         "title": {
-          "en": "The charger turned on"
+          "en": "The charger turned on",
+          "sv": "Laddaren slog på"
         },
         "titleFormatted": {
-          "en": "The charger turned on"
+          "en": "The charger turned on",
+          "sv": "Laddaren slog på"
         },
         "args": [
           {
@@ -190,10 +204,12 @@
       {
         "id": "climate_control_false",
         "title": {
-          "en": "The A/C turned off"
+          "en": "The A/C turned off",
+          "sv": "A/C stängdes av"
         },
         "titleFormatted": {
-          "en": "The A/C turned off"
+          "en": "The A/C turned off",
+          "sv": "A/C stängdes av"
         },
         "args": [
           {
@@ -206,10 +222,12 @@
       {
         "id": "climate_control_true",
         "title": {
-          "en": "The A/C turned on"
+          "en": "The A/C turned on",
+          "sv": "A/C påslagen"
         },
         "titleFormatted": {
-          "en": "The A/C turned on"
+          "en": "The A/C turned on",
+          "sv": "A/C påslagen"
         },
         "args": [
           {
@@ -222,10 +240,12 @@
       {
         "id": "defrost_false",
         "title": {
-          "en": "Defrosting turned off"
+          "en": "Defrosting turned off",
+          "sv": "Avfrostning avstängd"
         },
         "titleFormatted": {
-          "en": "Defrosting turned off"
+          "en": "Defrosting turned off",
+          "sv": "Avfrostning avstängd"
         },
         "args": [
           {
@@ -238,10 +258,12 @@
       {
         "id": "defrost_true",
         "title": {
-          "en": "Defrosting turned on"
+          "en": "Defrosting turned on",
+          "sv": "Avfrostning påslagen"
         },
         "titleFormatted": {
-          "en": "Defrosting turned on"
+          "en": "Defrosting turned on",
+          "sv": "Avfrostning påslagen"
         },
         "args": [
           {
@@ -254,10 +276,12 @@
       {
         "id": "engine_false",
         "title": {
-          "en": "The engine turned off"
+          "en": "The engine turned off",
+          "sv": "Motorn stängdes av"
         },
         "titleFormatted": {
-          "en": "The engine turned off"
+          "en": "The engine turned off",
+          "sv": "Motorn stängdes av"
         },
         "args": [
           {
@@ -270,10 +294,12 @@
       {
         "id": "engine_true",
         "title": {
-          "en": "The engine turned on"
+          "en": "The engine turned on",
+          "sv": "Motorn startade"
         },
         "titleFormatted": {
-          "en": "The engine turned on"
+          "en": "The engine turned on",
+          "sv": "Motorn startade"
         },
         "args": [
           {
@@ -286,10 +312,12 @@
       {
         "id": "has_moved",
         "title": {
-          "en": "The car has moved"
+          "en": "The car has moved",
+          "sv": "Bilen har flyttat"
         },
         "titleFormatted": {
-          "en": "The car has moved"
+          "en": "The car has moved",
+          "sv": "Bilen har flyttat"
         },
         "args": [
           {
@@ -302,30 +330,36 @@
       {
         "id": "has_parked",
         "title": {
-          "en": "The car has parked"
+          "en": "The car has parked",
+          "sv": "Bilen har parkerat"
         },
         "titleFormatted": {
-          "en": "The car has parked"
+          "en": "The car has parked",
+          "sv": "Bilen har parkerat"
         },
         "tokens": [
           {
             "name": "address",
             "type": "string",
             "title": {
-              "en": "Address"
+              "en": "Address",
+              "sv": "Adress"
             },
             "example": {
-              "en": "White House Meridian, 1600, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20500, United States"
+              "en": "White House Meridian, 1600, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20500, United States",
+              "sv": "Kungliga slottet, 107 70 Stockholm, Sverige"
             }
           },
           {
             "name": "map",
             "type": "string",
             "title": {
-              "en": "Map"
+              "en": "Map",
+              "sv": "Karta"
             },
             "example": {
-              "en": "https://www.google.com/maps?q=38.89734,-77.03655"
+              "en": "https://www.google.com/maps?q=38.89734,-77.03655",
+              "sv": "https://www.google.com/maps?q=59.32694,18.07175"
             }
           }
         ],
@@ -340,10 +374,12 @@
       {
         "id": "status_update",
         "title": {
-          "en": "New car status"
+          "en": "New car status",
+          "sv": "Ny bilstatus"
         },
         "titleFormatted": {
-          "en": "New car status"
+          "en": "New car status",
+          "sv": "Ny bilstatus"
         },
         "args": [
           {
@@ -358,10 +394,12 @@
       {
         "id": "alarm_battery",
         "title": {
-          "en": "The battery alarm is !{{on|off}}"
+          "en": "The battery alarm is !{{on|off}}",
+          "sv": "Batterilarmet är !{{på|av}}"
         },
         "titleFormatted": {
-          "en": "The battery alarm is !{{on|off}}"
+          "en": "The battery alarm is !{{on|off}}",
+          "sv": "Batterilarmet är !{{på|av}}"
         },
         "args": [
           {
@@ -374,10 +412,12 @@
       {
         "id": "alarm_tire_pressure",
         "title": {
-          "en": "The tire pressure alarm is !{{on|off}}"
+          "en": "The tire pressure alarm is !{{on|off}}",
+          "sv": "Däcktryckslarmet är !{{på|av}}"
         },
         "titleFormatted": {
-          "en": "The tire pressure alarm is !{{on|off}}"
+          "en": "The tire pressure alarm is !{{on|off}}",
+          "sv": "Däcktryckslarmet är !{{på|av}}"
         },
         "args": [
           {
@@ -390,10 +430,12 @@
       {
         "id": "charging",
         "title": {
-          "en": "The charger is !{{on|off}}"
+          "en": "The charger is !{{on|off}}",
+          "sv": "Laddaren är !{{på|av}}"
         },
         "titleFormatted": {
-          "en": "The charger is !{{on|off}}"
+          "en": "The charger is !{{on|off}}",
+          "sv": "Laddaren är !{{på|av}}"
         },
         "args": [
           {
@@ -406,10 +448,12 @@
       {
         "id": "climate_control",
         "title": {
-          "en": "The A/C is !{{on|off}}"
+          "en": "The A/C is !{{on|off}}",
+          "sv": "A/C är !{{på|av}} "
         },
         "titleFormatted": {
-          "en": "The A/C is !{{on|off}}"
+          "en": "The A/C is !{{on|off}}",
+          "sv": "A/C är !{{på|av}} "
         },
         "args": [
           {
@@ -422,10 +466,12 @@
       {
         "id": "closed_locked",
         "title": {
-          "en": "The car !{{is|is not}} closed and locked"
+          "en": "The car !{{is|is not}} closed and locked",
+          "sv": "Bilen !{{är|är inte}} stängd och låst"
         },
         "titleFormatted": {
-          "en": "The car !{{is|is not}} closed and locked"
+          "en": "The car !{{is|is not}} closed and locked",
+          "sv": "Bilen !{{är|är inte}} stängd och låst"
         },
         "args": [
           {
@@ -438,10 +484,12 @@
       {
         "id": "defrost",
         "title": {
-          "en": "Defrosting is !{{on|off}}"
+          "en": "Defrosting is !{{on|off}}",
+          "sv": "Avfrostning är !{{på|av}}"
         },
         "titleFormatted": {
-          "en": "Defrosting is !{{on|off}}"
+          "en": "Defrosting is !{{on|off}}",
+          "sv": "Avfrostning är !{{på|av}}"
         },
         "args": [
           {
@@ -454,10 +502,12 @@
       {
         "id": "engine",
         "title": {
-          "en": "The engine is !{{on|off}}"
+          "en": "The engine is !{{on|off}}",
+          "sv": "Motorn är !{{på|av}} "
         },
         "titleFormatted": {
-          "en": "The engine is !{{on|off}}"
+          "en": "The engine is !{{on|off}}",
+          "sv": "Motorn är !{{på|av}} "
         },
         "args": [
           {
@@ -470,10 +520,12 @@
       {
         "id": "moving",
         "title": {
-          "en": "The car !{{is|is not}} moving"
+          "en": "The car !{{is|is not}} moving",
+          "sv": "Bilen !{{är|är inte}} i rörelse"
         },
         "titleFormatted": {
-          "en": "The car !{{is|is not}} moving"
+          "en": "The car !{{is|is not}} moving",
+          "sv": "Bilen !{{är|är inte}} i rörelse"
         },
         "args": [
           {
@@ -486,10 +538,12 @@
       {
         "id": "parked",
         "title": {
-          "en": "The car !{{is|is not}} parked"
+          "en": "The car !{{is|is not}} parked",
+          "sv": "Bilen !{{är|är inte}} parkerad"
         },
         "titleFormatted": {
-          "en": "The car !{{is|is not}} parked"
+          "en": "The car !{{is|is not}} parked",
+          "sv": "Bilen !{{är|är inte}} parkerad"
         },
         "args": [
           {
@@ -504,10 +558,12 @@
       {
         "id": "ac_off",
         "title": {
-          "en": "Turn A/C off"
+          "en": "Turn A/C off",
+          "sv": "Stäng av A/C"
         },
         "titleFormatted": {
-          "en": "Turn A/C off"
+          "en": "Turn A/C off",
+          "sv": "Stäng av A/C"
         },
         "args": [
           {
@@ -520,10 +576,12 @@
       {
         "id": "ac_on",
         "title": {
-          "en": "Turn A/C on"
+          "en": "Turn A/C on",
+          "sv": "Slå på A/C"
         },
         "titleFormatted": {
-          "en": "Turn A/C on"
+          "en": "Turn A/C on",
+          "sv": "Slå på A/C"
         },
         "args": [
           {
@@ -536,10 +594,12 @@
       {
         "id": "charging_off",
         "title": {
-          "en": "Turn charging off"
+          "en": "Turn charging off",
+          "sv": "Stäng av laddningen"
         },
         "titleFormatted": {
-          "en": "Turn charging off"
+          "en": "Turn charging off",
+          "sv": "Stäng av laddningen"
         },
         "args": [
           {
@@ -552,10 +612,12 @@
       {
         "id": "charging_on",
         "title": {
-          "en": "Turn charging on"
+          "en": "Turn charging on",
+          "sv": "Slå på laddningen"
         },
         "titleFormatted": {
-          "en": "Turn charging on"
+          "en": "Turn charging on",
+          "sv": "Slå på laddningen"
         },
         "args": [
           {
@@ -568,10 +630,12 @@
       {
         "id": "defrost_off",
         "title": {
-          "en": "Turn defrost off"
+          "en": "Turn defrost off",
+          "sv": "Stäng av avfrostning"
         },
         "titleFormatted": {
-          "en": "Turn defrost off"
+          "en": "Turn defrost off",
+          "sv": "Stäng av avfrostning"
         },
         "args": [
           {
@@ -584,10 +648,12 @@
       {
         "id": "defrost_on",
         "title": {
-          "en": "Turn defrost on"
+          "en": "Turn defrost on",
+          "sv": "Slå på avfrostning"
         },
         "titleFormatted": {
-          "en": "Turn defrost on"
+          "en": "Turn defrost on",
+          "sv": "Slå på avfrostning"
         },
         "args": [
           {
@@ -600,10 +666,12 @@
       {
         "id": "force_refresh",
         "title": {
-          "en": "Force status refresh (once)"
+          "en": "Force status refresh (once)",
+          "sv": "Tvinga statusuppdatering (en gång)"
         },
         "titleFormatted": {
-          "en": "Force status refresh (once)"
+          "en": "Force status refresh (once)",
+          "sv": "Tvinga statusuppdatering (en gång)"
         },
         "args": [
           {
@@ -616,17 +684,20 @@
       {
         "id": "homey_link_off",
         "title": {
-          "en": "Disable Homey control and live data"
+          "en": "Disable Homey control and live data",
+          "sv": "Inaktivera Homey-kontroll och livedata "
         },
         "titleFormatted": {
-          "en": "Disable Homey control and live data for [[device]]"
+          "en": "Disable Homey control and live data for [[device]]",
+          "sv": "Inaktivera Homey-kontroll och livedata för [[device]]"
         },
         "args": [
           {
             "type": "autocomplete",
             "name": "device",
             "placeholder": {
-              "en": "Select which car"
+              "en": "Select which car",
+              "sv": "Välj vilken bil"
             }
           }
         ]
@@ -634,17 +705,20 @@
       {
         "id": "homey_link_on",
         "title": {
-          "en": "Enable Homey control and live data"
+          "en": "Enable Homey control and live data",
+          "sv": "Aktivera Homey-kontroll och livedata"
         },
         "titleFormatted": {
-          "en": "Enable Homey control and live data for [[device]]"
+          "en": "Enable Homey control and live data for [[device]]",
+          "sv": "Aktivera Homey-kontroll och livedata för [[device]]"
         },
         "args": [
           {
             "type": "autocomplete",
             "name": "device",
             "placeholder": {
-              "en": "Select which car"
+              "en": "Select which car",
+              "sv": "Välj vilken bil"
             }
           }
         ]
@@ -652,10 +726,12 @@
       {
         "id": "set_charge_targets",
         "title": {
-          "en": "Set charge targets"
+          "en": "Set charge targets",
+          "sv": "Sätt laddningsmål"
         },
         "titleFormatted": {
-          "en": "Set charge targets slow:[[slow]] fast:[[fast]]"
+          "en": "Set charge targets slow:[[slow]] fast:[[fast]]",
+          "sv": "Ställ in laddningsmål långsam:[[slow]] snabb:[[fast]] "
         },
         "args": [
           {
@@ -667,7 +743,8 @@
             "type": "dropdown",
             "name": "slow",
             "title": {
-              "en": "Slow (%)"
+              "en": "Slow (%)",
+              "sv": "Långsam (%)"
             },
             "values": [
               {
@@ -712,7 +789,8 @@
             "type": "dropdown",
             "name": "fast",
             "title": {
-              "en": "Fast (%)"
+              "en": "Fast (%)",
+              "sv": "Snabb (%)"
             },
             "values": [
               {
@@ -758,10 +836,12 @@
       {
         "id": "set_destination",
         "title": {
-          "en": "Set navigation destination"
+          "en": "Set navigation destination",
+          "sv": "Ställ in navigeringsmål"
         },
         "titleFormatted": {
-          "en": "Set navigation destination:[[destination]]"
+          "en": "Set navigation destination:[[destination]]",
+          "sv": "Ställ in navigeringsmål:[[destination]]"
         },
         "args": [
           {
@@ -773,10 +853,12 @@
             "type": "text",
             "name": "destination",
             "title": {
-              "en": "Destination"
+              "en": "Destination",
+              "sv": "Destinationsmål"
             },
             "placeholder": {
-              "en": "address or lat,lon"
+              "en": "address or lat,lon",
+              "sv": "adress eller lat,lon"
             }
           }
         ]
@@ -784,10 +866,12 @@
       {
         "id": "set_target_temp",
         "title": {
-          "en": "Set target temperature"
+          "en": "Set target temperature",
+          "sv": "Ställ in måltemperatur"
         },
         "titleFormatted": {
-          "en": "Set target temperature [[temp]]"
+          "en": "Set target temperature [[temp]]",
+          "sv": "Ställ in måltemperatur [[temp]]"
         },
         "args": [
           {
@@ -840,12 +924,14 @@
       "capabilitiesOptions": {
         "measure_battery.EV": {
           "title": {
-            "en": "EV Battery"
+            "en": "EV Battery",
+            "sv": "EV Batteri"
           }
         },
         "measure_battery.12V": {
           "title": {
-            "en": "12V Battery"
+            "en": "12V Battery",
+            "sv": "12V batteri"
           }
         }
       },
@@ -876,7 +962,8 @@
         }
       ],
       "name": {
-        "en": "Bluelink (Hyundai)"
+        "en": "Bluelink (Hyundai)",
+        "sv": "Bluelink (Hyundai)"
       },
       "connectivity": [
         "cloud"
@@ -889,47 +976,55 @@
         {
           "type": "group",
           "label": {
-            "en": "Car information"
+            "en": "Car information",
+            "sv": "Bilinformation"
           },
           "children": [
             {
               "id": "nameOrg",
               "type": "label",
               "label": {
-                "en": "Name"
+                "en": "Name",
+                "sv": "Namn"
               },
               "value": "",
               "hint": {
-                "en": "Car name as per manufacturer."
+                "en": "Car name as per manufacturer.",
+                "sv": "Bilnamn enligt tillverkaren."
               }
             },
             {
               "id": "idOrg",
               "type": "label",
               "label": {
-                "en": "ID"
+                "en": "ID",
+                "sv": "ID"
               },
               "value": "",
               "hint": {
-                "en": "Car ID as per manufacturer."
+                "en": "Car ID as per manufacturer.",
+                "sv": "Bil-ID enligt tillverkare."
               }
             },
             {
               "id": "vin",
               "type": "label",
               "label": {
-                "en": "VIN"
+                "en": "VIN",
+                "sv": "VIN"
               },
               "value": "",
               "hint": {
-                "en": "Car VIN as per manufacturer."
+                "en": "Car VIN as per manufacturer.",
+                "sv": "Bilens VIN enligt tillverkare."
               }
             },
             {
               "id": "regDate",
               "type": "label",
               "label": {
-                "en": "Registration date"
+                "en": "Registration date",
+                "sv": "Registrerings datum"
               },
               "value": ""
             },
@@ -937,7 +1032,8 @@
               "id": "brandIndicator",
               "type": "label",
               "label": {
-                "en": "Brand Indicator"
+                "en": "Brand Indicator",
+                "sv": "Varumärkesindikator"
               },
               "value": ""
             },
@@ -945,7 +1041,8 @@
               "id": "generation",
               "type": "label",
               "label": {
-                "en": "Generation"
+                "en": "Generation",
+                "sv": "Generation"
               },
               "value": ""
             },
@@ -953,10 +1050,12 @@
               "id": "engine",
               "type": "label",
               "label": {
-                "en": "Engine"
+                "en": "Engine",
+                "sv": "Motor"
               },
               "hint": {
-                "en": "Full EV (Electric Vehicle), PHEV (Plugin Hybrid Electric Vehicle), or HEV/ICE (Hybrid Electric Vehicle/Internal Combustion Engine)"
+                "en": "Full EV (Electric Vehicle), PHEV (Plugin Hybrid Electric Vehicle), or HEV/ICE (Hybrid Electric Vehicle/Internal Combustion Engine)",
+                "sv": "Full EV (Elfordon), PHEV (Plugin Hybrid) eller HEV/ICE (Hybrid-/Bensin motor)"
               },
               "value": ""
             }
@@ -965,14 +1064,16 @@
         {
           "type": "group",
           "label": {
-            "en": "Connection settings"
+            "en": "Connection settings",
+            "sv": "Anslutningsinställningar"
           },
           "children": [
             {
               "id": "username",
               "type": "text",
               "label": {
-                "en": "Username"
+                "en": "Username",
+                "sv": "Användarnamn"
               },
               "value": ""
             },
@@ -980,7 +1081,8 @@
               "id": "password",
               "type": "password",
               "label": {
-                "en": "Password"
+                "en": "Password",
+                "sv": "Lösenord"
               },
               "value": ""
             },
@@ -988,7 +1090,8 @@
               "id": "pin",
               "type": "password",
               "label": {
-                "en": "PIN"
+                "en": "PIN",
+                "sv": "PIN-kod"
               },
               "value": ""
             },
@@ -997,7 +1100,8 @@
               "type": "dropdown",
               "value": "EU",
               "label": {
-                "en": "Region"
+                "en": "Region",
+                "sv": "Område"
               },
               "values": [
                 {
@@ -1025,10 +1129,12 @@
               "type": "dropdown",
               "value": "en",
               "label": {
-                "en": "App language"
+                "en": "App language",
+                "sv": "Appens språk"
               },
               "hint": {
-                "en": "This setting will effect the language used in the official Bluelink/Uvo app. Seems to works for EU region only at the moment."
+                "en": "This setting will effect the language used in the official Bluelink/Uvo app. Seems to works for EU region only at the moment.",
+                "sv": "Den här inställningen påverkar språket som används i den officiella Bluelink/Uvo-appen. Verkar bara fungera för EU-regionen för närvarande. "
               },
               "values": [
                 {
@@ -1122,17 +1228,20 @@
         {
           "type": "group",
           "label": {
-            "en": "Car status refresh settings"
+            "en": "Car status refresh settings",
+            "sv": "Inställningar för uppdatering av bilstatus"
           },
           "children": [
             {
               "id": "pollInterval",
               "type": "number",
               "label": {
-                "en": "Server update interval (minutes)"
+                "en": "Server update interval (minutes)",
+                "sv": "Serveruppdateringsintervall (minuter) "
               },
               "hint": {
-                "en": "Interval for checking the server for a status change.\nAttention: Homey will only receive status updates from the car when you park the car, or by doing a manual refresh!\nWARNING: A low poll interval can get you locked out of the server!"
+                "en": "Interval for checking the server for a status change.\nAttention: Homey will only receive status updates from the car when you park the car, or by doing a manual refresh!\nWARNING: A low poll interval can get you locked out of the server!",
+                "sv": "Intervall för att kontrollera servern för en statusändring.\nObs: Homey kommer bara att få statusuppdateringar från bilen när du parkerar bilen, eller genom att göra en manuell uppdatering!\nVARNING: En låg intervall kan göra att du blir utelåst från servern!"
               },
               "min": 5,
               "value": 15
@@ -1141,10 +1250,12 @@
               "id": "pollIntervalEngineOn",
               "type": "number",
               "label": {
-                "en": "Car On update interval (minutes)"
+                "en": "Car On update interval (minutes)",
+                "sv": "Uppdateringsintervall när bilmotor är på (minuter)"
               },
               "hint": {
-                "en": "Interval for checking the car status while the engine is on.\nAttention: for Homey to know that the engine is on, a manual refresh or cloud refresh must be performed!\nWARNING: A low poll interval can get you locked out of the server!\nDisable this function by setting the time to 0."
+                "en": "Interval for checking the car status while the engine is on.\nAttention: for Homey to know that the engine is on, a manual refresh or cloud refresh must be performed!\nWARNING: A low poll interval can get you locked out of the server!\nDisable this function by setting the time to 0.",
+                "sv": "Intervall för att kontrollera bilens status medan motorn är på.\nObs: för att Homey ska veta att motorn är på måste en manuell uppdatering eller molnuppdatering utföras!\nVARNING: En låg intervall kan göra att du blir utelåst från servern !\nInaktivera den här funktionen genom att ställa in tiden till 0."
               },
               "min": 0,
               "value": 10,
@@ -1154,10 +1265,12 @@
               "id": "pollIntervalForced",
               "type": "number",
               "label": {
-                "en": "24/7 Car update interval (minutes)"
+                "en": "24/7 Car update interval (minutes)",
+                "sv": "Biluppdateringsintervall dygnet runt (minuter)"
               },
               "hint": {
-                "en": "Interval for checking the car status also when the engine is off.\nWARNING: This will drain your 12V battery fast!\nA low poll interval can get you locked out of the server\nDisable this function by setting the time to 0."
+                "en": "Interval for checking the car status also when the engine is off.\nWARNING: This will drain your 12V battery fast!\nA low poll interval can get you locked out of the server\nDisable this function by setting the time to 0.",
+                "sv": "Intervall för att kontrollera bilens status även när motorn är avstängd.\nVARNING: Detta kommer att tömma ditt 12V-batteri snabbt!\nEn låg pollningsintervall kan göra att du låses ute från servern\nInaktivera den här funktionen genom att ställa in tiden till 0."
               },
               "min": 0,
               "value": 0,
@@ -1168,17 +1281,20 @@
         {
           "type": "group",
           "label": {
-            "en": "Start status refresh via cloud (HTTP GET)"
+            "en": "Start status refresh via cloud (HTTP GET)",
+            "sv": "Starta statusuppdatering via moln (HTTP GET)"
           },
           "children": [
             {
               "id": "remote_force_secret",
               "type": "text",
               "label": {
-                "en": "Cloud refresh secret"
+                "en": "Cloud refresh secret",
+                "sv": "Moln uppdaterings hemlighet "
               },
               "hint": {
-                "en": "Enter any unique secret (numbers and normal characters only). Leave empty to disable cloud refresh."
+                "en": "Enter any unique secret (numbers and normal characters only). Leave empty to disable cloud refresh.",
+                "sv": "Ange en unik hemlighet (endast siffror och normala tecken). Lämna tomt för att inaktivera molnuppdatering."
               },
               "value": ""
             },
@@ -1186,10 +1302,12 @@
               "id": "shorten_url",
               "type": "checkbox",
               "label": {
-                "en": "Create short URL"
+                "en": "Create short URL",
+                "sv": "Skapa kort URL"
               },
               "hint": {
-                "en": "The cloud refresh URL is very long and difficult to type into your phone automation app. A short URL can be created for you using Bitly. Attention: Bitly gathers statistics when this link is used."
+                "en": "The cloud refresh URL is very long and difficult to type into your phone automation app. A short URL can be created for you using Bitly. Attention: Bitly gathers statistics when this link is used.",
+                "sv": "Webbadressen för molnuppdatering är mycket lång och svår att skriva in i din telefonautomatiseringsapp. En kort URL kan skapas åt dig med Bitly. Observera: Bitly samlar in statistik när denna länk används."
               },
               "value": true
             },
@@ -1197,10 +1315,12 @@
               "id": "remote_force_url",
               "type": "label",
               "label": {
-                "en": "Cloud refresh URL"
+                "en": "Cloud refresh URL",
+                "sv": "Webbadress för molnuppdatering"
               },
               "hint": {
-                "en": "After entering a secret, you can force a car refresh by calling this website (HTTP GET). This can be usefull when you want to automatically start updates when your phone connects to the car's bluetooth."
+                "en": "After entering a secret, you can force a car refresh by calling this website (HTTP GET). This can be usefull when you want to automatically start updates when your phone connects to the car's bluetooth.",
+                "sv": "Efter att ha angett en hemlighet kan du tvinga fram en biluppdatering genom att ange denna webbplats (HTTP GET). Detta kan vara användbart när du automatiskt vill starta uppdateringar när din telefon ansluter till bilens bluetooth."
               },
               "value": ""
             }
@@ -1209,17 +1329,20 @@
         {
           "type": "group",
           "label": {
-            "en": "A Better Route Planner settings"
+            "en": "A Better Route Planner settings",
+            "sv": "Inställningar för A Better Route Planner"
           },
           "children": [
             {
               "id": "abrp_user_token",
               "type": "password",
               "label": {
-                "en": "ABRP user token"
+                "en": "ABRP user token",
+                "sv": "ABRP-användartoken"
               },
               "hint": {
-                "en": "ABRP interface only works for EV/PHEV vehicles. Get a token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Homey > copy the token."
+                "en": "ABRP interface only works for EV/PHEV vehicles. Get a token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Homey > copy the token.",
+                "sv": "ABRP-gränssnittet fungerar endast för EV/PHEV-fordon. Få en token från ABRP-appen. Inställningar > Detaljerad > Bilmodell > Bilinställningar > Link Homey > kopiera token."
               },
               "value": ""
             }
@@ -1228,17 +1351,20 @@
         {
           "type": "group",
           "label": {
-            "en": "Home location settings"
+            "en": "Home location settings",
+            "sv": "Inställningar för hemposition"
           },
           "children": [
             {
               "id": "lat",
               "type": "number",
               "label": {
-                "en": "Home latitude"
+                "en": "Home latitude",
+                "sv": "Hemmets breddgrad"
               },
               "hint": {
-                "en": "Home location is used to calculate the car's distance."
+                "en": "Home location is used to calculate the car's distance.",
+                "sv": "Hemort används för att beräkna bilens avstånd."
               },
               "value": 0
             },
@@ -1246,10 +1372,12 @@
               "id": "lon",
               "type": "number",
               "label": {
-                "en": "Home longitude"
+                "en": "Home longitude",
+                "sv": "Hemmets längdgrad"
               },
               "hint": {
-                "en": "Home location is used to calculate the car's distance."
+                "en": "Home location is used to calculate the car's distance.",
+                "sv": "Hemort används för att beräkna bilens avstånd."
               },
               "value": 0
             },
@@ -1257,10 +1385,12 @@
               "id": "gmaps_api_key",
               "type": "password",
               "label": {
-                "en": "Google Directions API key"
+                "en": "Google Directions API key",
+                "sv": "Google Directions API-nyckel"
               },
               "hint": {
-                "en": "Using Google Directions will improve Estimated Time To Home (ETTH) calculations, including real-time traffic.\nGet a key at https://developers.google.com/maps/documentation/directions/get-api-key.\nLeave empty to disable Google Directions."
+                "en": "Using Google Directions will improve Estimated Time To Home (ETTH) calculations, including real-time traffic.\nGet a key at https://developers.google.com/maps/documentation/directions/get-api-key.\nLeave empty to disable Google Directions.",
+                "sv": "Att använda Google Directions kommer att förbättra beräkningarna av beräknad tid till hemmet (ETTH), inklusive realtidstrafik.\nFå en nyckel på https://developers.google.com/maps/documentation/directions/get-api-key.\nLämna tom för att inaktivera Google vägbeskrivningar."
               },
               "value": ""
             }
@@ -1269,17 +1399,20 @@
         {
           "type": "group",
           "label": {
-            "en": "Various settings"
+            "en": "Various settings",
+            "sv": "Olika inställningar"
           },
           "children": [
             {
               "id": "batteryAlarmLevel",
               "type": "number",
               "label": {
-                "en": "12V battery alarm level (%)"
+                "en": "12V battery alarm level (%)",
+                "sv": "12V batterilarmnivå (%)"
               },
               "hint": {
-                "en": "Homey will raise an alarm when the 12V battery charge is below this level."
+                "en": "Homey will raise an alarm when the 12V battery charge is below this level.",
+                "sv": "Homey kommer att larma när 12V batteriladdningen är under denna nivå."
               },
               "min": 0,
               "max": 100,
@@ -1289,10 +1422,12 @@
               "id": "EVbatteryAlarmLevel",
               "type": "number",
               "label": {
-                "en": "EV battery alarm level (%)"
+                "en": "EV battery alarm level (%)",
+                "sv": "EV batteri larmnivå (%)"
               },
               "hint": {
-                "en": "Homey will raise an alarm when the EV battery charge is below this level."
+                "en": "Homey will raise an alarm when the EV battery charge is below this level.",
+                "sv": "Homey kommer att larma när elbilens batteriladdning är under denna nivå. "
               },
               "min": 0,
               "max": 100,
@@ -1332,12 +1467,14 @@
       "capabilitiesOptions": {
         "measure_battery.EV": {
           "title": {
-            "en": "EV Battery"
+            "en": "EV Battery",
+            "sv": "EV Batteri"
           }
         },
         "measure_battery.12V": {
           "title": {
-            "en": "12V Battery"
+            "en": "12V Battery",
+            "sv": "12V batteri"
           }
         }
       },
@@ -1368,7 +1505,8 @@
         }
       ],
       "name": {
-        "en": "UVO (Kia)"
+        "en": "UVO (Kia)",
+        "sv": "UVO (Kia)"
       },
       "connectivity": [
         "cloud"
@@ -1381,18 +1519,21 @@
         {
           "type": "group",
           "label": {
-            "en": "Car information"
+            "en": "Car information",
+            "sv": "Bilinformation"
           },
           "children": [
             {
               "id": "nameOrg",
               "type": "label",
               "label": {
-                "en": "Name"
+                "en": "Name",
+                "sv": "Namn"
               },
               "value": "",
               "hint": {
-                "en": "Car name as per manufacturer."
+                "en": "Car name as per manufacturer.",
+                "sv": "Bilnamn enligt tillverkaren."
               }
             },
             {
@@ -1403,7 +1544,8 @@
               },
               "value": "",
               "hint": {
-                "en": "Car ID as per manufacturer."
+                "en": "Car ID as per manufacturer.",
+                "sv": "Bil-ID enligt tillverkare."
               }
             },
             {
@@ -1414,14 +1556,16 @@
               },
               "value": "",
               "hint": {
-                "en": "Car VIN as per manufacturer."
+                "en": "Car VIN as per manufacturer.",
+                "sv": "Bilens VIN enligt tillverkare."
               }
             },
             {
               "id": "regDate",
               "type": "label",
               "label": {
-                "en": "Registration date"
+                "en": "Registration date",
+                "sv": "Registrerings datum"
               },
               "value": ""
             },
@@ -1429,7 +1573,8 @@
               "id": "brandIndicator",
               "type": "label",
               "label": {
-                "en": "Brand Indicator"
+                "en": "Brand Indicator",
+                "sv": "Varumärkesindikator"
               },
               "value": ""
             },
@@ -1437,7 +1582,8 @@
               "id": "generation",
               "type": "label",
               "label": {
-                "en": "Generation"
+                "en": "Generation",
+                "sv": "Generation"
               },
               "value": ""
             },
@@ -1445,10 +1591,12 @@
               "id": "engine",
               "type": "label",
               "label": {
-                "en": "Engine"
+                "en": "Engine",
+                "sv": "Motor"
               },
               "hint": {
-                "en": "Full EV (Electric Vehicle), PHEV (Plugin Hybrid Electric Vehicle), or HEV/ICE (Hybrid Electric Vehicle/Internal Combustion Engine)"
+                "en": "Full EV (Electric Vehicle), PHEV (Plugin Hybrid Electric Vehicle), or HEV/ICE (Hybrid Electric Vehicle/Internal Combustion Engine)",
+                "sv": "Full EV (Elfordon), PHEV (Plugin Hybrid) eller HEV/ICE (Hybrid-/Bensin motor)"
               },
               "value": ""
             }
@@ -1457,14 +1605,16 @@
         {
           "type": "group",
           "label": {
-            "en": "Connection settings"
+            "en": "Connection settings",
+            "sv": "Anslutningsinställningar"
           },
           "children": [
             {
               "id": "username",
               "type": "text",
               "label": {
-                "en": "Username"
+                "en": "Username",
+                "sv": "Användarnamn"
               },
               "value": ""
             },
@@ -1472,7 +1622,8 @@
               "id": "password",
               "type": "password",
               "label": {
-                "en": "Password"
+                "en": "Password",
+                "sv": "Lösenord"
               },
               "value": ""
             },
@@ -1480,7 +1631,8 @@
               "id": "pin",
               "type": "password",
               "label": {
-                "en": "PIN"
+                "en": "PIN",
+                "sv": "PIN-kod"
               },
               "value": ""
             },
@@ -1489,7 +1641,8 @@
               "type": "dropdown",
               "value": "EU",
               "label": {
-                "en": "Region"
+                "en": "Region",
+                "sv": "Område"
               },
               "values": [
                 {
@@ -1517,10 +1670,12 @@
               "type": "dropdown",
               "value": "en",
               "label": {
-                "en": "App language"
+                "en": "App language",
+                "sv": "Appens språk"
               },
               "hint": {
-                "en": "This setting will effect the language used in the official Bluelink/Uvo app. Seems to works for EU region only at the moment."
+                "en": "This setting will effect the language used in the official Bluelink/Uvo app. Seems to works for EU region only at the moment.",
+                "sv": "Den här inställningen påverkar språket som används i den officiella Bluelink/Uvo-appen. Verkar bara fungera för EU-regionen för närvarande."
               },
               "values": [
                 {
@@ -1614,17 +1769,20 @@
         {
           "type": "group",
           "label": {
-            "en": "Car status refresh settings"
+            "en": "Car status refresh settings",
+            "sv": "Inställningar för uppdatering av bilstatus"
           },
           "children": [
             {
               "id": "pollInterval",
               "type": "number",
               "label": {
-                "en": "Server update interval (minutes)"
+                "en": "Server update interval (minutes)",
+                "sv": "Serveruppdateringsintervall (minuter)"
               },
               "hint": {
-                "en": "Interval for checking the server for a status change.\nAttention: Homey will only receive status updates from the car when you park the car, or by doing a manual refresh!\nWARNING: A low poll interval can get you locked out of the server!"
+                "en": "Interval for checking the server for a status change.\nAttention: Homey will only receive status updates from the car when you park the car, or by doing a manual refresh!\nWARNING: A low poll interval can get you locked out of the server!",
+                "sv": "Intervall för att kontrollera servern för en statusändring.\nObs: Homey kommer bara att få statusuppdateringar från bilen när du parkerar bilen, eller genom att göra en manuell uppdatering!\nVARNING: En låg intervall kan göra att du blir utelåst från servern!"
               },
               "min": 5,
               "value": 15
@@ -1633,10 +1791,12 @@
               "id": "pollIntervalEngineOn",
               "type": "number",
               "label": {
-                "en": "Car On update interval (minutes)"
+                "en": "Car On update interval (minutes)",
+                "sv": "Uppdateringsintervall när bilmotor är på (minuter)"
               },
               "hint": {
-                "en": "Interval for checking the car status while the engine is on.\nAttention: for Homey to know that the engine is on, a manual refresh or cloud refresh must be performed!\nWARNING: A low poll interval can get you locked out of the server!\nDisable this function by setting the time to 0."
+                "en": "Interval for checking the car status while the engine is on.\nAttention: for Homey to know that the engine is on, a manual refresh or cloud refresh must be performed!\nWARNING: A low poll interval can get you locked out of the server!\nDisable this function by setting the time to 0.",
+                "sv": "Intervall för att kontrollera bilens status medan motorn är på.\nObs: för att Homey ska veta att motorn är på måste en manuell uppdatering eller molnuppdatering utföras!\nVARNING: En låg intervall kan göra att du blir utelåst från servern !\nInaktivera den här funktionen genom att ställa in tiden till 0."
               },
               "min": 0,
               "value": 10,
@@ -1646,10 +1806,12 @@
               "id": "pollIntervalForced",
               "type": "number",
               "label": {
-                "en": "24/7 Car update interval (minutes)"
+                "en": "24/7 Car update interval (minutes)",
+                "sv": "Biluppdateringsintervall dygnet runt (minuter)"
               },
               "hint": {
-                "en": "Interval for checking the car status also when the engine is off.\nWARNING: This will drain your 12V battery fast!\nA low poll interval can get you locked out of the server\nDisable this function by setting the time to 0."
+                "en": "Interval for checking the car status also when the engine is off.\nWARNING: This will drain your 12V battery fast!\nA low poll interval can get you locked out of the server\nDisable this function by setting the time to 0.",
+                "sv": "Intervall för att kontrollera bilens status även när motorn är avstängd.\nVARNING: Detta kommer att tömma ditt 12V-batteri snabbt!\nEn låg pollningsintervall kan göra att du låses ute från servern\nInaktivera den här funktionen genom att ställa in tiden till 0."
               },
               "min": 0,
               "value": 0,
@@ -1660,17 +1822,20 @@
         {
           "type": "group",
           "label": {
-            "en": "Start status refresh via cloud (HTTP GET)"
+            "en": "Start status refresh via cloud (HTTP GET)",
+            "sv": "Starta statusuppdatering via moln (HTTP GET)"
           },
           "children": [
             {
               "id": "remote_force_secret",
               "type": "text",
               "label": {
-                "en": "Cloud refresh secret"
+                "en": "Cloud refresh secret",
+                "sv": "Hemlighet för molnuppdatering"
               },
               "hint": {
-                "en": "Enter any unique secret (numbers and normal characters only). Leave empty to disable cloud refresh."
+                "en": "Enter any unique secret (numbers and normal characters only). Leave empty to disable cloud refresh.",
+                "sv": "Ange en unik hemlighet (endast siffror och normala tecken). Lämna tomt för att inaktivera molnuppdatering."
               },
               "value": ""
             },
@@ -1678,10 +1843,12 @@
               "id": "shorten_url",
               "type": "checkbox",
               "label": {
-                "en": "Create short URL"
+                "en": "Create short URL",
+                "sv": "Skapa kort URL"
               },
               "hint": {
-                "en": "The cloud refresh URL is very long and difficult to type into your phone automation app. A short URL can be created for you using Bitly. Attention: Bitly gathers statistics when this link is used."
+                "en": "The cloud refresh URL is very long and difficult to type into your phone automation app. A short URL can be created for you using Bitly. Attention: Bitly gathers statistics when this link is used.",
+                "sv": "Webbadressen för molnuppdatering är mycket lång och svår att skriva in i din telefonautomatiseringsapp. En kort URL kan skapas åt dig med Bitly. Observera: Bitly samlar in statistik när denna länk används."
               },
               "value": true
             },
@@ -1689,10 +1856,12 @@
               "id": "remote_force_url",
               "type": "label",
               "label": {
-                "en": "Cloud refresh URL"
+                "en": "Cloud refresh URL",
+                "sv": "Webbadress för molnuppdatering"
               },
               "hint": {
-                "en": "After entering a secret, you can force a car refresh by calling this website (HTTP GET). This can be usefull when you want to automatically start updates when your phone connects to the car's bluetooth."
+                "en": "After entering a secret, you can force a car refresh by calling this website (HTTP GET). This can be usefull when you want to automatically start updates when your phone connects to the car's bluetooth.",
+                "sv": "Efter att ha angett en hemlighet kan du tvinga fram en biluppdatering genom att ange denna webbplats (HTTP GET). Detta kan vara användbart när du automatiskt vill starta uppdateringar när din telefon ansluter till bilens bluetooth."
               },
               "value": ""
             }
@@ -1701,17 +1870,20 @@
         {
           "type": "group",
           "label": {
-            "en": "A Better Route Planner settings"
+            "en": "A Better Route Planner settings",
+            "sv": "Inställningar för A Better Route Planner"
           },
           "children": [
             {
               "id": "abrp_user_token",
               "type": "password",
               "label": {
-                "en": "ABRP user token"
+                "en": "ABRP user token",
+                "sv": "ABRP-användartoken"
               },
               "hint": {
-                "en": "ABRP interface only works for EV/PHEV vehicles. Get a token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Homey > copy the token."
+                "en": "ABRP interface only works for EV/PHEV vehicles. Get a token from the ABRP app. Settings > Detailed > Car model > Car settings > Link Homey > copy the token.",
+                "sv": "ABRP-gränssnittet fungerar endast för EV/PHEV-fordon. Få en token från ABRP-appen. Inställningar > Detaljerad > Bilmodell > Bilinställningar > Link Homey > kopiera token."
               },
               "value": ""
             }
@@ -1720,17 +1892,20 @@
         {
           "type": "group",
           "label": {
-            "en": "Home location settings"
+            "en": "Home location settings",
+            "sv": "Inställningar för hemposition"
           },
           "children": [
             {
               "id": "lat",
               "type": "number",
               "label": {
-                "en": "Home latitude"
+                "en": "Home latitude",
+                "sv": "Hemmets breddgrad"
               },
               "hint": {
-                "en": "Home location is used to calculate the car's distance."
+                "en": "Home location is used to calculate the car's distance.",
+                "sv": "Hemort används för att beräkna bilens avstånd."
               },
               "value": 0
             },
@@ -1738,10 +1913,12 @@
               "id": "lon",
               "type": "number",
               "label": {
-                "en": "Home longitude"
+                "en": "Home longitude",
+                "sv": "Hemmets längdgrad"
               },
               "hint": {
-                "en": "Home location is used to calculate the car's distance."
+                "en": "Home location is used to calculate the car's distance.",
+                "sv": "Hemort används för att beräkna bilens avstånd."
               },
               "value": 0
             },
@@ -1749,10 +1926,12 @@
               "id": "gmaps_api_key",
               "type": "password",
               "label": {
-                "en": "Google Directions API key"
+                "en": "Google Directions API key",
+                "sv": "Google Directions API-nyckel"
               },
               "hint": {
-                "en": "Using Google Directions will improve Estimated Time To Home (ETTH) calculations, including real-time traffic.\nGet a key at https://developers.google.com/maps/documentation/directions/get-api-key.\nLeave empty to disable Google Directions."
+                "en": "Using Google Directions will improve Estimated Time To Home (ETTH) calculations, including real-time traffic.\nGet a key at https://developers.google.com/maps/documentation/directions/get-api-key.\nLeave empty to disable Google Directions.",
+                "sv": "Att använda Google Directions kommer att förbättra beräkningarna av beräknad tid till hemmet (ETTH), inklusive realtidstrafik.\nFå en nyckel på https://developers.google.com/maps/documentation/directions/get-api-key.\nLämna tom för att inaktivera Google vägbeskrivningar."
               },
               "value": ""
             }
@@ -1761,17 +1940,20 @@
         {
           "type": "group",
           "label": {
-            "en": "Various settings"
+            "en": "Various settings",
+            "sv": "Olika inställningar"
           },
           "children": [
             {
               "id": "batteryAlarmLevel",
               "type": "number",
               "label": {
-                "en": "12V battery alarm level (%)"
+                "en": "12V battery alarm level (%)",
+                "sv": "12V batterilarmnivå (%)"
               },
               "hint": {
-                "en": "Homey will raise an alarm when the 12V battery charge is below this level."
+                "en": "Homey will raise an alarm when the 12V battery charge is below this level.",
+                "sv": "Homey kommer att larma när 12V batteriladdningen är under denna nivå."
               },
               "min": 0,
               "max": 100,
@@ -1781,10 +1963,12 @@
               "id": "EVbatteryAlarmLevel",
               "type": "number",
               "label": {
-                "en": "EV battery alarm level (%)"
+                "en": "EV battery alarm level (%)",
+                "sv": "EV batteri larmnivå (%)"
               },
               "hint": {
-                "en": "Homey will raise an alarm when the EV battery charge is below this level."
+                "en": "Homey will raise an alarm when the EV battery charge is below this level.",
+                "sv": "Homey kommer att larma när elbilens batteriladdning är under denna nivå. "
               },
               "min": 0,
               "max": 100,
@@ -1850,17 +2034,21 @@
     "alarm_tire_pressure": {
       "type": "boolean",
       "title": {
-        "en": "tire pressure alarm"
+        "en": "tire pressure alarm",
+        "sv": "däcktryckslarm"
       },
       "desc": {
-        "en": "tire pressure alarm"
+        "en": "tire pressure alarm",
+        "sv": "däcktryckslarm"
       },
       "insights": true,
       "insightsTitleTrue": {
-        "en": "tire pressure alarm turned on"
+        "en": "tire pressure alarm turned on",
+        "sv": "däcktryckslarmet aktiverat"
       },
       "insightsTitleFalse": {
-        "en": "tire pressure alarm turned off"
+        "en": "tire pressure alarm turned off",
+        "sv": "däcktryckslarmet avstängt"
       },
       "getable": true,
       "setable": false,
@@ -1870,7 +2058,8 @@
     "charge_target_fast": {
       "type": "enum",
       "title": {
-        "en": "Charge Target Fast"
+        "en": "Charge Target Fast",
+        "sv": "Långsam (%)"
       },
       "values": [
         {
@@ -1918,7 +2107,8 @@
     "charge_target_slow": {
       "type": "enum",
       "title": {
-        "en": "Charge Target Slow"
+        "en": "Charge Target Slow",
+        "sv": "Snabb (%)"
       },
       "values": [
         {
@@ -1966,7 +2156,8 @@
     "charger": {
       "type": "enum",
       "title": {
-        "en": "Charger"
+        "en": "Charger",
+        "sv": "Laddare"
       },
       "getable": true,
       "setable": false,
@@ -1977,31 +2168,36 @@
         {
           "id": "0",
           "title": {
-            "en": "Not connected"
+            "en": "Not connected",
+            "sv": "Ej ansluten"
           }
         },
         {
           "id": "1",
           "title": {
-            "en": "On (Fast)"
+            "en": "On (Fast)",
+            "sv": "På (Snabb)"
           }
         },
         {
           "id": "2",
           "title": {
-            "en": "On (Slow)"
+            "en": "On (Slow)",
+            "sv": "På (Långsam)"
           }
         },
         {
           "id": "3",
           "title": {
-            "en": "Off (Fast)"
+            "en": "Off (Fast)",
+            "sv": "Av (Snabb)"
           }
         },
         {
           "id": "4",
           "title": {
-            "en": "Off (Slow)"
+            "en": "Off (Slow)",
+            "sv": "Av (Långsam)"
           }
         }
       ]
@@ -2009,16 +2205,19 @@
     "charging": {
       "type": "boolean",
       "title": {
-        "en": "Charging"
+        "en": "Charging",
+        "sv": "Laddar"
       },
       "getable": true,
       "setable": true,
       "insights": true,
       "insightsTitleTrue": {
-        "en": "Charging on"
+        "en": "Charging on",
+        "sv": "Laddning på"
       },
       "insightsTitleFalse": {
-        "en": "Charging off"
+        "en": "Charging off",
+        "sv": "Laddning avstängd"
       },
       "uiComponent": "toggle",
       "icon": "./assets/charging.svg",
@@ -2027,16 +2226,19 @@
     "climate_control": {
       "type": "boolean",
       "title": {
-        "en": "Climate control"
+        "en": "Climate control",
+        "sv": "Klimatkontroll"
       },
       "getable": true,
       "setable": true,
       "insights": true,
       "insightsTitleTrue": {
-        "en": "Climate control on"
+        "en": "Climate control on",
+        "sv": "Klimatstyrning på"
       },
       "insightsTitleFalse": {
-        "en": "Climate control off"
+        "en": "Climate control off",
+        "sv": "Klimatstyrning avstängd"
       },
       "uiComponent": "toggle",
       "uiQuickAction": false
@@ -2044,17 +2246,20 @@
     "closed_locked": {
       "type": "boolean",
       "title": {
-        "en": "Closed and locked"
+        "en": "Closed and locked",
+        "sv": "Stängd och låst"
       },
       "icon": "/assets/closed_locked.svg",
       "getable": true,
       "setable": false,
       "insights": true,
       "insightsTitleTrue": {
-        "en": "Doors closed and locked"
+        "en": "Doors closed and locked",
+        "sv": "Dörrar stängda och låsta"
       },
       "insightsTitleFalse": {
-        "en": "Doors opened or unlocked"
+        "en": "Doors opened or unlocked",
+        "sv": "Dörrar öppnade eller olåsta"
       },
       "options": {
         "greyout": {
@@ -2068,16 +2273,19 @@
     "defrost": {
       "type": "boolean",
       "title": {
-        "en": "Defrost"
+        "en": "Defrost",
+        "sv": "Avfrostning"
       },
       "getable": true,
       "setable": true,
       "insights": true,
       "insightsTitleTrue": {
-        "en": "Defrost on"
+        "en": "Defrost on",
+        "sv": "Avfrostning på"
       },
       "insightsTitleFalse": {
-        "en": "Defrost off"
+        "en": "Defrost off",
+        "sv": "Avfrostning av"
       },
       "uiComponent": "toggle",
       "uiQuickAction": false
@@ -2085,11 +2293,13 @@
     "distance": {
       "type": "number",
       "title": {
-        "en": "Distance"
+        "en": "Distance",
+        "sv": "Distans"
       },
       "units": {
         "en": "km",
-        "nl": "km"
+        "nl": "km",
+        "sv": "km"
       },
       "getable": true,
       "setable": false,
@@ -2099,17 +2309,20 @@
     "engine": {
       "type": "boolean",
       "title": {
-        "en": "Engine on"
+        "en": "Engine on",
+        "sv": "Motor på"
       },
       "icon": "/assets/engine.svg",
       "getable": true,
       "setable": false,
       "insights": true,
       "insightsTitleTrue": {
-        "en": "Engine turned on"
+        "en": "Engine turned on",
+        "sv": "Motorn är på"
       },
       "insightsTitleFalse": {
-        "en": "Engine turned off"
+        "en": "Engine turned off",
+        "sv": "Motorn är av"
       },
       "options": {
         "greyout": {
@@ -2123,10 +2336,12 @@
     "etth": {
       "type": "number",
       "title": {
-        "en": "ETTH"
+        "en": "ETTH",
+        "sv": "ETTH"
       },
       "units": {
-        "en": "minutes"
+        "en": "minutes",
+        "sv": "minuter"
       },
       "getable": true,
       "setable": false,
@@ -2136,7 +2351,8 @@
     "last_refresh": {
       "type": "string",
       "title": {
-        "en": "Status refresh"
+        "en": "Status refresh",
+        "sv": "Statusuppdatering"
       },
       "getable": true,
       "setable": false,
@@ -2145,10 +2361,12 @@
     "latitude": {
       "type": "number",
       "title": {
-        "en": "Latitude"
+        "en": "Latitude",
+        "sv": "Breddgrad"
       },
       "units": {
-        "en": "degrees"
+        "en": "degrees",
+        "sv": "grader"
       },
       "getable": true,
       "setable": false,
@@ -2159,10 +2377,12 @@
       "type": "string",
       "title": {
         "en": "Location",
-        "nl": "Locatie"
+        "nl": "Locatie",
+        "sv": "Plats"
       },
       "desc": {
-        "en": "Location of the car"
+        "en": "Location of the car",
+        "sv": "Bilens placering"
       },
       "getable": true,
       "setable": false,
@@ -2172,10 +2392,12 @@
     "longitude": {
       "type": "number",
       "title": {
-        "en": "Longitude"
+        "en": "Longitude",
+        "sv": "Längdgrad"
       },
       "units": {
-        "en": "degrees"
+        "en": "degrees",
+        "sv": "grader"
       },
       "getable": true,
       "setable": false,
@@ -2185,7 +2407,8 @@
     "measure_battery": {
       "type": "number",
       "title": {
-        "en": "Battery"
+        "en": "Battery",
+        "sv": "Batteri"
       },
       "units": {
         "en": "%"
@@ -2198,7 +2421,8 @@
     "odometer": {
       "type": "number",
       "title": {
-        "en": "Odometer"
+        "en": "Odometer",
+        "sv": "Vägmätare"
       },
       "units": {
         "en": "km"
@@ -2212,7 +2436,8 @@
     "range": {
       "type": "number",
       "title": {
-        "en": "Range"
+        "en": "Range",
+        "sv": "Räckvidd"
       },
       "units": {
         "en": "km"
@@ -2226,7 +2451,8 @@
     "refresh_status": {
       "type": "boolean",
       "title": {
-        "en": "Refresh car status"
+        "en": "Refresh car status",
+        "sv": "Uppdatera bilstatus"
       },
       "getable": true,
       "setable": true,
@@ -2237,7 +2463,8 @@
     "speed": {
       "type": "number",
       "title": {
-        "en": "Speed"
+        "en": "Speed",
+        "sv": "Hastighet"
       },
       "units": {
         "en": "km/h"
@@ -2256,7 +2483,8 @@
       "step": 0.5,
       "decimals": 1,
       "title": {
-        "en": "Target temperature"
+        "en": "Target temperature",
+        "sv": "Måltemperatur"
       },
       "units": {
         "en": "°C"

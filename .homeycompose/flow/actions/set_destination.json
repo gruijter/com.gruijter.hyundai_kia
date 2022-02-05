@@ -1,10 +1,12 @@
 {
     "id": "set_destination",
     "title": {
-        "en": "Set navigation destination"
+        "en": "Set navigation destination",
+        "sv": "Ställ i navigeringsmål"
     },
     "titleFormatted": {
-        "en": "Set navigation destination:[[destination]]"
+        "en": "Set navigation destination:[[destination]]",
+        "sv": "Ställ i navigeringsmål:[[destination]]"
     },
     "args": [
       {
@@ -16,10 +18,12 @@
           "type": "text",
           "name": "destination",
           "title": {
-            "en": "Destination"
+            "en": "Destination",
+            "sv": "Mål"
           },
           "placeholder": {
-            "en": "address or lat,lon"
+            "en": "address or lat,lon",
+            "sv": "adress eller lat,lon"
           }
       }
   ]

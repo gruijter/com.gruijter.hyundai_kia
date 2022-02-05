@@ -1,10 +1,12 @@
 {
     "id": "has_moved",
     "title": {
-        "en": "The car has moved"
+        "en": "The car has moved",
+        "sv": "Bilen har rört sig"
     },
     "titleFormatted": {
-        "en": "The car has moved"
+        "en": "The car has moved",
+        "sv": "Bilen har rört sig"
     },
     "args": [
         {

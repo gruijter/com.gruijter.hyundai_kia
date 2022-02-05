@@ -1,10 +1,12 @@
 {
     "id": "ac_on",
     "title": {
-        "en": "Turn A/C on"
+        "en": "Turn A/C on",
+        "sv": "Slå på A/C"
     },
     "titleFormatted": {
-        "en": "Turn A/C on"
+        "en": "Turn A/C on",
+        "sv": "Slå på A/C"
     },
     "args": [
         {

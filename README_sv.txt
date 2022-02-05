@@ -1,0 +1,1 @@
+Homey får tillgång till bilens läge, hastighet, räckvidd, dörrstatus och laddningsläge. Styr lås, laddning, defroster och A/C från flöden. 
