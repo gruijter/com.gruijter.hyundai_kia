@@ -9,7 +9,8 @@
     "en": "Kia and Hyundai"
   },
   "description": {
-    "en": "Connect your Hyundai or Kia smart car."
+    "en": "Connect your Hyundai or Kia smart car.",
+    "sv": "Anslut din Hyundai eller Kia smarta bil. "
   },
   "tags": {
     "en": [
@@ -94,10 +95,12 @@
       {
         "id": "alarm_battery_false",
         "title": {
-          "en": "The battery alarm turned off"
+          "en": "The battery alarm turned off",
+          "sv": "Batterilarmet stängdes av"
         },
         "titleFormatted": {
-          "en": "The battery alarm turned off"
+          "en": "The battery alarm turned off",
+          "sv": "Batterilarmet stängdes av"
         },
         "args": [
           {
@@ -110,10 +113,12 @@
       {
         "id": "alarm_battery_true",
         "title": {
-          "en": "The battery alarm turned on"
+          "en": "The battery alarm turned on",
+          "sv": "Batterilarmet slogs på"
         },
         "titleFormatted": {
-          "en": "The battery alarm turned on"
+          "en": "The battery alarm turned on",
+          "sv": "Batterilarmet slogs på"
         },
         "args": [
           {
@@ -126,10 +131,12 @@
       {
         "id": "alarm_tire_pressure_false",
         "title": {
-          "en": "The tire pressure alarm turned off"
+          "en": "The tire pressure alarm turned off",
+          "sv": "Däcktryckslarmet stängdes av"
         },
         "titleFormatted": {
-          "en": "The tire pressure alarm turned off"
+          "en": "The tire pressure alarm turned off",
+          "sv": "Däcktryckslarmet stängdes av"
         },
         "args": [
           {
@@ -142,10 +149,12 @@
       {
         "id": "alarm_tire_pressure_true",
         "title": {
-          "en": "The tire pressure alarm turned on"
+          "en": "The tire pressure alarm turned on",
+          "sv": "Däcktryckslarmet slog på"
         },
         "titleFormatted": {
-          "en": "The tire pressure alarm turned on"
+          "en": "The tire pressure alarm turned on",
+          "sv": "Däcktryckslarmet slog på"
         },
         "args": [
           {
@@ -158,10 +167,12 @@
       {
         "id": "charging_false",
         "title": {
-          "en": "The charger turned off"
+          "en": "The charger turned off",
+          "sv": "Laddaren stängdes av"
         },
         "titleFormatted": {
-          "en": "The charger turned off"
+          "en": "The charger turned off",
+          "sv": "Laddaren stängdes av"
         },
         "args": [
           {
@@ -174,10 +185,12 @@
       {
         "id": "charging_true",
         "title": {
-          "en": "The charger turned on"
+          "en": "The charger turned on",
+          "sv": "Laddaren slog på"
         },
         "titleFormatted": {
-          "en": "The charger turned on"
+          "en": "The charger turned on",
+          "sv": "Laddaren slog på"
         },
         "args": [
           {
