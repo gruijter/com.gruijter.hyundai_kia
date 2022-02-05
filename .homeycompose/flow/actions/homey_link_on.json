@@ -6,7 +6,7 @@
     },
     "titleFormatted": {
       "en": "Enable Homey control and live data for [[device]]",
-      "sv": "Aktivera hemlig kontroll och livedata för [[enhet]]"
+      "sv": "Aktivera hemlig kontroll och livedata för [[device]]"
     },
     "args": [
         {

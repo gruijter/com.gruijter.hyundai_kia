@@ -6,7 +6,7 @@
     },
     "titleFormatted": {
       "en": "Disable Homey control and live data for [[device]]",
-      "sv": "Inaktivera Homey-kontroll och livedata för [[enhet]]"
+      "sv": "Inaktivera Homey-kontroll och livedata för [[device]]"
     },
     "args": [
         {
