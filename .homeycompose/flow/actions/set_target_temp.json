@@ -1,10 +1,12 @@
 {
     "id": "set_target_temp",
     "title": {
-        "en": "Set target temperature"
+        "en": "Set target temperature",
+        "sv": "Ställ in måltemperatur"
     },
     "titleFormatted": {
-        "en": "Set target temperature [[temp]]"
+        "en": "Set target temperature [[temp]]",
+        "sv": "Ställ in måltemperatur [[temp]]"
     },
     "args": [
         {

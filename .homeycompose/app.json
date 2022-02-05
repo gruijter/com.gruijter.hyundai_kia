@@ -5,10 +5,12 @@
   "sdk": 3,
   "brandColor": "#003468",
   "name": {
-    "en": "Kia and Hyundai"
+    "en": "Kia and Hyundai",
+    "sv": "Kia och Hyundai"
   },
   "description": {
-    "en": "Connect your Hyundai or Kia smart car."
+    "en": "Connect your Hyundai or Kia smart car.",
+    "sv": "Anslut din smarta Hyundai eller Kia bil"
   },
   "tags": {
     "en": [
@@ -51,6 +53,9 @@
     "translators": [
       {
         "name": "🇬🇧 Robin"
+      },
+      {
+        "name": "(SV) Ted Dÿring"
       }
     ]
   },

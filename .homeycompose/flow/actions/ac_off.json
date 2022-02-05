@@ -1,10 +1,12 @@
 {
     "id": "ac_off",
     "title": {
-        "en": "Turn A/C off"
+        "en": "Turn A/C off",
+        "sv": "Stäng av A/C"
     },
     "titleFormatted": {
-        "en": "Turn A/C off"
+        "en": "Turn A/C off",
+        "sv": "Stäng av A/C"
     },
     "args": [
         {

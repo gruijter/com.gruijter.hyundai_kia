@@ -1,7 +1,8 @@
 {
 	"type": "string",
 	"title": {
-		"en": "Status refresh"
+		"en": "Status refresh",
+		"sv": "Statusuppdatering"
 	},
 	"getable": true,
 	"setable": false,

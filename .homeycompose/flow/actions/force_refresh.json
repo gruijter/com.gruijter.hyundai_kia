@@ -1,10 +1,12 @@
 {
     "id": "force_refresh",
     "title": {
-        "en": "Force status refresh (once)"
+        "en": "Force status refresh (once)",
+        "sv": "Tvinga statusuppdatering (en gång)"
     },
     "titleFormatted": {
-        "en": "Force status refresh (once)"
+        "en": "Force status refresh (once)",
+        "sv": "Tvinga statusuppdatering (en gång)"
     },
     "args": [
         {

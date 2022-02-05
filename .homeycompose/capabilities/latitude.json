@@ -1,10 +1,12 @@
 {
 	"type": "number",
 	"title": {
-		"en": "Latitude"
+		"en": "Latitude",
+		"sv": "Breddgrad"
 	},
 	"units": {
-		"en": "degrees"
+		"en": "degrees",
+		"sv": "grader"
 	},
 	"getable": true,
 	"setable": false,

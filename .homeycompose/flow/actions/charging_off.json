@@ -1,10 +1,12 @@
 {
     "id": "charging_off",
     "title": {
-        "en": "Turn charging off"
+        "en": "Turn charging off",
+        "sv": "Stäng av laddningen"
     },
     "titleFormatted": {
-        "en": "Turn charging off"
+        "en": "Turn charging off",
+        "sv": "Stäng av laddningen"
     },
     "args": [
         {

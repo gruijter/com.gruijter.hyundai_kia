@@ -1,10 +1,12 @@
 {
     "id": "alarm_tire_pressure",
     "title": {
-        "en": "The tire pressure alarm is !{{on|off}}"
+        "en": "The tire pressure alarm is !{{on|off}}",
+        "sv": "Däcktryckslarmet är !{{på|av}}"
     },
     "titleFormatted": {
-        "en": "The tire pressure alarm is !{{on|off}}"
+        "en": "The tire pressure alarm is !{{on|off}}",
+        "sv": "Däcktryckslarmet är !{{på|av}}"
     },
     "args": [
         {

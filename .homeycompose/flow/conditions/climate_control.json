@@ -1,10 +1,12 @@
 {
     "id": "climate_control",
     "title": {
-        "en": "The A/C is !{{on|off}}"
+        "en": "The A/C is !{{on|off}}",
+        "sv": "A/C är !{{på|av}}"
     },
     "titleFormatted": {
-        "en": "The A/C is !{{on|off}}"
+        "en": "The A/C is !{{on|off}}",
+        "sv": "A/C är !{{på|av}}"
     },
     "args": [
         {

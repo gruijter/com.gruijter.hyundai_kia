@@ -1,10 +1,12 @@
 {
     "id": "parked",
     "title": {
-        "en": "The car !{{is|is not}} parked"
+        "en": "The car !{{is|is not}} parked",
+        "sv": "Bilen !{{är|är inte}} parkerad"
     },
     "titleFormatted": {
-        "en": "The car !{{is|is not}} parked"
+        "en": "The car !{{is|is not}} parked",
+        "sv": "Bilen !{{är|är inte}} parkerad"
     },
     "args": [
         {

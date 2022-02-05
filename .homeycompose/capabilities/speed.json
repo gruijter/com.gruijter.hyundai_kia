@@ -1,10 +1,12 @@
 {
 	"type": "number",
 	"title": {
-		"en": "Speed"
+		"en": "Speed",
+		"sv": "Hastighet"
 	},
 	"units": {
-		"en": "km/h"
+		"en": "km/h",
+		"sv": "km/h"
 	},
 	"getable": true,
 	"setable": false,

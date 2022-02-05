@@ -1,10 +1,12 @@
 {
     "id": "set_charge_targets",
     "title": {
-        "en": "Set charge targets"
+        "en": "Set charge targets",
+        "sv": "Sätt laddningsmål"
     },
     "titleFormatted": {
-        "en": "Set charge targets slow:[[slow]] fast:[[fast]]"
+        "en": "Set charge targets slow:[[slow]] fast:[[fast]]",
+        "sv": "Ställ in laddningsmål långsam:[[slow]] snabb:[[fast]]"
     },
     "args": [
         {
@@ -16,7 +18,8 @@
             "type": "dropdown",
             "name": "slow",
             "title": {
-                "en": "Slow (%)"
+                "en": "Slow (%)",
+                "sv": "Långsam (%)"
             },
             "values": [
                 {
@@ -61,7 +64,8 @@
             "type": "dropdown",
             "name": "fast",
             "title": {
-                "en": "Fast (%)"
+                "en": "Fast (%)",
+                "sv": "Snabb (%)"
             },
             "values": [
                 {
