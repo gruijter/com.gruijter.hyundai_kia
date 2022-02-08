@@ -112,5 +112,8 @@
   },
   "2.7.4": {
     "en": "Swedish translation added."
+  },
+  "2.7.7": {
+    "en": "bluelinky@7.6.3 (immplement new timestamps and appId)."
   }
 }
