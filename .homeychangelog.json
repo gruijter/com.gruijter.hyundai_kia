@@ -115,5 +115,8 @@
   },
   "2.7.7": {
     "en": "bluelinky@7.6.3 (immplement new timestamps and appId)."
+  },
+  "2.7.8": {
+    "en": "bluelinky@7.6.4 (optimized stamp fetching)."
   }
 }
