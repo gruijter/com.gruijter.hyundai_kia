@@ -1,3 +1,4 @@
+v2.7.9  10.02.2022 bluelinky@7.6.5 (new stamp strategy).
 v2.7.8  09.02.2022 bluelinky@7.6.4 (optimized stamp fetching).
 v2.7.7  08.02.2022 bluelinky@7.6.3 (immplement new timestamps and appId).
 v2.7.4  05.02.2022 Swedish translation added.
