@@ -121,5 +121,8 @@
   },
   "2.7.9": {
     "en": "bluelinky@7.6.5 (new stamp strategy)."
+  },
+  "2.8.0": {
+    "en": "bluelinky@7.6.6 (stamp bug fixed)."
   }
 }

@@ -1,6 +1,6 @@
 {
   "id": "com.gruijter.hyundai_kia",
-  "version": "2.7.9",
+  "version": "2.8.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#003468",

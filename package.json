@@ -9,7 +9,7 @@
     "url": "git://github.com/gruijter/com.gruijter.hyundai_kia.git"
   },
   "dependencies": {
-    "bluelinky": "^7.6.5",
+    "bluelinky": "^7.6.6",
     "fixture-stdout": "^0.2.1",
     "geopoint": "^1.0.1"
   }
