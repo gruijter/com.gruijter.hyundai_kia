@@ -19,7 +19,7 @@ along with com.gruijter.hyundai_kia. If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
-const GenericDevice = require('../generic_device.js');
+const GenericDevice = require('../generic_device');
 
 const deviceSpecifics = {
 	deviceId: 'uvo',

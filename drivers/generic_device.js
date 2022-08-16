@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 /*
 Copyright 2020 - 2022, Robin de Gruijter (gruijter@hotmail.com)
 
@@ -25,7 +26,7 @@ const GeoPoint = require('geopoint');
 const util = require('util');
 const ABRP = require('../abrp_telemetry');
 const Bitly = require('../bitly');
-const Maps = require('../google_maps.js');
+const Maps = require('../google_maps');
 const geo = require('../nomatim');
 const convert = require('./temp_convert');
 
@@ -68,7 +69,7 @@ class CarDevice extends Homey.Device {
 				fast: this.getCapabilityValue('charge_target_fast') || '80',
 			};
 			this.lastMoved = 0;
-			this.lastOdometer = this.getCapabilityValue('odometer');
+			this.lastOdometer = this.getCapabilityValue('meter_odo');
 			this.lastLocation = { latitude: this.getCapabilityValue('latitude'), longitude: this.getCapabilityValue('longitude') };
 			this.parkLocation = this.getStoreValue('parkLocation');
 			if (!this.parkLocation) this.parkLocation = this.lastLocation;
@@ -90,6 +91,7 @@ class CarDevice extends Homey.Device {
 				pin: this.settings.pin,
 				// vin: this.settings.vin,
 				brand: this.ds.deviceId === 'bluelink' ? 'hyundai' : 'kia',
+				stampMode: 'LOCAL', // 'LOCAL' or 'DISTANT'
 				deviceUuid: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15), // 'homey',
 				autoLogin: false,
 			};
@@ -128,7 +130,7 @@ class CarDevice extends Homey.Device {
 			await this.client.login();
 
 			// migrate capabilities from old versions
-			if (this.settings.level !== '2.7.0') await this.migrate();
+			if (!this.migrated) await this.migrate();
 
 			// setup ABRP client
 			this.abrpEnabled = Homey.env && Homey.env.ABRP_API_KEY
@@ -193,28 +195,47 @@ class CarDevice extends Homey.Device {
 		}
 	}
 
-	// migrate stuff from old version < 2.7.0
+	// migrate stuff from old version < 2.8.1
 	async migrate() {
 		this.log('checking capability migration');
-		const status = await this.vehicle.status({ refresh: false, parsed: false });
-		const isEV = !!status.evStatus;
-		const isICE = !!status.dte || !!status.fuelLevel;
-		let engine = 'HEV/ICE';
-		if (isEV && !isICE) engine = 'Full EV';
-		if (isEV && isICE) engine = 'PHEV';
-		// set engine type in settings
-		if (this.getSettings().engine !== engine) {
-			this.log(`setting engine type to ${engine}`);
-			this.setSettings({ engine });
+		let engine = this.settings ? this.settings.engine : null;
+		if (!engine || engine === '') {
+			const status = await this.vehicle.status({ refresh: false, parsed: false });
+			const isEV = !!status.evStatus;
+			const isICE = !!status.dte || !!status.fuelLevel;
+			engine = 'HEV/ICE';
+			if (isEV && !isICE) engine = 'Full EV';
+			if (isEV && isICE) engine = 'PHEV';
+			// set engine type in settings
+			if (this.settings.engine !== engine) {
+				this.log(`setting engine type to ${engine}`);
+				this.setSettings({ engine });
+			}
 		}
-		// remove capabilities for PHEV
-		if (engine === 'PHEV' && this.getCapabilities().includes('charge_target_slow')) {
-			this.log('Removing EV capabilities from', this.getName());
-			await this.removeCapability('charge_target_slow');
-			await this.removeCapability('charge_target_fast');
+
+		const correctCaps = this.driver.capabilitiesMap[engine];
+		// console.log(engine, correctCaps, this.getCapabilities());
+
+		// set selected capabilities in correct order
+		for (let index = 0; index < correctCaps.length; index += 1) {
+			const caps = await this.getCapabilities();
+			const newCap = correctCaps[index];
+			if (caps[index] !== newCap) {
+				// remove all caps from here
+				for (let i = index; i < caps.length; i += 1) {
+					this.log(`removing capability ${caps[i]} for ${this.getName()}`);
+					await this.removeCapability(caps[i]).catch((error) => this.log(error));
+					await setTimeoutPromise(2 * 1000); // wait a bit for Homey to settle
+				}
+				// add the new cap
+				this.log(`adding capability ${newCap} for ${this.getName()}`);
+				await this.addCapability(newCap);
+				await setTimeoutPromise(2 * 1000); // wait a bit for Homey to settle
+			}
 		}
-		// set migrate level
-		this.setSettings({ level: '2.7.0' });
+		// set new migrate level
+		this.setSettings({ level: this.homey.app.manifest.version });
+		this.migrated = true;
 	}
 
 	// stuff for queue handling here
@@ -476,10 +497,10 @@ class CarDevice extends Homey.Device {
 			this.handleInfo(info);
 
 			// fix charger state after refresh
-			if (this.isEV && refresh && status && status.evStatus && status.evStatus.batteryPlugin && !status.evStatus.batteryCharge) {
-				this.chargingOnOff(false, 'state fix');
-				this.fixStateTime = Date.now();
-			}
+			// if (this.isEV && refresh && status && status.evStatus && status.evStatus.batteryPlugin && !status.evStatus.batteryCharge) {
+			// 	this.chargingOnOff(false, 'state fix');
+			// 	this.fixStateTime = Date.now();
+			// }
 
 			// variable polling interval based on active state
 			if (this.settings.pollIntervalEngineOn && !this.pollMode && carJustActive) {
@@ -601,7 +622,7 @@ class CarDevice extends Homey.Device {
 
 			// update capabilities
 			this.setCapability('measure_battery.12V', batteryCharge || 0);
-			this.setCapability('alarm_battery', alarmBattery || alarmEVBattery);
+			this.setCapability('alarm_batt', alarmBattery || alarmEVBattery);
 			this.setCapability('alarm_tire_pressure', alarmTirePressure);
 			this.setCapability('locked', locked);
 			this.setCapability('closed_locked', closedLocked);
@@ -609,12 +630,12 @@ class CarDevice extends Homey.Device {
 			this.setCapability('defrost', defrost);
 			this.setCapability('climate_control', airCtrlOn);
 			this.setCapability('engine', engine);
-			this.setCapability('odometer', odometer.value);
-			if (range > 0) this.setCapability('range', range);	// Sorento weird server response
-			this.setCapability('speed', speed.value);
+			this.setCapability('meter_odo', odometer.value);
+			if (range > 0) this.setCapability('meter_range', range);	// Sorento weird server response
+			this.setCapability('meter_speed', speed.value);
 			this.setCapability('latitude', info.location.latitude);
 			this.setCapability('longitude', info.location.longitude);
-			this.setCapability('distance', distance);
+			this.setCapability('meter_distance', distance);
 
 			// update EV specific capabilities
 			if (this.isEV) {
@@ -787,6 +808,7 @@ class CarDevice extends Homey.Device {
 				// igniOnDuration: 10, // doesn't seem to do anything
 				defrost: true,
 				windscreenHeating: true,
+				heatedFeatures: true, // for bluelinky >v8
 				// unknown if this does anything
 				heating1: 1,
 				steerWheelHeat: 1,
@@ -799,6 +821,7 @@ class CarDevice extends Homey.Device {
 			args = {
 				defrost: false,
 				windscreenHeating: false,
+				heatedFeatures: false, // for bluelinky >v8
 				// unknown if this does anything
 				heating1: 0,
 				steerWheelHeat: 0,
@@ -852,6 +875,7 @@ class CarDevice extends Homey.Device {
 		return Promise.resolve(true);
 	}
 
+	// eslint-disable-next-line default-param-last
 	setChargeTargets(targets = { fast: 100, slow: 80 }, source) {
 		if (!this.isEV) return Promise.reject(Error('Control not possible; not an EV'));
 		this.log(`Charge target is set by ${source} to slow:${targets.slow} fast:${targets.fast}`);

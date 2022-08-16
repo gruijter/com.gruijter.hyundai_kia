@@ -124,5 +124,8 @@
   },
   "2.8.0": {
     "en": "bluelinky@7.6.6 (stamp bug fixed)."
+  },
+  "2.9.0": {
+    "en": "Renamed alarm_batt, meter_odo, meter_range, meter_speed capabilities. Removed state fix after refresh. Enabled local stamp generation. bluelinky@8.0.0-alpha.1. Debug mode on."
   }
 }

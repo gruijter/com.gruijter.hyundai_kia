@@ -26,16 +26,16 @@ const util = require('util');
 const setTimeoutPromise = util.promisify(setTimeout);
 
 const capabilitiesEV = ['target_temperature', 'charge_target_slow',	'charge_target_fast', 'refresh_status',
-	'locked', 'defrost', 'climate_control',	'last_refresh',	'engine', 'closed_locked', 'location', 'distance',
-	'etth', 'speed', 'range', 'charger', 'charging', 'odometer', 'alarm_tire_pressure', 'alarm_battery', 'measure_battery.EV',
+	'locked', 'defrost', 'climate_control',	'last_refresh',	'engine', 'closed_locked', 'location', 'meter_distance',
+	'etth', 'meter_speed', 'meter_range', 'charger', 'charging', 'meter_odo', 'alarm_tire_pressure', 'alarm_batt', 'measure_battery.EV',
 	'measure_battery.12V', 'latitude', 'longitude'];
 
-const capabilitiesPHEV = ['target_temperature', 'refresh_status', 'locked', 'defrost', 'climate_control',	'last_refresh',
-	'engine', 'closed_locked', 'location', 'distance', 'etth', 'speed', 'range', 'charger', 'charging', 'odometer', 'alarm_tire_pressure',
-	'alarm_battery', 'measure_battery.EV', 'measure_battery.12V', 'latitude', 'longitude'];
+const capabilitiesPHEV = ['target_temperature', 'refresh_status', 'locked', 'defrost', 'climate_control',	'last_refresh',	'engine',
+	'closed_locked', 'location', 'meter_distance', 'etth', 'meter_speed', 'meter_range', 'charger', 'charging', 'meter_odo', 'alarm_tire_pressure',
+	'alarm_batt', 'measure_battery.EV', 'measure_battery.12V', 'latitude', 'longitude'];
 
 const capabilitiesNonEV = ['target_temperature', 'refresh_status', 'locked', 'defrost', 'climate_control', 'last_refresh',
-	'engine', 'closed_locked', 'location', 'distance', 'etth', 'speed', 'range', 'odometer', 'alarm_tire_pressure', 'alarm_battery',
+	'engine', 'closed_locked', 'location', 'meter_distance', 'etth', 'meter_speed', 'meter_range', 'meter_odo', 'alarm_tire_pressure', 'alarm_batt',
 	'measure_battery.12V', 'latitude', 'longitude'];
 
 const capabilitiesMap = {
@@ -48,6 +48,7 @@ class CarDriver extends Homey.Driver {
 
 	async onDriverInit() {
 		this.log('onDriverInit');
+		this.capabilitiesMap = capabilitiesMap;
 	}
 
 	onPair(session) {

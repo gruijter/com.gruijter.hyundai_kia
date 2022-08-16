@@ -19,7 +19,7 @@ along with com.gruijter.hyundai_kia. If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
-const GenericDriver = require('../generic_driver.js');
+const GenericDriver = require('../generic_driver');
 
 const driverSpecifics = {
 	driverId: 'bluelink',
