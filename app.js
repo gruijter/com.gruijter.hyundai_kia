@@ -25,7 +25,7 @@ const Logger = require('./captureLogs');
 class carApp extends Homey.App {
 
 	onInit() {
-		process.env.LOG_LEVEL = 'debug'; // info or debug
+		process.env.LOG_LEVEL = 'info'; // info or debug
 		if (!this.logger) this.logger = new Logger({ name: 'log', length: 200, homey: this.homey });
 		this.log('Hyundai and Kia app is running...');
 

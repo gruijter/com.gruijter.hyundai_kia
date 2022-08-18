@@ -1,3 +1,5 @@
+v2.9.2  ***WIP*** fixed uncaught rejections.
+v2.9.1  18.08.2022 Renamed alarm_batt, meter_odo, meter_range, meter_speed capabilities. Removed state fix after refresh. Enabled local stamp generation. Added bluelinky startup watchdog. bluelinky@8.0.0-alpha.1.
 v2.9.0  16.08.2022 Renamed alarm_batt, meter_odo, meter_range, meter_speed capabilities. Removed state fix after refresh. Enabled local stamp generation. bluelinky@8.0.0-alpha.1. Debug mode on.
 v2.8.0  15.02.2022 bluelinky@7.6.6 (stamp bug fixed).
 v2.7.9  10.02.2022 bluelinky@7.6.5 (new stamp strategy).

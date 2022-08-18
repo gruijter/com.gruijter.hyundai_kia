@@ -57,6 +57,7 @@ class CarDevice extends Homey.Device {
 		// this.log('device init: ', this.getName(), 'id:', this.getData().id);
 		try {
 			// init some stuff
+			this.capsChanged = false;
 			this.settings = await this.getSettings();
 			this.vehicle = null;
 			this.busy = false;
@@ -127,10 +128,18 @@ class CarDevice extends Homey.Device {
 				this.vehicle = vehicle;
 			});
 
+			setTimeoutPromise(60 * 1000)
+				.then(() => {
+					if (!this.client.controller || !this.client.controller.session || !this.client.controller.session.tokenExpiresAt) {
+						this.error('login watchdog triggered');
+						this.restartDevice(1 * 1000);
+					}
+				});
 			await this.client.login();
 
 			// migrate capabilities from old versions
 			if (!this.migrated) await this.migrate();
+			if (this.capsChanged) this.restartDevice(10 * 1000);
 
 			// setup ABRP client
 			this.abrpEnabled = Homey.env && Homey.env.ABRP_API_KEY
@@ -217,10 +226,12 @@ class CarDevice extends Homey.Device {
 		// console.log(engine, correctCaps, this.getCapabilities());
 
 		// set selected capabilities in correct order
+		this.capsChanged = false;
 		for (let index = 0; index < correctCaps.length; index += 1) {
 			const caps = await this.getCapabilities();
 			const newCap = correctCaps[index];
 			if (caps[index] !== newCap) {
+				this.capsChanged = true;
 				// remove all caps from here
 				for (let i = index; i < caps.length; i += 1) {
 					this.log(`removing capability ${caps[i]} for ${this.getName()}`);
@@ -235,7 +246,7 @@ class CarDevice extends Homey.Device {
 		}
 		// set new migrate level
 		this.setSettings({ level: this.homey.app.manifest.version });
-		this.migrated = true;
+		if (!this.capsChanged) this.migrated = true;
 	}
 
 	// stuff for queue handling here
@@ -958,17 +969,17 @@ class CarDevice extends Homey.Device {
 			// await Promise.all(ready);
 
 			// capabilityListeners will be overwritten, so no need to unregister them
-			this.registerCapabilityListener('locked', (locked) => this.lock(locked, 'app'));
-			this.registerCapabilityListener('defrost', (defrost) => this.defrostOnOff(defrost, 'app'));
-			this.registerCapabilityListener('climate_control', (acOn) => this.acOnOff(acOn, 'app'));
-			this.registerCapabilityListener('target_temperature', async (temp) => this.setTargetTemp(temp, 'app'));
-			this.registerCapabilityListener('refresh_status', (refresh) => this.refreshStatus(refresh, 'app'));
-			this.registerCapabilityListener('charging', (charge) => this.chargingOnOff(charge, 'app'));
+			this.registerCapabilityListener('locked', (locked) => this.lock(locked, 'app').catch(this.error));
+			this.registerCapabilityListener('defrost', (defrost) => this.defrostOnOff(defrost, 'app').catch(this.error));
+			this.registerCapabilityListener('climate_control', (acOn) => this.acOnOff(acOn, 'app').catch(this.error));
+			this.registerCapabilityListener('target_temperature', async (temp) => this.setTargetTemp(temp, 'app').catch(this.error));
+			this.registerCapabilityListener('refresh_status', (refresh) => this.refreshStatus(refresh, 'app').catch(this.error));
+			this.registerCapabilityListener('charging', (charge) => this.chargingOnOff(charge, 'app').catch(this.error));
 			this.registerMultipleCapabilityListener(['charge_target_slow', 'charge_target_fast'], async (values) => {
 				const slow = Number(values.charge_target_slow) || Number(this.getCapabilityValue('charge_target_slow'));
 				const fast = Number(values.charge_target_fast) || Number(this.getCapabilityValue('charge_target_fast'));
 				const targets = { slow, fast };
-				this.setChargeTargets(targets, 'app');
+				this.setChargeTargets(targets, 'app').catch(this.error);
 			}, 10000);
 
 			return Promise.resolve(this.listeners);
