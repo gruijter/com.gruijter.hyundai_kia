@@ -250,7 +250,7 @@ class CarDevice extends Homey.Device {
 	}
 
 	// stuff for queue handling here
-	async enQueue(item) {
+	enQueue(item) {
 		if (this.disabled) {
 			this.log('ignoring command; Homey live link is disabled.');
 			return;
@@ -264,7 +264,7 @@ class CarDevice extends Homey.Device {
 		if (!this.queueRunning) {
 			// await this.client.login(); // not needed with autoLogin: true
 			this.queueRunning = true;
-			this.runQueue();
+			this.runQueue().catch(this.error);
 		}
 	}
 
@@ -343,13 +343,13 @@ class CarDevice extends Homey.Device {
 						this.busy = false;
 					});
 				await setTimeoutPromise((itemWait[item.command] || 5) * 1000, 'waiting is done');
-				this.runQueue();
+				this.runQueue().catch(this.error);
 			} else {
 				// console.log('Finshed queue');
 				this.queueRunning = false;
 				this.busy = false;
-				const fixState = (this.lastCommand === 'stopCharge') && ((Date.now() - this.fixStateTime) < 15 * 1000);
-				if (this.lastCommand !== 'doPoll' && !fixState) {
+				const fixingChargerState = (this.lastCommand === 'stopCharge') || (Date.now() - this.fixChargerStateTime) < 30 * 1000;
+				if (this.lastCommand !== 'doPoll' && !fixingChargerState) {
 					// this.carLastActive = Date.now();
 					this.enQueue({ command: 'doPoll', args: true });
 				}
@@ -508,10 +508,11 @@ class CarDevice extends Homey.Device {
 			this.handleInfo(info);
 
 			// fix charger state after refresh
-			// if (this.isEV && refresh && status && status.evStatus && status.evStatus.batteryPlugin && !status.evStatus.batteryCharge) {
-			// 	this.chargingOnOff(false, 'state fix');
-			// 	this.fixStateTime = Date.now();
-			// }
+			if (this.isEV && refresh && status && status.evStatus && status.evStatus.batteryPlugin && !status.evStatus.batteryCharge) {
+				await setTimeoutPromise(15 * 1000); // wait a bit for Homey to settle
+				await this.chargingOnOff(false, 'charger off state fix');
+				this.fixChargerStateTime = Date.now();
+			}
 
 			// variable polling interval based on active state
 			if (this.settings.pollIntervalEngineOn && !this.pollMode && carJustActive) {
