@@ -508,7 +508,8 @@ class CarDevice extends Homey.Device {
 			this.handleInfo(info);
 
 			// fix charger state after refresh
-			if (this.isEV && refresh && status && status.evStatus && status.evStatus.batteryPlugin && !status.evStatus.batteryCharge) {
+			if (this.settings.chargeStateFix && this.isEV && refresh
+				&& status && status.evStatus && status.evStatus.batteryPlugin && !status.evStatus.batteryCharge) {
 				await setTimeoutPromise(15 * 1000); // wait a bit for Homey to settle
 				await this.chargingOnOff(false, 'charger off state fix');
 				this.fixChargerStateTime = Date.now();

@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.hyundai_kia",
-  "version": "2.9.2",
+  "version": "2.9.3",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#003468",
@@ -1277,6 +1277,19 @@
               "min": 0,
               "value": 0,
               "step": 15
+            },
+            {
+              "id": "chargeStateFix",
+              "type": "checkbox",
+              "label": {
+                "en": "Fix charger off after refresh",
+                "sv": "Fixa laddaren av efter uppdatering"
+              },
+              "hint": {
+                "en": "When giving a refresh command the car starts charging even when the charging was off. Enabling the fix option will disable charging after a refresh.",
+                "sv": "När du ger ett uppdateringskommando börjar bilen ladda även när laddningen var avstängd. Om du aktiverar fixalternativet inaktiveras laddningen efter en uppdatering."
+              },
+              "value": false
             }
           ]
         },
@@ -1819,6 +1832,19 @@
               "min": 0,
               "value": 0,
               "step": 15
+            },
+            {
+              "id": "chargeStateFix",
+              "type": "checkbox",
+              "label": {
+                "en": "Fix charger off after refresh",
+                "sv": "Fixa laddaren av efter uppdatering"
+              },
+              "hint": {
+                "en": "When giving a refresh command the car starts charging even when the charging was off. Enabling the fix option will disable charging after a refresh.",
+                "sv": "När du ger ett uppdateringskommando börjar bilen ladda även när laddningen var avstängd. Om du aktiverar fixalternativet inaktiveras laddningen efter en uppdatering."
+              },
+              "value": false
             }
           ]
         },

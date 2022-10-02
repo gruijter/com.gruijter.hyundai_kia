@@ -133,5 +133,8 @@
   },
   "2.9.2": {
     "en": "Fixed uncaught rejections. Enabled charge state fix after refresh. Optimized queue handling."
+  },
+  "2.9.3": {
+    "en": "Disabled charge state fix after refresh by default. Added setting to enable charge state fix after refresh."
   }
 }
