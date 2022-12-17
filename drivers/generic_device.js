@@ -406,7 +406,7 @@ class CarDevice extends Homey.Device {
 						};
 					}
 					this.lastLocation = location;
-					odometer = fullStatus.odometer || odometer;
+					odometer = fullStatus.odometer || odometer || this.lastOdometer;
 					this.lastOdometer = odometer;
 				} else { // get status from server
 					status = await this.vehicle.status({
@@ -421,6 +421,7 @@ class CarDevice extends Homey.Device {
 						this.lastLocation = location;
 						// get odo meter from car
 						odometer = await this.vehicle.odometer();
+						odometer = odometer || this.lastOdometer;
 						this.lastOdometer = odometer;
 						this.lastRefresh = Date.now();
 					}
@@ -448,6 +449,7 @@ class CarDevice extends Homey.Device {
 					} else location = await this.vehicle.location();
 					this.lastLocation = location;
 					odometer = fullStatus.odometer ? fullStatus.odometer : await this.vehicle.odometer();
+					odometer = odometer || this.lastOdometer;
 					this.lastOdometer = odometer;
 				} else {
 					// get status from car
@@ -461,6 +463,7 @@ class CarDevice extends Homey.Device {
 					this.lastLocation = location;
 					// get odo meter from car
 					odometer = await this.vehicle.odometer();
+					odometer = odometer || this.lastOdometer;
 					this.lastOdometer = odometer;
 				}
 

@@ -136,5 +136,8 @@
   },
   "2.9.3": {
     "en": "Disabled charge state fix after refresh by default. Added setting to enable charge state fix after refresh."
+  },
+  "2.9.4": {
+    "en": "Ignore 0 odometer reports."
   }
 }
