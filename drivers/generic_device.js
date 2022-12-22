@@ -70,7 +70,7 @@ class CarDevice extends Homey.Device {
 				fast: this.getCapabilityValue('charge_target_fast') || '80',
 			};
 			this.lastMoved = 0;
-			this.lastOdometer = this.getCapabilityValue('meter_odo');
+			this.lastOdometer = { value: this.getCapabilityValue('meter_odo') || null };
 			this.lastLocation = { latitude: this.getCapabilityValue('latitude'), longitude: this.getCapabilityValue('longitude') };
 			this.parkLocation = this.getStoreValue('parkLocation');
 			if (!this.parkLocation) this.parkLocation = this.lastLocation;
@@ -366,10 +366,10 @@ class CarDevice extends Homey.Device {
 		// console.log(forceOnce);
 		try {
 			const firstPoll = !this.lastStatus;
+			const chargeTargets = this.lastChargeTargets;
 			let status = this.lastStatus;
 			let location = this.lastLocation;
 			let odometer = this.lastOdometer;
-			const chargeTargets = this.lastChargeTargets;
 
 			const batSoc = this.getCapabilityValue('measure_battery.12V');
 			const forcePollInterval = this.settings.pollIntervalForced
@@ -406,8 +406,7 @@ class CarDevice extends Homey.Device {
 						};
 					}
 					this.lastLocation = location;
-					odometer = fullStatus.odometer || odometer || this.lastOdometer;
-					this.lastOdometer = odometer;
+					odometer = fullStatus.odometer || odometer;
 				} else { // get status from server
 					status = await this.vehicle.status({
 						refresh: false,
@@ -421,8 +420,6 @@ class CarDevice extends Homey.Device {
 						this.lastLocation = location;
 						// get odo meter from car
 						odometer = await this.vehicle.odometer();
-						odometer = odometer || this.lastOdometer;
-						this.lastOdometer = odometer;
 						this.lastRefresh = Date.now();
 					}
 				}
@@ -448,9 +445,9 @@ class CarDevice extends Homey.Device {
 						};
 					} else location = await this.vehicle.location();
 					this.lastLocation = location;
+					console.log(location, fullStatus);
 					odometer = fullStatus.odometer ? fullStatus.odometer : await this.vehicle.odometer();
-					odometer = odometer || this.lastOdometer;
-					this.lastOdometer = odometer;
+					console.log(odometer);
 				} else {
 					// get status from car
 					status = await this.vehicle.status({
@@ -463,13 +460,13 @@ class CarDevice extends Homey.Device {
 					this.lastLocation = location;
 					// get odo meter from car
 					odometer = await this.vehicle.odometer();
-					odometer = odometer || this.lastOdometer;
-					this.lastOdometer = odometer;
 				}
-
 				this.lastRefresh = Date.now();
 			}
 
+			// repair odometer status 0
+			if (!odometer || !odometer.value) odometer = this.lastOdometer;
+			this.lastOdometer = odometer;
 			const info = {
 				status, location, odometer, chargeTargets,
 			};
@@ -615,7 +612,8 @@ class CarDevice extends Homey.Device {
 			const {
 				engine,	doorLock: locked, airCtrlOn, defrost,
 			} = info.status;
-			const targetTemperature = convert.getTempFromCode(info.status.airTemp.value);
+			const targetTemperature = info.status.airCtrlOn
+				? convert.getTempFromCode(info.status.airTemp.value) : this.getCapabilityValue('target_temperature');
 			const alarmTirePressure = !!info.status.tirePressureLamp.tirePressureLampAll;
 			const batteryCharge = info.status.battery ? info.status.battery.batSoc : undefined;
 

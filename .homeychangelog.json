@@ -139,5 +139,11 @@
   },
   "2.9.4": {
     "en": "Ignore 0 odometer reports."
+  },
+  "2.9.5": {
+    "en": "Ignore 0 odometer reports second attempt."
+  },
+  "2.9.6": {
+    "en": "Ignore 0 odometer reports third attempt. Keep AC target temperature after shutoff."
   }
 }

@@ -1,3 +1,5 @@
+v2.9.6  21.12.2022 Ignore 0 odometer reports third attempt. Keep AC target temperature after shutoff.
+v2.9.5  19.12.2022 Ignore 0 odometer reports second attempt.
 v2.9.4  12.12.2022 Ignore 0 odometer reports.
 v2.9.3  02.10.2022 Disabled charge state fix after refresh by default. Added setting to enable charge state fix after refresh.
 v2.9.2  03.09.2022 Fixed uncaught rejections. Enabled charge state fix after refresh. Optimized queue handling.
