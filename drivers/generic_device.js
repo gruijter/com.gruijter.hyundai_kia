@@ -445,9 +445,7 @@ class CarDevice extends Homey.Device {
 						};
 					} else location = await this.vehicle.location();
 					this.lastLocation = location;
-					console.log(location, fullStatus);
 					odometer = fullStatus.odometer ? fullStatus.odometer : await this.vehicle.odometer();
-					console.log(odometer);
 				} else {
 					// get status from car
 					status = await this.vehicle.status({
