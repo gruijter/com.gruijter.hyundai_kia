@@ -145,5 +145,8 @@
   },
   "2.9.6": {
     "en": "Ignore 0 odometer reports third attempt. Keep AC target temperature after shutoff."
+  },
+  "2.9.7": {
+    "en": "Fix new Auth for EU region. bluelinky@8.0.0-alpha.2."
   }
 }
