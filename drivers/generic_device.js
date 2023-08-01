@@ -92,7 +92,7 @@ class CarDevice extends Homey.Device {
 				pin: this.settings.pin,
 				// vin: this.settings.vin,
 				brand: this.ds.deviceId === 'bluelink' ? 'hyundai' : 'kia',
-				stampMode: 'LOCAL', // 'LOCAL' or 'DISTANT'
+				stampMode: 'DISTANT', // 'LOCAL' or 'DISTANT'
 				deviceUuid: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15), // 'homey',
 				autoLogin: false,
 			};

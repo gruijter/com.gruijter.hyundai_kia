@@ -148,5 +148,11 @@
   },
   "2.9.7": {
     "en": "Fix new Auth for EU region. bluelinky@8.0.0-alpha.2."
+  },
+  "2.9.8": {
+    "en": "Fix new Auth for EU region. bluelinky@8.1.1"
+  },
+  "2.9.9": {
+    "en": "Fix new Auth for EU region. bluelinky@8.1.2"
   }
 }

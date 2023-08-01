@@ -1,6 +1,6 @@
 {
   "name": {
-    "en": "UVO (Kia)"
+    "en": "Kia"
   },
   "$extends": [
     "driver_defaults"
