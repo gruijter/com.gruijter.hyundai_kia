@@ -154,5 +154,8 @@
   },
   "2.9.9": {
     "en": "Fix new Auth for EU region. bluelinky@8.1.2"
+  },
+  "3.0.0": {
+    "en": "Fix reverse geo. Reversed Closed and Locked status. bluelinky@8.2.1"
   }
 }

@@ -623,8 +623,7 @@ class CarDevice extends Homey.Device {
 			const range = info.status.evStatus ? info.status.evStatus.drvDistance[0].rangeByFuel.totalAvailableRange.value : info.status.dte.value;
 
 			// calculated properties
-			const carLocString = geo.getCarLocString(info.location); // reverse ReverseGeocoding ASYNC!!!
-			const etth = this.etth(info);	// ASYNC in future!!!
+
 			const distance = Math.round(this.distance(info.location) * 10) / 10;
 			const moving = this.isMoving(info.location);
 			const hasParked = this.isParking(info);
@@ -637,7 +636,7 @@ class CarDevice extends Homey.Device {
 			this.setCapability('alarm_batt', alarmBattery || alarmEVBattery);
 			this.setCapability('alarm_tire_pressure', alarmTirePressure);
 			this.setCapability('locked', locked);
-			this.setCapability('closed_locked', closedLocked);
+			this.setCapability('closed_locked', !closedLocked);
 			this.setCapability('target_temperature', targetTemperature);
 			this.setCapability('defrost', defrost);
 			this.setCapability('climate_control', airCtrlOn);
@@ -659,9 +658,16 @@ class CarDevice extends Homey.Device {
 			}
 
 			// update async capabilities
-			const { local, address } = await Promise.resolve(carLocString);
+			const carLocString = await geo.getCarLocString(info.location).catch((error) => this.error(error)); // reverse ReverseGeocoding ASYNC!!!
+			let local = '';
+			let address = '';
+			if (carLocString) {
+				local = carLocString.local;
+				address = carLocString.address;
+			}
 			this.setCapability('location', local);
-			this.setCapability('etth', await Promise.resolve(etth));
+			const etth = await this.etth(info).catch((error) => this.error(error));
+			if (this.etth !== undefined) this.setCapability('etth', etth);
 
 			const ds = new Date(this.lastRefresh);
 			const date = ds.toString().substring(4, 11);

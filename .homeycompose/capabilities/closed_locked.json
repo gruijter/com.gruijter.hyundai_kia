@@ -1,18 +1,18 @@
 {
 	"type": "boolean",
 	"title": {
-		"en": "Closed and locked",
-		"sv": "Stängd och låst"
+		"en": "Unlocked",
+		"sv": "Olåst"
 	},
 	"icon": "/assets/closed_locked.svg",
 	"getable": true,
 	"setable": false,
 	"insights": true,
-	"insightsTitleTrue": {
+	"insightsTitleFalse": {
 		"en": "Doors closed and locked",
 		"sv": "Dörrar stängda och låsta"
 	},
-	"insightsTitleFalse": {
+	"insightsTitleTrue": {
 		"en": "Doors opened or unlocked",
 		"sv": "Dörrar öppnade eller olåsta"
 	},

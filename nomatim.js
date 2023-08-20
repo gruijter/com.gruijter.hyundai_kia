@@ -112,7 +112,7 @@ const reverseGeo = async (lat, lon) => {
 			method: 'GET',
 		};
 		const result = await _makeHttpsRequest(options, '');
-		if (result.statusCode !== 200 || result.headers['content-type'] !== 'application/json; charset=UTF-8') {
+		if (result.statusCode !== 200 || !result.headers['content-type'].includes('json')) {
 			throw Error(`reverse geo service error: ${result.statusCode}`);
 		}
 		const jsonData = JSON.parse(result.body);

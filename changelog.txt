@@ -1,3 +1,5 @@
+v3.0.0  20.08.2023 Fix reverse geo. Reversed Closed and Locked status. bluelinky@8.2.1
+v2.9.9  01.08.2023 Fix new Auth for EU region. bluelinky@8.1.2
 v2.9.7  08.04.2023 Fix new Auth for EU region. bluelinky@8.0.0-alpha.2.
 v2.9.6  21.12.2022 Ignore 0 odometer reports third attempt. Keep AC target temperature after shutoff.
 v2.9.5  19.12.2022 Ignore 0 odometer reports second attempt.
