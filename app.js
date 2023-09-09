@@ -87,10 +87,10 @@ class carApp extends Homey.App {
 			this.stopPolling();
 			// this.flushQueue();
 			this.log(`Homey live link has been disabled via ${source}`);
-			this.setUnavailable(`Homey live link has been disabled via ${source}`);
+			this.setUnavailable(`Homey live link has been disabled via ${source}`).catch(this.error);
 		} else {
 			this.disabled = false;
-			this.setAvailable();
+			this.setAvailable().catch(this.error);
 			this.log(`Homey live link has been enabled via ${source}`);
 			this.startPolling(this.settings.pollInterval);
 		}

@@ -74,7 +74,7 @@ class CarDevice extends Homey.Device {
 			this.lastLocation = { latitude: this.getCapabilityValue('latitude'), longitude: this.getCapabilityValue('longitude') };
 			this.parkLocation = this.getStoreValue('parkLocation');
 			if (!this.parkLocation) this.parkLocation = this.lastLocation;
-			// this.setAvailable();
+			// this.setAvailable().catch(this.error);
 			// this.unsetWarning();
 
 			// queue properties
@@ -104,9 +104,9 @@ class CarDevice extends Homey.Device {
 				if (error.message && error.message.includes('"resCode":"5091"')) {
 					this.log('Daily quotum reached! Pausing app for 60 minutes.');
 					this.stopPolling();
-					this.setUnavailable('Daily quotum reached!. Waiting 60 minutes.');
+					this.setUnavailable('Daily quotum reached!. Waiting 60 minutes.').catch(this.error);
 					await setTimeoutPromise(60 * 60 * 1000, 'waiting is done');
-					this.setAvailable();
+					this.setAvailable().catch(this.error);
 					this.restartDevice(250);
 					return;
 				}
@@ -319,7 +319,7 @@ class CarDevice extends Homey.Device {
 				await methodClass[item.command](item.args)
 					.then(() => {
 						this.watchDogCounter = 6;
-						this.setAvailable();
+						this.setAvailable().catch(this.error);
 					})
 					.catch(async (error) => {
 						const msg = error.body || error.message || error;
@@ -331,7 +331,7 @@ class CarDevice extends Homey.Device {
 							retryWorked = await methodClass[item.command](item.args)
 								.then(() => {
 									this.watchDogCounter = 6;
-									this.setAvailable();
+									this.setAvailable().catch(this.error);
 									return true;
 								})
 								.catch(() => false);
@@ -562,7 +562,7 @@ class CarDevice extends Homey.Device {
 		this.flushQueue();
 		const dly = delay || 1000 * 60 * 5;
 		this.log(`Device will restart in ${dly / 1000} seconds`);
-		this.setUnavailable('Device is restarting. Wait a few minutes!');
+		this.setUnavailable('Device is restarting. Wait a few minutes!').catch(this.error);
 		await setTimeoutPromise(dly).then(() => this.onInitDevice());
 	}
 
@@ -613,13 +613,15 @@ class CarDevice extends Homey.Device {
 			const targetTemperature = info.status.airCtrlOn
 				? convert.getTempFromCode(info.status.airTemp.value) : this.getCapabilityValue('target_temperature');
 			const alarmTirePressure = !!info.status.tirePressureLamp.tirePressureLampAll;
-			const batteryCharge = info.status.battery ? info.status.battery.batSoc : undefined;
+			let batteryCharge = info.status.battery ? info.status.battery.batSoc : undefined;
+			if (batteryCharge > 100) batteryCharge = 100;
 
 			// set defaults for non-EV vehicles
 			const charging = info.status.evStatus ? info.status.evStatus.batteryCharge : false;
 			let charger = info.status.evStatus ? info.status.evStatus.batteryPlugin : 0; // 0=none 1=fast 2=slow/normal
 			if (charger && !charging) charger += 2;	// 3= fast off, 4 = slow off
-			const EVBatteryCharge = info.status.evStatus ? info.status.evStatus.batteryStatus : 0;
+			let EVBatteryCharge = info.status.evStatus ? info.status.evStatus.batteryStatus : 0;
+			if (EVBatteryCharge > 100) EVBatteryCharge = 100;
 			const range = info.status.evStatus ? info.status.evStatus.drvDistance[0].rangeByFuel.totalAvailableRange.value : info.status.dte.value;
 
 			// calculated properties
@@ -953,10 +955,10 @@ class CarDevice extends Homey.Device {
 			this.stopPolling();
 			// this.flushQueue();
 			this.setWarning(`Homey live link has been disabled via ${source}`);
-			// this.setUnavailable('Homey live link has been disabled');
+			// this.setUnavailable('Homey live link has been disabled').catch(this.error);
 		} else {
 			this.disabled = false;
-			// this.setAvailable();
+			// this.setAvailable().catch(this.error);
 			this.unsetWarning();
 			this.enQueue({ command: 'doPoll', args: true });
 			this.startPolling(this.settings.pollInterval);

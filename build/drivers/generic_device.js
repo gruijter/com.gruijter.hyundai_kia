@@ -101,7 +101,7 @@ class CarDevice extends Homey.Device {
 				if (error.message && error.message.includes('"resCode":"5091"')) {
 					this.log('Daily quotum reached! Pausing app for 60 minutes.');
 					this.stopPolling();
-					this.setUnavailable('Daily quotum reached!. Waiting 60 minutes.');
+					this.setUnavailable('Daily quotum reached!. Waiting 60 minutes.').catch(this.error);
 					await setTimeoutPromise(60 * 60 * 1000, 'waiting is done');
 					this.setAvailable();
 					this.restartDevice(250);
@@ -530,7 +530,7 @@ class CarDevice extends Homey.Device {
 		this.flushQueue();
 		const dly = delay || 1000 * 60 * 5;
 		this.log(`Device will restart in ${dly / 1000} seconds`);
-		this.setUnavailable('Device is restarting. Wait a few minutes!');
+		this.setUnavailable('Device is restarting. Wait a few minutes!').catch(this.error);
 		await setTimeoutPromise(dly).then(() => this.onInitDevice());
 	}
 
@@ -911,7 +911,7 @@ class CarDevice extends Homey.Device {
 			this.stopPolling();
 			// this.flushQueue();
 			this.setWarning(`Homey live link has been disabled via ${source}`);
-			// this.setUnavailable('Homey live link has been disabled');
+			// this.setUnavailable('Homey live link has been disabled').catch(this.error);
 		} else {
 			this.disabled = false;
 			// this.setAvailable();
