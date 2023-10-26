@@ -1,0 +1,23 @@
+{
+	"title": { 
+		"en": "Distance changed"
+	},
+	"highlight": true,
+	"args": [
+		{
+				"type": "device",
+				"name": "device",
+				"filter": "driver_id=bluelink|uvo"
+		}
+	],
+	"tokens": [
+		{
+			"name": "meter_distance",
+			"type": "number",
+			"title": { 
+				"en": "Distance"
+			},
+			"example": 53
+		}
+	]
+}

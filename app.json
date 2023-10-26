@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.hyundai_kia",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#003468",
@@ -241,6 +241,42 @@
         ]
       },
       {
+        "id": "closed_locked_false",
+        "title": {
+          "en": "The battery alarm turned off",
+          "sv": "Batterilarmet stängdes av"
+        },
+        "titleFormatted": {
+          "en": "Doors closed and locked",
+          "sv": "Dörrar stängda och låsta"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+          }
+        ]
+      },
+      {
+        "id": "closed_locked_true",
+        "title": {
+          "en": "The battery alarm turned off",
+          "sv": "Batterilarmet stängdes av"
+        },
+        "titleFormatted": {
+          "en": "Doors opened or unlocked",
+          "sv": "Dörrar öppnade eller olåsta"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+          }
+        ]
+      },
+      {
         "id": "defrost_false",
         "title": {
           "en": "Defrosting turned off",
@@ -373,6 +409,126 @@
             "filter": "driver_id=uvo|bluelink"
           }
         ]
+      },
+      {
+        "title": {
+          "en": "Battery changed"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=bluelink|uvo"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "measure_battery",
+            "type": "number",
+            "title": {
+              "en": "Battery"
+            },
+            "example": 53
+          }
+        ],
+        "id": "measure_battery_changed"
+      },
+      {
+        "title": {
+          "en": "Battery changed"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=bluelink|uvo"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "measure_battery",
+            "type": "number",
+            "title": {
+              "en": "Battery"
+            },
+            "example": 53
+          }
+        ],
+        "id": "meter_distance_changed"
+      },
+      {
+        "title": {
+          "en": "Odometer changed"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=bluelink|uvo"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "meter_odo",
+            "type": "number",
+            "title": {
+              "en": "Odometer"
+            },
+            "example": 53000
+          }
+        ],
+        "id": "meter_odo_changed"
+      },
+      {
+        "title": {
+          "en": "Range changed"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=bluelink|uvo"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "meter_range",
+            "type": "number",
+            "title": {
+              "en": "Range"
+            },
+            "example": 285
+          }
+        ],
+        "id": "meter_range_changed"
+      },
+      {
+        "title": {
+          "en": "Speed changed"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=bluelink|uvo"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "meter_speed",
+            "type": "number",
+            "title": {
+              "en": "Speed"
+            },
+            "example": 85
+          }
+        ],
+        "id": "meter_speed_changed"
       },
       {
         "id": "status_update",

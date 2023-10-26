@@ -160,5 +160,8 @@
   },
   "3.0.1": {
     "en": "Stability improvements."
+  },
+  "3.0.2": {
+    "en": "Multiple trigger flow cards added."
   }
 }

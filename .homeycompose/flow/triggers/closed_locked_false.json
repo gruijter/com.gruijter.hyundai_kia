@@ -1,0 +1,18 @@
+{
+    "id": "closed_locked_false",
+    "title": {
+        "en": "The battery alarm turned off",
+        "sv": "Batterilarmet stängdes av"
+    },
+    "titleFormatted": {
+		"en": "Doors closed and locked",
+		"sv": "Dörrar stängda och låsta"
+    },
+    "args": [
+        {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=uvo|bluelink"
+        }
+    ]
+}

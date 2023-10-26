@@ -1,0 +1,23 @@
+{
+	"title": { 
+		"en": "Battery changed"
+	},
+	"highlight": true,
+	"args": [
+		{
+				"type": "device",
+				"name": "device",
+				"filter": "driver_id=bluelink|uvo"
+		}
+	],
+	"tokens": [
+		{
+			"name": "measure_battery",
+			"type": "number",
+			"title": { 
+				"en": "Battery"
+			},
+			"example": 53
+		}
+	]
+}

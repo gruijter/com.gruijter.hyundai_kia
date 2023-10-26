@@ -1,0 +1,23 @@
+{
+	"title": { 
+		"en": "Speed changed"
+	},
+	"highlight": true,
+	"args": [
+		{
+				"type": "device",
+				"name": "device",
+				"filter": "driver_id=bluelink|uvo"
+		}
+	],
+	"tokens": [
+		{
+			"name": "meter_speed",
+			"type": "number",
+			"title": { 
+				"en": "Speed"
+			},
+			"example": 85
+		}
+	]
+}
