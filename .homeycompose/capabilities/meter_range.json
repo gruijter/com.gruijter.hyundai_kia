@@ -1,7 +1,7 @@
 {
 	"type": "number",
 	"title": {
-		"en": ".homeycompose/flow/triggers/meter_distance_changed.json",
+		"en": "Range",
 		"sv": "Räckvidd"
 	},
 	"units": {

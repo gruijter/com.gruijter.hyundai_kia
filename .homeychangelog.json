@@ -163,5 +163,8 @@
   },
   "3.0.2": {
     "en": "Multiple trigger flow cards added."
+  },
+  "3.0.3": {
+    "en": "Fixed range title."
   }
 }
