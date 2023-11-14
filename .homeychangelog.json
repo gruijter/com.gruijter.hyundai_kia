@@ -166,5 +166,8 @@
   },
   "3.0.3": {
     "en": "Fixed range title."
+  },
+  "3.0.4": {
+    "en": "Reduced app footprint."
   }
 }

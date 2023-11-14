@@ -1,9 +1,5 @@
 env.json
-config.json
-roadmap.txt
-testing.js
-test_abrp.js
-log.txt
+/.vscode/
 zzz_*
 
 
