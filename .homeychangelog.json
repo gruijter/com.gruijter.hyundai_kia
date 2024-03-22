@@ -169,5 +169,8 @@
   },
   "3.0.4": {
     "en": "Reduced app footprint."
+  },
+  "3.0.5": {
+    "en": "Ignore missing location info (KIA EV9)."
   }
 }

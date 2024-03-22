@@ -1,6 +1,6 @@
 /* eslint-disable no-await-in-loop */
 /*
-Copyright 2020 - 2023, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2020 - 2024, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.hyundai_kia.
 
@@ -645,7 +645,7 @@ class CarDevice extends Homey.Device {
 			this.setCapability('engine', engine);
 			this.setCapability('meter_odo', odometer.value);
 			if (range > 0) this.setCapability('meter_range', range);	// Sorento weird server response
-			this.setCapability('meter_speed', speed.value);
+			this.setCapability('meter_speed', speed && speed.value);
 			this.setCapability('latitude', info.location.latitude);
 			this.setCapability('longitude', info.location.longitude);
 			this.setCapability('meter_distance', distance);
@@ -711,6 +711,7 @@ class CarDevice extends Homey.Device {
 	// helper functions
 	isMoving(location) {
 		const previousLocation = { latitude: this.getCapabilityValue('latitude'), longitude: this.getCapabilityValue('longitude') };
+		if (!location.speed) return false;
 		const moving = location.speed.value > 0
 			|| (Math.abs(location.latitude - previousLocation.latitude) > 0.0001
 			|| Math.abs(location.longitude - previousLocation.longitude) > 0.0001);
