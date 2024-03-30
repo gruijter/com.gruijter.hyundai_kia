@@ -21,7 +21,7 @@ along with com.gruijter.hyundai_kia. If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const Homey = require('homey');
-const Client = require('bluelinky');
+const { BlueLinky } = require('bluelinky');
 const GeoPoint = require('geopoint');
 const util = require('util');
 const ABRP = require('../abrp_telemetry');
@@ -97,7 +97,9 @@ class CarDevice extends Homey.Device {
 				autoLogin: false,
 			};
 
-			this.client = new Client(options);
+			console.dir(BlueLinky, { depth: null });
+
+			this.client = new BlueLinky(options);
 
 			this.client.on('error', async (error) => {
 				// retCode: 'F', resCode: '5091', resMsg: 'Exceeds number of requests
@@ -325,9 +327,10 @@ class CarDevice extends Homey.Device {
 						const msg = error.body || error.message || error;
 						// retry once on retCode: 'F', resCode: '4004', resMsg: 'Duplicate request - Duplicate request'
 						let retryWorked = false;
-						if (msg && msg.includes('"resCode":"4004"')) {
-							this.log(`${item.command} failed. Retrying in 30 seconds`);
+						if (msg && (msg.includes('"resCode":"4002"') || msg.includes('"resCode":"4004"'))) {
+							this.log(`${item.command} failed. Retrying in 10 seconds`);
 							await setTimeoutPromise(30 * 1000, 'waiting is done');
+							await this.client.login();
 							retryWorked = await methodClass[item.command](item.args)
 								.then(() => {
 									this.watchDogCounter = 6;
