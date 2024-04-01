@@ -97,8 +97,6 @@ class CarDevice extends Homey.Device {
 				autoLogin: false,
 			};
 
-			console.dir(BlueLinky, { depth: null });
-
 			this.client = new BlueLinky(options);
 
 			this.client.on('error', async (error) => {

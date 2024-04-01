@@ -1,1 +1,0 @@
-Homey has access to the car's location, speed, range, door state and charge state. Control locks, charging, defroster and A/C from a flow.

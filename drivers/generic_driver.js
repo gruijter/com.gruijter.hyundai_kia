@@ -20,7 +20,7 @@ along with com.gruijter.hyundai_kia. If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const Homey = require('homey');
-const Client = require('bluelinky');
+const { BlueLinky } = require('bluelinky');
 const util = require('util');
 
 const setTimeoutPromise = util.promisify(setTimeout);
@@ -78,7 +78,7 @@ class CarDriver extends Homey.Driver {
 				};
 
 				if (this.ds.driverId === 'bluelink') options.brand = 'hyundai';
-				const client = new Client(options);
+				const client = new BlueLinky(options);
 
 				const validated = await new Promise((resolve, reject) => {
 					let cancelTimeout = false;
