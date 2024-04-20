@@ -1,3 +1,4 @@
+v3.1.2  20.04.2024 Retry delay extended to 60s.
 v3.1.1  01.04.2024 Fix adding new device.
 v3.1.0  30.03.2024 Re-login and retry on error 4002. bluelinky@8.3.0
 v3.0.5  22.03.2024 Ignore missing location info (KIA EV9).

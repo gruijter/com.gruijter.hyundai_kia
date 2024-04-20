@@ -178,5 +178,8 @@
   },
   "3.1.1": {
     "en": "Fix adding new device."
+  },
+  "3.1.2": {
+    "en": "Retry delay extended to 60s."
   }
 }
