@@ -328,7 +328,7 @@ class CarDevice extends Homey.Device {
 						if (msg && (msg.includes('"resCode":"4002"') || msg.includes('"resCode":"4004"'))) {
 							this.log(`${item.command} failed. Retrying in 60 seconds`);
 							await setTimeoutPromise(60 * 1000, 'waiting is done');
-							await this.client.login();
+							if (this.settings.loginOnRetry) await this.client.login();
 							retryWorked = await methodClass[item.command](item.args)
 								.then(() => {
 									this.watchDogCounter = 6;

@@ -314,6 +314,17 @@
 					"sv": "När du ger ett uppdateringskommando börjar bilen ladda även när laddningen var avstängd. Om du aktiverar fixalternativet inaktiveras laddningen efter en uppdatering."
 				},
 				"value": false
+			},
+			{
+				"id": "loginOnRetry",
+				"type": "checkbox",
+				"label": {
+					"en": "Force re-login after retry"
+				},
+				"hint": {
+					"en": "When retrying a command or request, a re-login can be forced."
+				},
+				"value": false
 			}
 		]
 	},
