@@ -208,6 +208,7 @@ class CarDevice extends Homey.Device {
 	async migrate() {
 		this.log('checking capability migration');
 		let engine = this.settings ? this.settings.engine : null;
+		if (this.settings.force_ev) engine = 'Full EV';
 		if (!engine || engine === '') {
 			const status = await this.vehicle.status({ refresh: false, parsed: false });
 			const isEV = !!status.evStatus;
@@ -586,8 +587,8 @@ class CarDevice extends Homey.Device {
 	// this method is called when the user has changed the device's settings in Homey.
 	async onSettings() { // { newSettings }) {
 		this.log(`${this.getName()} device settings changed by user`);
+		this.migrated = false;
 		this.restartDevice(250);
-		// do callback to confirm settings change
 		return Promise.resolve(true); // string can be returned to user
 	}
 

@@ -454,6 +454,17 @@
 		},
 		"children": [
 			{
+				"id": "force_ev",
+				"type": "checkbox",
+				"label": {
+					"en": "Force EV functionality as enabled"
+				},
+				"hint": {
+					"en": "When the car is incorrectly detected as HEV/ICE, you can force Homey to enable EV functionality. Note that this can make the app crash."
+				},
+				"value": false
+			},
+			{
 					"id": "batteryAlarmLevel",
 					"type": "number",
 					"label": {
