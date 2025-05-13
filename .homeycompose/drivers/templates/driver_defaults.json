@@ -51,7 +51,8 @@
 	},
 	"energy": {
 		"batteries": ["INTERNAL"],
-		"usageConstant": 0
+		"usageConstant": 0,
+		"electricCar": true
   },
 	"pair": [
 		{

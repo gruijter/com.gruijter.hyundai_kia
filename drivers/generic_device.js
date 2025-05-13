@@ -128,6 +128,7 @@ class CarDevice extends Homey.Device {
       // migrate capabilities from old versions
       if (!this.migrated) await this.migrate();
       if (this.capsChanged) this.restartDevice(10 * 1000).catch((error) => this.error(error));
+      await this.migrateEnergy();
 
       // setup ABRP client
       this.abrpEnabled = Homey.env && Homey.env.ABRP_API_KEY
@@ -235,6 +236,20 @@ class CarDevice extends Homey.Device {
     // set new migrate level
     this.setSettings({ level: this.homey.app.manifest.version });
     if (!this.capsChanged) this.migrated = true;
+  }
+  /**
+   * Athom added a new energy config property
+   * This takes care of migrating already added devices to the new class.
+   */
+  async migrateEnergy() {
+    const energyConfig = this.getEnergy();
+      if (energyConfig?.electricCar !== true) {
+        this.setEnergy({
+          electricCar: true
+        }).catch((e) => {
+          this.logToDebug(`Failed to migrate energy: ${e}`);
+        });
+    }
   }
 
   // stuff for queue handling here
