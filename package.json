@@ -7,6 +7,12 @@
   "engines": {
     "node": ">=12.16.1"
   },
+  "scripts": {
+    "validate": "homey app validate --level verified",
+    "build": "homey app build",
+    "start": "homey app run",
+    "publish": "homey app publish"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/gruijter/com.gruijter.hyundai_kia.git"
