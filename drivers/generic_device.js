@@ -128,6 +128,7 @@ class CarDevice extends Homey.Device {
       // migrate capabilities from old versions
       if (!this.migrated) await this.migrate();
       if (this.capsChanged) this.restartDevice(10 * 1000).catch((error) => this.error(error));
+      await this.migrateClass();
 
       // setup ABRP client
       this.abrpEnabled = Homey.env && Homey.env.ABRP_API_KEY
@@ -235,6 +236,22 @@ class CarDevice extends Homey.Device {
     // set new migrate level
     this.setSettings({ level: this.homey.app.manifest.version });
     if (!this.capsChanged) this.migrated = true;
+  }
+
+   /**
+   * Athom addded a Car device-class
+   * This takes care of migrating already added devices to the new class.
+   */
+   async migrateClass() {
+    if (this.getClass() !== 'car') {
+      await this.setClass('car')
+        .then(() => {
+          this.log(`Updated device class to car`);
+        })
+        .catch((e) => {
+          this.log(`Failed to set device class: ${e}`);
+        });
+    }
   }
 
   // stuff for queue handling here
