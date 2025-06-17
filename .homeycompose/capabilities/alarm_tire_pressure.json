@@ -2,20 +2,24 @@
 		"type": "boolean",
 		"title": {
 			"en": "tire pressure alarm",
-			"sv": "däcktryckslarm"
+			"sv": "däcktryckslarm",
+			"no": "dekktrykksalarm"
 		},
 		"desc": {
 			"en": "tire pressure alarm",
-			"sv": "däcktryckslarm"
+			"sv": "däcktryckslarm",
+			"no": "dekktrykksalarm"
 		},
 		"insights": true,
 		"insightsTitleTrue": {
 			"en": "tire pressure alarm turned on",
-			"sv": "däcktryckslarmet aktiverat"
+			"sv": "däcktryckslarmet aktiverat",
+			"no": "dekktrykksalarmen aktivert"
 		},
 		"insightsTitleFalse": {
 			"en": "tire pressure alarm turned off",
-			"sv": "däcktryckslarmet avstängt"
+			"sv": "däcktryckslarmet avstängt",
+			"no": "dekktrykksalarmen deaktivert"
 		},
 		"getable": true,
 		"setable": false,

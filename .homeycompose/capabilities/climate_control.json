@@ -2,18 +2,21 @@
 	"type": "boolean",
 	"title": {
 		"en": "Climate control",
-		"sv": "Klimatkontroll"
+		"sv": "Klimatkontroll",
+		"no": "Klimakontroll"
 	},
 	"getable": true,
 	"setable": true,
 	"insights": true,
 	"insightsTitleTrue": {
 		"en": "Climate control on",
-		"sv": "Klimatkontroll på"
+		"sv": "Klimatkontroll på",
+		"no": "Klimakontroll på"
 	},
 	"insightsTitleFalse": {
 		"en": "Climate control off",
-		"sv": "Klimatkontroll av"
+		"sv": "Klimatkontroll av",
+		"no": "Klimakontroll av"
 	},
 	"uiComponent": "toggle",
 	"uiQuickAction": false

@@ -7,11 +7,13 @@
     "decimals": 1,
     "title": {
       "en": "Target temperature",
-      "sv": "Måltemperatur"
+      "sv": "Måltemperatur",
+      "no": "Måltemperatur"
     },
     "units": {
       "en": "°C",
-      "sv": "°C"
+      "sv": "°C",
+      "no": "°C"
     },
     "chartType": "stepLine",
     "insights": true,

@@ -2,11 +2,13 @@
     "id": "climate_control",
     "title": {
         "en": "The A/C is !{{on|off}}",
-        "sv": "A/C är !{{på|av}}"
+        "sv": "A/C är !{{på|av}}",
+        "no": "Klimaanlegget er !{{på|av}}"
     },
     "titleFormatted": {
         "en": "The A/C is !{{on|off}}",
-        "sv": "A/C är !{{på|av}}"
+        "sv": "A/C är !{{på|av}}",
+        "no": "Klimaanlegget er !{{på|av}}"
     },
     "args": [
         {

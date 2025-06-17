@@ -2,7 +2,8 @@
 	"type": "enum",
 	"title": {
 		"en": "Charger",
-		"sv": "Laddare"
+		"sv": "Laddare",
+		"no": "Lader"
 	},
 	"getable": true,
 	"setable": false,
@@ -14,35 +15,40 @@
 			"id": "0",
 			"title": {
 				"en": "Not connected",
-				"sv": "Ej ansluten"
+				"sv": "Ej ansluten",
+				"no": "Ikke tilkoblet"
 			}
 		},
 		{
 			"id": "1",
 			"title": {
 				"en": "On (Fast)",
-				"sv": "På (Snabbt)"
+				"sv": "På (Snabbt)",
+				"no": "På (Rask)"
 			}
 		},
 		{
 			"id": "2",
 			"title": {
 				"en": "On (Slow)",
-				"sv": "På (Långsamt)"
+				"sv": "På (Långsamt)",
+				"no": "På (Langsom)"
 			}
 		},
 		{
 			"id": "3",
 			"title": {
 				"en": "Off (Fast)",
-				"sv": "Av (Snabbt)"
+				"sv": "Av (Snabbt)",
+				"no": "Av (Rask)"
 			}
 		},
 		{
 			"id": "4",
 			"title": {
 				"en": "Off (Slow)",
-				"sv": "Av (Långsamt)"
+				"sv": "Av (Långsamt)",
+				"no": "Av (Langsom)"
 			}
 		}
 	]

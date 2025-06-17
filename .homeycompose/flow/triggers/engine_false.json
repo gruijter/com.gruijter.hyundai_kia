@@ -2,11 +2,13 @@
     "id": "engine_false",
     "title": {
         "en": "The engine turned off",
-        "sv": "Motorn stängdes av"
+        "sv": "Motorn stängdes av",
+        "no": "Motoren ble slått av"
     },
     "titleFormatted": {
         "en": "The engine turned off",
-        "sv": "Motorn stängdes av"
+        "sv": "Motorn stängdes av",
+        "no": "Motoren ble slått av"
     },
     "args": [
         {

@@ -6,11 +6,13 @@
   "brandColor": "#003468",
   "name": {
     "en": "Kia and Hyundai",
-    "sv": "Kia och Hyundai"
+    "sv": "Kia och Hyundai",
+    "no": "Kia og Hyundai"
   },
   "description": {
     "en": "Connect your Hyundai or Kia smart car.",
-    "sv": "Anslut din smarta Hyundai eller Kia bil"
+    "sv": "Anslut din smarta Hyundai eller Kia bil",
+    "no": "Koble til din smarte Hyundai eller Kia bil"
   },
   "tags": {
     "en": [
@@ -59,6 +61,9 @@
       },
       {
         "name": "🇸🇪 Ted Dÿring"
+      },
+      {
+        "name": "🇳🇴 Philip Østli"
       }
     ]
   },

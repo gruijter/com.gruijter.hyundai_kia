@@ -2,11 +2,13 @@
 	"type": "number",
 	"title": {
 		"en": "Speed",
-		"sv": "Hastighet"
+		"sv": "Hastighet",
+		"no": "Hastighet"
 	},
 	"units": {
 		"en": "km/h",
-		"sv": "km/h"
+		"sv": "km/h",
+		"no": "km/t"
 	},
 	"getable": true,
 	"setable": false,

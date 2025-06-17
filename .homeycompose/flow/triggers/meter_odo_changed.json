@@ -1,6 +1,7 @@
 {
 	"title": { 
-		"en": "Odometer changed"
+		"en": "Odometer changed",
+		"no": "Kilometerteller endret"
 	},
 	"highlight": true,
 	"args": [
@@ -15,7 +16,8 @@
 			"name": "meter_odo",
 			"type": "number",
 			"title": { 
-				"en": "Odometer"
+				"en": "Odometer",
+				"no": "Kilometerteller"
 			},
 			"example": 53000
 		}

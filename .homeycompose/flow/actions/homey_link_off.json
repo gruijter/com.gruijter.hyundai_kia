@@ -2,11 +2,13 @@
     "id": "homey_link_off",
     "title": {
       "en": "Disable Homey control and live data",
-      "sv": "Inaktivera Homey-kontroll och livedata"
+      "sv": "Inaktivera Homey-kontroll och livedata",
+      "no": "Deaktiver Homey-kontroll og sanntidsdata"
     },
     "titleFormatted": {
       "en": "Disable Homey control and live data for [[device]]",
-      "sv": "Inaktivera Homey-kontroll och livedata för [[device]]"
+      "sv": "Inaktivera Homey-kontroll och livedata för [[device]]",
+      "no": "Deaktiver Homey-kontroll og sanntidsdata for [[device]]"
     },
     "args": [
         {
@@ -14,7 +16,8 @@
           "name": "device",
           "placeholder": {
             "en": "Select which car",
-            "sv": "Välj vilken bil"
+            "sv": "Välj vilken bil",
+            "no": "Velg hvilken bil"
           }
         }
       ]

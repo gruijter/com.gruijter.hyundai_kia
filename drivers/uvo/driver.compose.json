@@ -1,6 +1,7 @@
 {
   "name": {
-    "en": "Kia"
+    "en": "Kia",
+    "no": "Kia"
   },
   "$extends": [
     "driver_defaults"

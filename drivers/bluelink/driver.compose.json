@@ -1,6 +1,7 @@
 {
   "name": {
-    "en": "Hyundai"
+    "en": "Hyundai",
+    "no": "Hyundai"
   },
   "$extends": [
     "driver_defaults"

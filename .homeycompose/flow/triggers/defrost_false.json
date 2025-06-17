@@ -2,11 +2,13 @@
     "id": "defrost_false",
     "title": {
         "en": "Defrosting turned off",
-        "sv": "Avfrostning avstängd"
+        "sv": "Avfrostning avstängd",
+        "no": "Avriming ble slått av"
     },
     "titleFormatted": {
         "en": "Defrosting turned off",
-        "sv": "Avfrostning avstängd"
+        "sv": "Avfrostning avstängd",
+        "no": "Avriming ble slått av"
     },
     "args": [
         {

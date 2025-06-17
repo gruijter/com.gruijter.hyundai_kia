@@ -2,11 +2,13 @@
     "id": "charging_false",
     "title": {
         "en": "The charger turned off",
-        "sv": "Laddaren stängdes av"
+        "sv": "Laddaren stängdes av",
+        "no": "Laderen ble slått av"
     },
     "titleFormatted": {
         "en": "The charger turned off",
-        "sv": "Laddaren stängdes av"
+        "sv": "Laddaren stängdes av",
+        "no": "Laderen ble slått av"
     },
     "args": [
         {
