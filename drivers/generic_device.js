@@ -245,7 +245,9 @@ class CarDevice extends Homey.Device {
     const energyConfig = this.getEnergy();
       if (energyConfig?.electricCar !== true) {
         this.setEnergy({
-          electricCar: true
+          electricCar: true,
+          batteries: ['INTERNAL'],
+          usageConstant: 0,
         }).catch((e) => {
           this.logToDebug(`Failed to migrate energy: ${e}`);
         });
