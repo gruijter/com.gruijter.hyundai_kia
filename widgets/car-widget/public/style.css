@@ -1,0 +1,275 @@
+/* Material Symbols font */
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,0');
+
+/* Ensure material-symbols uses Material Symbols font */
+.material-icons {
+  font-family: 'Material Symbols Outlined';
+  font-style: normal;
+  font-size: 28px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  color: inherit;
+  font-variation-settings:
+    /* 'FILL' 1, */
+    'wght' 300,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+/* Icon button styling */
+.icon-button {
+  background: linear-gradient(to top, #1a4b8f 0%, #000000 100%);
+  color: #ffffff;
+  width: 50px;
+  height: 50px;
+  margin: var(--homey-su-1) var(--homey-su-2);
+  border: none;
+  border-radius: 4px;
+  clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 16px) 100%, 0 100%, 0 10px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+.icon-button:hover {
+  background: linear-gradient(to top, #205aa8 0%, #000000 100%);
+}
+
+.icon-button:active {
+  background: linear-gradient(to top, #0d2547 0%, #000000 100%);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+/* Cable lock states */
+#locksContainer.locked .icon-button {
+  background: linear-gradient(to top, #686868 0%, #000000 100%);
+  opacity: 0.7;
+}
+
+#locksContainer.unlocked .icon-button {
+  background: linear-gradient(to top, #1a4b8f 0%, #000000 100%);
+}
+
+/* Access states */
+#climateContainer.climate_on .icon-button {
+  background: linear-gradient(to top, #1a4b8f 0%, #000000 100%);
+}
+
+#climateContainer.climate_on .material-icons {
+  animation: rotateIcon 4s linear infinite;
+}
+
+#climateContainer.climate_off .icon-button {
+  background: linear-gradient(to top, #686868 0%, #000000 100%);
+  opacity: 0.7;
+}
+
+/* Charge mode container - special styling */
+#chargeModeContainer.connected .icon-button {
+  background: linear-gradient(to top, #1a4b8f 0%, #000000 100%);
+}
+
+#chargeModeContainer.disconnected .icon-button {
+  background: linear-gradient(to top, #686868 0%, #000000 100%);
+  opacity: 0.7;
+}
+
+#chargeModeContainer.charging .icon-button {
+  background: linear-gradient(to top, #1a4b8f 0%, #000000 100%);
+}
+
+#chargeModeContainer.charging .material-icons {
+  animation: iconBlink 1s ease-in-out infinite;
+  transform: translateY(2px);
+}
+
+/* Main charge button styling */
+#mainChargeFab {
+  width: 56px;
+  height: 56px;
+}
+
+body {
+  overflow: hidden;
+  padding: var(--homey-su-2);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+
+.buttons-section {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+#chargerImage {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+
+/* Pro driver background styling */
+.main-container.kia-background {
+  background-image: url('kia.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.main-container.hyundai-background {
+  background-image: url('hyundai.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Hide charger image when using background */
+#chargerImage.hidden {
+  display: none;
+}
+
+.homey-text-small {
+  text-shadow: 0 1px 1px rgb(0 0 0 / 50%);
+  color: #000000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.homey-text-small-light {
+  color: #000000;
+  font-weight: 400;
+  background-color: rgba(255, 255, 255, 0.116);
+  padding: 0px 3px;
+  border-radius: 4px;
+}
+
+/* Charging indicator styling */
+.charging-indicator {
+  position: absolute;
+  top: 37%;
+  left: 56%;
+  transform: translate(-50%, -50%);
+  background: rgba(25, 49, 47, 0.8);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.charging-indicator .material-icons {
+  color: #4CAF50;
+  font-size: 24px;
+}
+
+@keyframes iconBlink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes rotateIcon {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.status-container {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-weight: bold;
+  color: #000000;
+  max-width: 10%;
+}
+
+.battery-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.range-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.battery-icon {
+  font-family: 'Material Symbols Outlined';
+  font-size: 20px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.battery_full .battery-icon {
+  color: #099615;
+}
+
+.battery_ok .battery-icon {
+  color: #000000;
+}
+
+.battery_warning .battery-icon {
+  color: #8b5402;
+}
+
+.battery_empty .battery-icon {
+  color: #f44336;
+}
+
+#locksContainer.locked .material-icons,
+#climateContainer.climate_off .material-icons,
+#chargeModeContainer.disconnected .material-icons {
+  opacity: 0.7;
+  filter: blur(0.5px);
+} 
+

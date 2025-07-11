@@ -1,0 +1,33 @@
+{
+  "name": {
+    "en": "Car status",
+    "no": "Bilstatus"
+  },
+  "height": 180,
+  "settings": [],
+  "devices": {
+    "type": "app",
+    "singular": true,
+    "filter": {
+      "class": "car"
+    }
+  },
+  "api": {
+    "getChargerState": {
+      "method": "GET",
+      "path": "/"
+    },
+    "setClimate": {
+      "method": "PUT",
+      "path": "/climate"
+    },
+    "setClosedLocked": {
+      "method": "PUT",
+      "path": "/closed-locked"
+    },
+    "setChargingMode": {
+      "method": "PUT",
+      "path": "/charging-mode"
+    }
+  }
+}

@@ -2,7 +2,7 @@
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.hyundai_kia",
   "version": "3.1.5",
-  "compatibility": ">=8.0.0",
+  "compatibility": ">=12.3.0",
   "sdk": 3,
   "brandColor": "#003468",
   "name": {
@@ -2208,6 +2208,42 @@
       ]
     }
   ],
+  "widgets": {
+    "car-widget": {
+      "name": {
+        "en": "Car status",
+        "no": "Bilstatus"
+      },
+      "height": 180,
+      "settings": [],
+      "devices": {
+        "type": "app",
+        "singular": true,
+        "filter": {
+          "class": "car"
+        }
+      },
+      "api": {
+        "getChargerState": {
+          "method": "GET",
+          "path": "/"
+        },
+        "setClimate": {
+          "method": "PUT",
+          "path": "/climate"
+        },
+        "setClosedLocked": {
+          "method": "PUT",
+          "path": "/closed-locked"
+        },
+        "setChargingMode": {
+          "method": "PUT",
+          "path": "/charging-mode"
+        }
+      },
+      "id": "car-widget"
+    }
+  },
   "capabilities": {
     "alarm_batt": {
       "type": "boolean",
