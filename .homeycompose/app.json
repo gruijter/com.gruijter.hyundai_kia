@@ -1,7 +1,7 @@
 {
   "id": "com.gruijter.hyundai_kia",
   "version": "3.1.5",
-  "compatibility": ">=8.0.0",
+  "compatibility": ">=12.3.0",
   "sdk": 3,
   "brandColor": "#003468",
   "name": {
@@ -48,6 +48,9 @@
       {
         "name": "Robin de Gruijter",
         "email": "gruijter@hotmail.com"
+      },
+      {
+        "name": "Philip Østli"
       }
     ],
     "translators": [

@@ -1,0 +1,203 @@
+<html>
+  <head>
+    <link href="./style.css" rel="stylesheet">
+  </head>
+
+  <body class="homey-widget-full">
+    <div class="main-container">
+      <div class="left-section">
+        <div class="status-container">
+          <div class="battery-container" id="battery-container">
+            <span class="battery-text"></span>%
+            <span class="battery-icon"></span>
+          </div>
+          <div class="range-container"><span class="range"></span>km</div>
+        </div>
+      <div class="buttons-section">
+        <div class="button-container" id="locksContainer">
+          <button class="icon-button">
+            <span class="material-icons"></span>
+          </button>
+        </div>
+        <div class="button-container" id="chargeModeContainer">
+          <button class="icon-button">
+            <span class="material-icons"></span>
+          </button>  
+        </div>
+        <div class="button-container" id="climateContainer">
+          <button class="icon-button">
+            <span class="material-icons"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      function onHomeyReady(Homey) {
+        Homey.ready({ height: 180 });
+
+        const $locksContainer = document.getElementById('locksContainer');
+        const $climateContainer = document.getElementById('climateContainer');
+        const $chargeModeContainer = document.getElementById('chargeModeContainer');
+        const $rangeContainer = document.querySelector('.range-container');
+        const $batteryContainer = document.getElementById('battery-container');
+        const $cableIcon = $locksContainer.querySelector('.material-icons');
+        const $climateIcon = $climateContainer.querySelector('.material-icons');
+        const $chargeModeIcon = $chargeModeContainer.querySelector('.material-icons');
+        const $mainContainer = document.querySelector('.main-container');
+        const $range = $rangeContainer.querySelector('.range'); 
+        const $batteryText = $batteryContainer.querySelector('.battery-text');
+        const $batteryIcon = $batteryContainer.querySelector('.battery-icon');
+        
+        const $selectedDeviceId = Homey.getDeviceIds()[0];
+        const $cableButton = $locksContainer.querySelector('.icon-button');
+        const $climateButton = $climateContainer.querySelector('.icon-button');
+        const $chargeModeButton = $chargeModeContainer.querySelector('.icon-button');
+
+        // Add click event listener to climate button
+        $climateButton.addEventListener('click', () => {
+          const isCurrentlyOn = $climateContainer.classList.contains('climate_on');
+          
+          Homey.api('PUT', `/climate?deviceId=${$selectedDeviceId}`, {
+            turnOn: !isCurrentlyOn
+          })
+          .then(() => {
+            // console.log('Climate updated successfully');
+          })
+          .catch(error => {
+            console.error('Error setting climate:', error);
+          });
+        });
+
+        // Add click event listener to closed/locked button
+        $cableButton.addEventListener('click', () => {
+          const isCurrentlyLocked = $locksContainer.classList.contains('locked');
+          
+          Homey.api('PUT', `/closed-locked?deviceId=${$selectedDeviceId}`, {
+            lock: !isCurrentlyLocked
+          })
+        });
+
+        // Add click event listener to charge mode button
+        $chargeModeButton.addEventListener('click', () => {
+          if ($chargeModeContainer.classList.contains('disconnected'))
+            return;
+          let isCurrentlyCharging;
+          if ($chargeModeContainer.classList.contains('charging'))
+            isCurrentlyCharging = true;
+          else if ($chargeModeContainer.classList.contains('connected'))
+            isCurrentlyCharging = false;
+
+          if (isCurrentlyCharging !== undefined) {
+            Homey.api('PUT', `/charging-mode?deviceId=${$selectedDeviceId}`, {
+              startCharging: !isCurrentlyCharging
+            })
+          }
+        });
+       
+        function updateChargeMode() {
+          Homey.api('GET', `/?deviceId=${$selectedDeviceId}`)
+            .then(data => {
+              // console.log(data);
+              // test
+                // data.range = 450;
+                // data.chargingMode = 4;
+                // data.locked = true;
+                // data.climate = true;
+                // data.battery = 70;
+                // data.driverType = 'bluelink';
+              // end test 
+      
+              if (data.driverType === 'uvo') {
+                $mainContainer.classList.add('kia-background');
+                $mainContainer.classList.remove('hyundai-background');
+              } else if (data.driverType === 'bluelink') {
+                $mainContainer.classList.add('hyundai-background');
+                $mainContainer.classList.remove('kia-background');
+              } else {
+                $mainContainer.classList.remove('kia-background', 'hyundai-background');
+              }
+
+              // Update locked/unlocked
+              if (data.locked === true) {
+                $locksContainer.classList.remove('unlocked');
+                $locksContainer.classList.add('locked');
+                $cableIcon.textContent = 'lock';
+              } else {
+                $locksContainer.classList.remove('locked');
+                $locksContainer.classList.add('unlocked');
+                $cableIcon.textContent = 'lock_open_right';
+              }
+
+              // Update charging mode
+              $chargeModeContainer.classList.remove('disconnected', 'connected','charging');
+              if (data.chargingMode === 0) {
+                $chargeModeIcon.textContent = 'power_off';
+                $chargeModeContainer.classList.add('disconnected');
+              } else if (data.chargingMode === 1 || data.chargingMode === 2) {
+                $chargeModeIcon.textContent = 'flash_on';
+                $chargeModeContainer.classList.add('charging');
+              } else if (data.chargingMode === 3 || data.chargingMode === 4) {
+                $chargeModeIcon.textContent = 'power';
+                $chargeModeContainer.classList.add('connected');
+              }
+
+              // Update climate control
+              $climateContainer.classList.remove('climate_on', 'climate_off');
+              if (data.climate === true) {
+                $climateIcon.textContent = 'mode_fan';
+                $climateContainer.classList.add('climate_on');
+              } else {
+                $climateIcon.textContent = 'mode_fan_off';
+                $climateContainer.classList.add('climate_off');
+              }
+
+              // Update battery
+              $batteryContainer.classList.remove('battery_ok', 'battery_warning');
+              $batteryText.textContent = data.battery;
+              if (data.battery >= 95) {
+                $batteryText.textContent = data.battery;
+                $batteryContainer.classList.add('battery_full');
+                $batteryIcon.textContent = 'battery_full';
+              } else if (data.battery >= 90 && data.battery < 95) {
+                $batteryText.textContent = data.battery;
+                $batteryContainer.classList.add('battery_full');
+                $batteryIcon.textContent = 'battery_6_bar';
+              } else if (data.battery >= 70 && data.battery < 90) {
+                $batteryContainer.classList.add('battery_full');
+                $batteryIcon.textContent = 'battery_5_bar';
+              } else if (data.battery >= 55 && data.battery < 70) {
+                $batteryContainer.classList.add('battery_ok');
+                $batteryIcon.textContent = 'battery_4_bar';
+              } else if (data.battery >= 35 && data.battery < 55) {
+                $batteryContainer.classList.add('battery_ok');
+                $batteryIcon.textContent = 'battery_3_bar';
+              } else if (data.battery >= 20 && data.battery < 35) {
+                $batteryContainer.classList.add('battery_warning');
+                $batteryIcon.textContent = 'battery_2_bar';
+              } else if (data.battery >= 15 && data.battery < 20) {
+                $batteryContainer.classList.add('battery_empty');
+                $batteryIcon.textContent = 'battery_1_bar';
+              } else if (data.battery < 15) {
+                $batteryContainer.classList.add('battery_empty');
+                $batteryIcon.textContent = 'battery_0_bar';
+              }
+
+              $range.textContent = data.range;
+              
+            })
+            .catch(error => {
+              console.error('Error fetching data:', error);
+            });
+        }
+
+        // Update immediately
+        updateChargeMode();
+
+        setInterval(updateChargeMode, 2000);
+
+      }
+       
+    </script>
+  </body>
+</html>
