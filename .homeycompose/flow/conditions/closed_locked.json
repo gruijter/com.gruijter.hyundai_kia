@@ -2,11 +2,13 @@
     "id": "closed_locked",
     "title": {
         "en": "The car !{{is|is not}} closed and locked",
-        "sv": "Bilen !{{är|är inte}} stängd och låst"
+        "sv": "Bilen !{{är|är inte}} stängd och låst",
+        "no": "Bilen !{{er|er ikke}} lukket og låst"
     },
     "titleFormatted": {
         "en": "The car !{{is|is not}} closed and locked",
-        "sv": "Bilen !{{är|är inte}} stängd och låst"
+        "sv": "Bilen !{{är|är inte}} stängd och låst",
+        "no": "Bilen !{{er|er ikke}} lukket og låst"
     },
     "args": [
         {

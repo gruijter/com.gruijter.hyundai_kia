@@ -2,11 +2,13 @@
 	"type": "number",
 	"title": {
 		"en": "ETTH",
-		"sv": "ETTH"
+		"sv": "ETTH",
+		"no": "ETTH"
 	},
 	"units": {
 		"en": "minutes",
-		"sv": "minuter"
+		"sv": "minuter",
+		"no": "minutter"
 	},
 	"getable": true,
 	"setable": false,

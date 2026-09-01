@@ -2,11 +2,13 @@
     "id": "charging_true",
     "title": {
         "en": "The charger turned on",
-        "sv": "Laddaren slog på"
+        "sv": "Laddaren slog på",
+        "no": "Laderen ble slått på"
     },
     "titleFormatted": {
         "en": "The charger turned on",
-        "sv": "Laddaren slog på"
+        "sv": "Laddaren slog på",
+        "no": "Laderen ble slått på"
     },
     "args": [
         {

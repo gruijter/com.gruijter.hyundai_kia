@@ -2,11 +2,13 @@
     "id": "alarm_battery_false",
     "title": {
         "en": "The battery alarm turned off",
-        "sv": "Batterilarmet stängdes av"
+        "sv": "Batterilarmet stängdes av",
+        "no": "Batterialarmen ble slått av"
     },
     "titleFormatted": {
         "en": "The battery alarm turned off",
-        "sv": "Batterilarmet stängdes av"
+        "sv": "Batterilarmet stängdes av",
+        "no": "Batterialarmen ble slått av"
     },
     "args": [
         {

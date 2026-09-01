@@ -2,11 +2,13 @@
     "id": "defrost",
     "title": {
         "en": "Defrosting is !{{on|off}}",
-        "sv": "Avfrostning är !{{på|av}}"
+        "sv": "Avfrostning är !{{på|av}}",
+        "no": "Avriming er !{{på|av}}"
     },
     "titleFormatted": {
         "en": "Defrosting is !{{on|off}}",
-        "sv": "Avfrostning är !{{på|av}}"
+        "sv": "Avfrostning är !{{på|av}}",
+        "no": "Avriming er !{{på|av}}"
     },
     "args": [
         {

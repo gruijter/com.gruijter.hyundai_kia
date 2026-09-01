@@ -2,11 +2,13 @@
     "id": "moving",
     "title": {
         "en": "The car !{{is|is not}} moving",
-        "sv": "Bilen !{{är|är inte}} i rörelse"
+        "sv": "Bilen !{{är|är inte}} i rörelse",
+        "no": "Bilen !{{er|er ikke}} i bevegelse"
     },
     "titleFormatted": {
         "en": "The car !{{is|is not}} moving",
-        "sv": "Bilen !{{är|är inte}} i rörelse"
+        "sv": "Bilen !{{är|är inte}} i rörelse",
+        "no": "Bilen !{{er|er ikke}} i bevegelse"
     },
     "args": [
         {

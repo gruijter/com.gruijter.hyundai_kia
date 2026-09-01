@@ -1,6 +1,7 @@
 {
 	"title": { 
-		"en": "Distance changed"
+		"en": "Distance changed",
+		"no": "Avstand endret"
 	},
 	"highlight": true,
 	"args": [
@@ -15,7 +16,8 @@
 			"name": "meter_distance",
 			"type": "number",
 			"title": { 
-				"en": "Distance"
+				"en": "Distance",
+				"no": "Avstand"
 			},
 			"example": 53
 		}

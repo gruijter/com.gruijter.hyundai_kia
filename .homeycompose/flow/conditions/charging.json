@@ -2,11 +2,13 @@
     "id": "charging",
     "title": {
         "en": "The charger is !{{on|off}}",
-        "sv": "Laddaren är !{{på|av}}"
+        "sv": "Laddaren är !{{på|av}}",
+        "no": "Laderen er !{{på|av}}"
     },
     "titleFormatted": {
         "en": "The charger is !{{on|off}}",
-        "sv": "Laddaren är !{{på|av}}"
+        "sv": "Laddaren är !{{på|av}}",
+        "no": "Laderen er !{{på|av}}"
     },
     "args": [
         {

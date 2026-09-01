@@ -2,6 +2,7 @@
 	"type": "boolean",
 	"title": {
 		"en": "Refresh car status",
+		"no": "Oppdater bilstatus",
 		"sv": "Uppdatera bilstatus"
 	},
 	"getable": true,

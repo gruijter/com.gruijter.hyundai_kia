@@ -2,7 +2,8 @@
 	"type": "boolean",
 	"title": {
 		"en": "Engine on",
-		"sv": "Motor på"
+		"sv": "Motor på",
+		"no": "Motor på"
 	},
 	"icon": "/assets/engine.svg",
 	"getable": true,
@@ -10,11 +11,13 @@
 	"insights": true,
 	"insightsTitleTrue": {
 		"en": "Engine turned on",
-		"sv": "Motorn påslagen"
+		"sv": "Motorn påslagen",
+		"no": "Motoren slått på"
 	},
 	"insightsTitleFalse": {
 		"en": "Engine turned off",
-		"sv": "Motorn avstängd"
+		"sv": "Motorn avstängd",
+		"no": "Motoren slått av"
 	},
 	"options": {
 		"greyout": {

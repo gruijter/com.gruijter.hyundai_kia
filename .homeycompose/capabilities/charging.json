@@ -2,18 +2,21 @@
 	"type": "boolean",
 	"title": {
 		"en": "Charging",
-		"sv": "Laddar"
+		"sv": "Laddar",
+		"no": "Lading"
 	},
 	"getable": true,
 	"setable": true,
 	"insights": true,
 	"insightsTitleTrue": {
 		"en": "Charging on",
-		"sv": "Laddar på"
+		"sv": "Laddar på",
+		"no": "Lading på"
 	},
 	"insightsTitleFalse": {
 		"en": "Charging off",
-		"sv": "Laddar av"
+		"sv": "Laddar av",
+		"no": "Lading av"
 	},
 	"uiComponent": "toggle",
 	"icon": "./assets/charging.svg",

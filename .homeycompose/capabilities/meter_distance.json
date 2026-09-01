@@ -2,12 +2,14 @@
 	"type": "number",
 	"title": {
 		"en": "Distance",
-		"sv": "Distans"
+		"sv": "Distans",
+		"no": "Avstand"
 	},
 	"units": {
 		"en": "km",
 		"nl": "km",
-		"sv": "km"
+		"sv": "km",
+		"no": "km"
 	},
 	"getable": true,
 	"setable": false,

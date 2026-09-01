@@ -2,11 +2,13 @@
     "id": "status_update",
     "title": {
         "en": "New car status",
-        "sv": "Ny bilstatus"
+        "sv": "Ny bilstatus",
+        "no": "Ny bilstatus"
     },
     "titleFormatted": {
         "en": "New car status",
-        "sv": "Ny bilstatus"
+        "sv": "Ny bilstatus",
+        "no": "Ny bilstatus"
     },
     "args": [
         {

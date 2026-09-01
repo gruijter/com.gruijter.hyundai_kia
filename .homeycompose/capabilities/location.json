@@ -3,11 +3,13 @@
 	"title": {
 		"en": "Location",
 		"nl": "Locatie",
-		"sv": "Plats"
+		"sv": "Plats",
+		"no": "Posisjon"
 	},
 	"desc": {
 		"en": "Location of the car",
-		"sv": "Bilens placering"
+		"sv": "Bilens placering",
+		"no": "Bilens posisjon"
 	},
 	"getable": true,
 	"setable": false,

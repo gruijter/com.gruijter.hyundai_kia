@@ -1,6 +1,7 @@
 {
 	"title": { 
-		"en": "Battery changed"
+		"en": "Battery changed",
+		"no": "Batteri endret"
 	},
 	"highlight": true,
 	"args": [
@@ -15,7 +16,8 @@
 			"name": "measure_battery",
 			"type": "number",
 			"title": { 
-				"en": "Battery"
+				"en": "Battery",
+				"no": "Batteri"
 			},
 			"example": 53
 		}

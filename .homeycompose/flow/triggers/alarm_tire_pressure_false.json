@@ -2,11 +2,13 @@
     "id": "alarm_tire_pressure_false",
     "title": {
         "en": "The tire pressure alarm turned off",
-        "sv": "Däcktryckslarmet stängdes av"
+        "sv": "Däcktryckslarmet stängdes av",
+        "no": "Dekktrykksalarmen ble slått av"
     },
     "titleFormatted": {
         "en": "The tire pressure alarm turned off",
-        "sv": "Däcktryckslarmet stängdes av"
+        "sv": "Däcktryckslarmet stängdes av",
+        "no": "Dekktrykksalarmen ble slått av"
     },
     "args": [
         {

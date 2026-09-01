@@ -2,35 +2,41 @@
     "id": "has_parked",
     "title": {
         "en": "The car has parked",
-        "sv": "Bilen har parkerat"
+        "sv": "Bilen har parkerat",
+        "no": "Bilen har parkert"
     },
     "titleFormatted": {
         "en": "The car has parked",
-        "sv": "Bilen har parkerat"
+        "sv": "Bilen har parkerat",
+        "no": "Bilen har parkert"
     },
     "tokens": [
         {
             "name": "address",
             "type": "string",
             "title": {
-            "en": "Address",
-            "sv": "Adress"
+                "en": "Address",
+                "sv": "Adress",
+                "no": "Adresse"
             },
             "example": {
-            "en": "White House Meridian, 1600, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20500, United States",
-            "sv": "Kungliga slottet, 107 70 Stockholm, Sverige"
+                "en": "White House Meridian, 1600, Pennsylvania Avenue Northwest, Washington, District of Columbia, 20500, United States",
+                "sv": "Kungliga slottet, 107 70 Stockholm, Sverige",
+                "no": "Slottsplassen 1, 0010 Oslo, Norge"
             }
         },
         {
             "name": "map",
             "type": "string",
             "title": {
-            "en": "Map",
-            "sv": "Karta"
+                "en": "Map",
+                "sv": "Karta",
+                "no": "Kart"
             },
             "example": {
-            "en": "https://www.google.com/maps?q=38.89734,-77.03655",
-            "sv": "https://www.google.com/maps?q=59.32694,18.07175"
+                "en": "https://www.google.com/maps?q=38.89734,-77.03655",
+                "sv": "https://www.google.com/maps?q=59.32694,18.07175",
+                "no": "https://www.google.com/maps?q=59.91687,10.72837"
             }
         }
     ],

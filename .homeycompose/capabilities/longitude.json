@@ -1,12 +1,14 @@
 {
 	"type": "number",
 	"title": {
-		"en": "Longitude",
-		"sv": "Längdgrad"
+		"en": "Longitude",	
+		"sv": "Längdgrad",
+		"no": "Breddegrad"
 	},
 	"units": {
 		"en": "degrees",
-		"sv": "grader"
+		"sv": "grader",
+		"no": "grader"
 	},
 	"getable": true,
 	"setable": false,

@@ -2,11 +2,13 @@
     "id": "climate_control_true",
     "title": {
         "en": "The A/C turned on",
-        "sv": "A/C påslagen"
+        "sv": "A/C påslagen",
+        "no": "Klimaanlegget ble slått på"
     },
     "titleFormatted": {
         "en": "The A/C turned on",
-        "sv": "A/C påslagen"
+        "sv": "A/C påslagen",
+        "no": "Klimaanlegget ble slått på"
     },
     "args": [
         {

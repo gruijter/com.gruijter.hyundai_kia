@@ -2,11 +2,13 @@
 	"type": "number",
 	"title": {
 		"en": "Range",
-		"sv": "Räckvidd"
+		"sv": "Räckvidd",
+		"no": "Rekkevidde"
 	},
 	"units": {
 		"en": "km",
-		"sv": "km"
+		"sv": "km",
+		"no": "km"
 	},
 	"getable": true,
 	"setable": false,

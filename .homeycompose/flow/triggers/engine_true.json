@@ -2,11 +2,13 @@
     "id": "engine_true",
     "title": {
         "en": "The engine turned on",
-        "sv": "Motorn startade"
+        "sv": "Motorn startade",
+        "no": "Motoren ble startet"
     },
     "titleFormatted": {
         "en": "The engine turned on",
-        "sv": "Motorn startade"
+        "sv": "Motorn startade",
+        "no": "Motoren ble startet"
     },
     "args": [
         {

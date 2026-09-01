@@ -1,12 +1,14 @@
 {
     "id": "closed_locked_true",
     "title": {
-        "en": "The battery alarm turned off",
-        "sv": "Batterilarmet stängdes av"
+        "en": "Doors opened or unlocked",
+        "sv": "Dörrar öppnade eller olåsta",
+        "no": "Dører åpnet eller ulåst"
     },
     "titleFormatted": {
-		"en": "Doors opened or unlocked",
-		"sv": "Dörrar öppnade eller olåsta"
+        "en": "Doors opened or unlocked",
+        "sv": "Dörrar öppnade eller olåsta",
+        "no": "Dører åpnet eller ulåst"
     },
     "args": [
         {

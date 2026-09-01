@@ -1,5 +1,5 @@
 {
-	"class": "sensor",
+	"class": "car",
 	"capabilities": [
 		"target_temperature",
 

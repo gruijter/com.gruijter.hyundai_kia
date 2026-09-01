@@ -2,11 +2,13 @@
     "id": "defrost_off",
     "title": {
         "en": "Turn defrost off",
-        "sv": "Stäng av avfrostning"
+        "sv": "Stäng av avfrostning",
+        "no": "Slå av avriming"
     },
     "titleFormatted": {
         "en": "Turn defrost off",
-        "sv": "Stäng av avfrostning"
+        "sv": "Stäng av avfrostning",
+        "no": "Slå av avriming"
     },
     "args": [
         {

@@ -2,11 +2,13 @@
     "id": "charging_off",
     "title": {
         "en": "Turn charging off",
-        "sv": "Stäng av laddningen"
+        "sv": "Stäng av laddningen",
+        "no": "Slå av lading"
     },
     "titleFormatted": {
         "en": "Turn charging off",
-        "sv": "Stäng av laddningen"
+        "sv": "Stäng av laddningen",
+        "no": "Slå av lading"
     },
     "args": [
         {

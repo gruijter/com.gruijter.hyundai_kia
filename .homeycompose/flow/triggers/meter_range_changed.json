@@ -1,6 +1,7 @@
 {
 	"title": { 
-		"en": "Range changed"
+		"en": "Range changed",
+		"no": "Rekkevidde endret"
 	},
 	"highlight": true,
 	"args": [
@@ -15,7 +16,8 @@
 			"name": "meter_range",
 			"type": "number",
 			"title": { 
-				"en": "Range"
+				"en": "Range",
+				"no": "Rekkevidde"
 			},
 			"example": 285
 		}

@@ -1,0 +1,34 @@
+{
+	"pair": {
+		"start": "Skriv inn påloggingsinformasjonen din",
+		"region": "Region",
+		"username": "Brukernavn",
+		"password": "Passord",
+		"pin": "PIN",
+		"submit": "Send inn",
+		"required": "Du må skrive inn brukernavn, passord og PIN",
+		"validating": "Validerer påloggingsinformasjon"
+	},
+	"settings": {
+		"tab1": {
+			"title": "Instruksjoner",
+			"useTitle": "Hvordan bruke",
+			"useInstructions": "Du må ha en UVO (Kia) eller Bluelink (Hyundai) konto med PIN for bilen(e) dine. Legg til bilen din som en enhet i Homey, og fyll inn brukernavn, passord og PIN. Du kan nå se hvor bilen din er parkert, og begynne å kontrollere bilen fra Homey (f.eks. starte avriming eller klimaanlegg).",
+			"settingsTitle": "Statusoppdateringer fra bilen",
+			"settingsInstructions": "Homey vil bare motta en bilstatusoppdatering (ny posisjon, motorstatus, dørlåsstatus, osv.) etter at bilen nettopp har blitt parkert, når lading er ferdig, eller når du bruker 'oppdater bilstatus'-knappen. Hvis motoren er på i det øyeblikket, vil Homey fortsette å få statusoppdateringer til motoren slås av. I enhetsinnstillingene kan du endre intervallet for når serveren sjekkes. Du kan også sette 24/7 bilstatusoppdateringer. ADVARSEL: 24/7 oppdateringer vil tappe 12V-batteriet.",
+			"CloudForceTitle": "Start statusoppdateringer via bilens Bluetooth",
+			"CloudForceInstructions": "For Android og iOS finnes det apper eller automatiseringsscript som du kan bruke for å automatisk begynne å få sanntidsoppdateringer så snart telefonen din kobler seg til bilens Bluetooth. I dette automatiseringsscriptet må du åpne en spesifikk nettside (HTTP GET). URL-en til denne siden finner du i de avanserte enhetsinnstillingene.",
+			"ABRPTitle": "A Better Route Planner (ABRP)",
+			"ABRPInstructions": "Hvis du vil koble sanntidsdata med ABRP, skriv inn brukertokenet i Homey-enhetsinnstillingene. Du kan få et brukertoken fra ABRP-appen. Innstillinger > Detaljert > Bilmodell > Bilinnstillinger > Koble til Homey > kopier tokenet.",
+			"ETTHTitle": "Estimert tid til hjemmet (ETTH)",
+			"ETTHInstructions": "Ved å bruke Google Directions vil du få mer nøyaktige beregninger av estimert tid til hjemmet (ETTH), inkludert faktiske trafikkforhold. Få en nøkkel på developers.google.com/maps. La stå tom for å deaktivere Google Directions."
+		},
+		"tab2": {
+			"title": "Logger",
+			"logs": "Logger",
+			"deletelogs": "Slett logger",
+			"deleteWarning": "Slette alle logger?",
+			"deleted": "Logger slettet!"
+		}
+	}
+} 
